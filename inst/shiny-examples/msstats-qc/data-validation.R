@@ -1,16 +1,16 @@
 COL.BEST.RET <- "Retention Time"
 COL.FWHM <- "Full Width at Half Maximum"
 COL.TOTAL.AREA <- "Total Peak Area"
-COL.PEAK.ASS <- "Peak Assymetry"
+COL.PEAK.ASS <- "Peak assymetry"
 #########################################################################################
 # here we put a selection of most column names that users use. The first element of each vector should be the best name that
 # we suggest users to use and  which our code is based on. for example "Retention Time" and "Full Width at Half Maximum" which are the first element
 # of each vector in the list, are our suggestion so we wrote them in the fisrt place.
 best_colnames <- list(
   c("AcquiredTime","Acquired.Time","time","creation date"),
-  c("Retention Time","BestRetentionTime" ,"Best.RT","best retention time", "retention time","rt","best ret time","intensity","Best RT"),
-  c("Full Width at Half Maximum","MaxFWHM","fwhm","max.fwhm", "Max FWHM"),
-  c("Total Peak Area","Total Area","TotalArea","total area","TA","T.Area"),
+  c("Retention time","BestRetentionTime" ,"Best.RT","best retention time", "retention time","rt","best ret time","intensity","Best RT"),
+  c("Full width at half maximum","MaxFWHM","fwhm","max.fwhm", "Max FWHM"),
+  c("Total peak area","Total Area","TotalArea","total area","TA","T.Area"),
   c("MinStartTime","min start time","Min Start Time"),
   c("MaxEndTime", "max end time","Max End Time"),
   c("Precursor","PeptideSequence"),
@@ -146,7 +146,7 @@ input.sanity.check <- function(prodata, processout, finalfile) {
     #prodata.first <- prodata[,1:which(colnames(prodata)=="Annotations")]
     #prodata.first[,"Peak Assymetry"]<- peakAss
     #prodata <- cbind(prodata.first, prodata[,(which(colnames(prodata)=="MaxEndTime")+1):ncol(prodata), drop = FALSE])
-    prodata[,"Peak Assymetry"] <- peakAss
+    prodata[,"Peak assymetry"] <- peakAss
   }
 
   return(prodata)
@@ -155,6 +155,28 @@ input.sanity.check <- function(prodata, processout, finalfile) {
 
 ### Input_checking function #########################################################################################
 input_checking <- function(data){
+
+  ## save process output in each step #### creating a log file ########### from Meena's code
+  allfiles <- list.files()
+
+  num <- 0
+  filenaming <- "./log/msstatsqc"
+  finalfile <- "msstatsqc.log"
+
+  while(is.element(finalfile,allfiles)) {
+    num <- num+1
+    finalfile <- paste(paste(filenaming,num,sep="-"),".log",sep="")
+  }
+
+  session <- sessionInfo()
+  sink("./log/sessionInfo.txt")
+  print(session)
+  sink()
+
+  processout <- as.matrix(read.table("./log/sessionInfo.txt", header=T, sep="\t"))
+  write.table(processout, file=finalfile, row.names=FALSE)
+
+  processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))
 
   data <- input.sanity.check(data, processout, finalfile)
 

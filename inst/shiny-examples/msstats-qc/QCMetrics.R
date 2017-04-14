@@ -40,8 +40,6 @@ getMetricData <- function(prodata, precursorSelection, L, U, metric, normalizati
 #########################################################################################################
 find_custom_metrics <- function(prodata) {
 
-    if(is.null(prodata))
-      return (NULL)
     prodata <- prodata[, which(colnames(prodata)=="Annotations"):ncol(prodata),drop = FALSE]
     nums <- sapply(prodata, is.numeric)
     other.metrics <- colnames(prodata[,nums])[1:ifelse(length(colnames(prodata[,nums]))<11,
@@ -145,9 +143,16 @@ CP.data.prepare <- function(prodata, metricData, type) {
     QCno=1:length_metricData
   }
   tho.hat = which(Et==max(Et)) # change point estimate
+  # print("QCno")
+  # print(QCno)
+  # print("Et")
+  # print(Et)
+  # print("tho.hat")
+  # print(tho.hat)
   plot.data <- data.frame(QCno,Et,tho.hat)
 
   return(plot.data)
+  #print(plot.data)
 }
 ###################################################################################################
 #INPUT : "prodata" is the data user uploads.
@@ -161,6 +166,7 @@ get_CP_tho.hat <- function(prodata, L, U, data.metrics,listMean,listSD, guidset_
     for (j in 1:nlevels(prodata$Precursor)) {
 
       metricData <- getMetricData(prodata, precursors[j], L, U, metric = metric, normalization = TRUE,selectMean = listMean[[metric]],selectSD = listSD[[metric]], guidset_selected)
+
       mix <- rbind(
         data.frame(tho.hat = CP.data.prepare(prodata, metricData, type = 1)$tho.hat[1], metric = metric, group = "Individual Value", y=1.1),
         data.frame(tho.hat = CP.data.prepare(prodata, metricData, type = 2)$tho.hat[1], metric = metric, group = "Moving Range", y=-1.1)
@@ -257,10 +263,10 @@ CUSUM.Summary.prepare <- function(prodata, metric, L, U,type,selectMean,selectSD
   plot.data <- data.frame(QCno = rep(1:max_QCno,2),
                           pr.y = c(pr.y.poz, pr.y.neg),
                           group = ifelse(rep(type==1,2*max_QCno),
-                                         c(rep("Metric mean increase",max_QCno),
-                                           rep("Metric mean decrease",max_QCno)),
-                                         c(rep("Metric dispersion increase",max_QCno),
-                                           rep("Metric dispersion decrease",max_QCno))),
+                                         c(rep("Mean increase",max_QCno),
+                                           rep("Mean decrease",max_QCno)),
+                                         c(rep("Variability increase",max_QCno),
+                                           rep("Variability decrease",max_QCno))),
                           metric = rep(metric,max_QCno*2)
      )
   return(plot.data)
@@ -308,10 +314,10 @@ XmR.Summary.prepare <- function(prodata, metric, L, U,type,selectMean,selectSD, 
   plot.data <- data.frame(QCno = rep(1:max_QCno,2),
                           pr.y = c(pr.y.poz, pr.y.neg),
                           group = ifelse(rep(type==1,2*max_QCno),
-                                         c(rep("Metric mean increase",max_QCno),
-                                           rep("Metric mean decrease",max_QCno)),
-                                         c(rep("Metric dispersion increase",max_QCno),
-                                           rep("Metric dispersion decrease",max_QCno))),
+                                         c(rep("Mean increase",max_QCno),
+                                           rep("Mean decrease",max_QCno)),
+                                         c(rep("Variability increase",max_QCno),
+                                           rep("Variability decrease",max_QCno))),
                           metric = rep(metric,max_QCno*2))
 
   return(plot.data)
@@ -355,9 +361,10 @@ heatmap.DataFrame <- function(prodata, data.metrics,method,peptideThresholdRed,p
   dataFrame <- data.frame(time = time,
                           value = val,
                           metric = met,
-                          flag = flag
+                          flag = flag,
+                          QCno = df$QCno
                          )
-
+  
   return(dataFrame)
 }
 ############################################################################################
@@ -438,15 +445,15 @@ XmR.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U,listMean,listSD,
                     probability   = c()
                     )
   for (metric in data.metrics) {
-    data.1 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 1,group = "Metric mean increase",XmR_type = "poz",
+    data.1 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 1,group = "Mean increase",XmR_type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
-    data.2 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 1,group = "Metric mean decrease",XmR_type = "neg",
+    data.2 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 1,group = "Mean decrease",XmR_type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
 
 
-    data.3 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 2,group = "Metric dispersion increase",XmR_type = "poz",
+    data.3 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 2,group = "Variability increase",XmR_type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
-    data.4 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 2,group = "Metric dispersion decrease",XmR_type = "neg",
+    data.4 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric, type = 2,group = "Variability decrease",XmR_type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
 
     dat <- rbind(dat, data.1, data.2, data.3, data.4)
@@ -489,10 +496,10 @@ CUSUM.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U,listMean,listS
                     probability   = c()
   )
   for (metric in data.metrics) {
-   data.1 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 1, group = "Metric mean increase", CUSUM.type = "poz",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
-   data.2 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 1, group = "Metric mean decrease", CUSUM.type = "neg",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
-   data.3 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 2, group = "Metric dispersion increase", CUSUM.type = "poz",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
-   data.4 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 2, group = "Metric dispersion decrease", CUSUM.type = "neg",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
+   data.1 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 1, group = "Mean increase", CUSUM.type = "poz",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
+   data.2 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 1, group = "Mean decrease", CUSUM.type = "neg",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
+   data.3 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 2, group = "Variability increase", CUSUM.type = "poz",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
+   data.4 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = 2, group = "Variability decrease", CUSUM.type = "neg",selectMean = listMean[[metric]],selectSD = listSD[[metric]],guidset_selected)
    dat <- rbind(dat, data.1, data.2, data.3, data.4)
   }
 
@@ -553,13 +560,13 @@ Decision.DataFrame.prepare <- function(prodata, metric, method, peptideThreshold
 
   for (i in 1:max_QCno) {
     if(plot.data$pr.y[i] > peptideThresholdRed){
-      plot.data$flag[i] <- "Unacceptable"
+      plot.data$flag[i] <- "Fail"
     }
     else if(plot.data$pr.y[i] > peptideThresholdYellow){
-      plot.data$flag[i] <- "Poor"
+      plot.data$flag[i] <- "Warning"
     }
     else {
-      plot.data$flag[i] <- "Acceptable"
+      plot.data$flag[i] <- "Pass"
     }
   }
 
