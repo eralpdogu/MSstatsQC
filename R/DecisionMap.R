@@ -61,15 +61,20 @@ DecisionMap <- function(data = NULL, method,
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
                             peptideThresholdYellow, L, U, type,listMean, listSD)
 
-  p <- ggplot(data,aes(data$time,data$metric, group = data$bin, fill = data$bin))
-  p <- p + scale_fill_manual(values =
-                               c("Pass" = "blue","Fail" = "red","Warning" = "yellow"))
+
+  data <- heatmap.DataFrame(prodata, data.metrics,method,peptideThresholdRed,peptideThresholdYellow,
+                            L, U, type,listMean, listSD, guidset_selected)
+
+  #p <- ggplot(data,aes(time,metric, group = flag, fill = flag)) # x axis is by date
+  p <- ggplot(data,aes(QCno,metric, group = flag, fill = flag)) # x axis is by number
+  p <- p + scale_fill_manual(values=c("Pass" = "blue","Fail" = "red","Warning" = "yellow")
+  )
   p <- p + geom_tile(colour="white",size=.1)
   p <- p + coord_equal()
   p <- p + removeGrid()
   p <- p + rotateTextX()
   p <- p + ggtitle(title,subtitle = "")
-  p <- p + labs(x=NULL, y=NULL)
+  p <- p + labs(x="Time", y=NULL)
   p <- p +  theme(axis.text=element_text(size=12),legend.title = element_blank())
   p
 }

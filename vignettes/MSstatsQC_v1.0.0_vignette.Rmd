@@ -223,7 +223,7 @@ If user constructs an mR control chart of retention time and peak area for LVNEL
 
 ### Example: 
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="dispersion", L = 1, U = 20)
 XmRChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="dispersion", L = 1, U = 20)
@@ -231,7 +231,7 @@ XmRChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="dispersion", L = 1,
 
 Similarly, if user constructs a CUSUMm or a CUSUMv control chart of retention time and peak area for LVNELTEFAK and mean and standard deviations are not known, `CUSUMPlots` function is used as follows. 
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 CUSUMChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="mean", L=1, U=20, ytitle="CUSUMm")
 CUSUMChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="mean", L=1, U=20, ytitle="CUSUMm")
@@ -253,7 +253,7 @@ Follow-up change point analysis is helpful to identify the time of a change for 
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(S9Site54, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
@@ -265,7 +265,7 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(S9Site54, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "BestRetentionTime", type="dispersion", L = 1, U = 20)
@@ -281,7 +281,7 @@ ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "BestRetentionTime", type
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRRiverPlot(S9Site54, L=1, U=20)
 XmRRadarPlot(S9Site54, L=1, U=20)
@@ -291,7 +291,7 @@ XmRRadarPlot(S9Site54, L=1, U=20)
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 CUSUMRiverPlot(S9Site54, L=1, U=20)
 CUSUMRadarPlot(S9Site54, L=1, U=20)
