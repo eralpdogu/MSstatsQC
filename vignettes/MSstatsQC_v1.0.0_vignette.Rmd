@@ -30,7 +30,7 @@ This file can be also uploaded through Shiny interface. If the user prefers the 
 
 (c) `Annotations`: Annotations are free-text information given by the analyst about each run. They can be informative explanations of any special cause or any observations related to a particular run. Annotations are carried in the plots provided by `MSstatsQC` interactively.  
 
-(d)-(f) `RetentionTime`, `TotalPeakArea`, `FWHM`, `MassAccuracy`, and `PeakAssymetry`, and other metrics: These columns define a *feature* of a peak for a specific peptide. 
+(d)-(f) `BestRetentionTime`, `TotalPeakArea`, `FWHM`, `MassAccuracy`, and `PeakAssymetry`, and other metrics: These columns define a *feature* of a peak for a specific peptide. 
 
 The example dataset is shown below. Each row corresponds to a single time point. Additionally, other inputs such as predefined limits or guide sets are discussed in further steps.
 
@@ -146,20 +146,20 @@ Metrics (e.g. retention time and peak area) and peptides are chosen within all c
 ```{r, eval=FALSE}
 #Defining metric of interest within APlotFunction
 APlotFunction(S9Site54, "LVNELTEFAK", metric = "TotalArea")
-APlotFunction(S9Site54, "LVNELTEFAK", metric = "RetentionTime")
+APlotFunction(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime")
 ```
 
 ## Defining mean and variability of a metric
 
 #### Setting predefined limits 
 
-Predefined limits are commonly used in system sutiability studies. If the mean and variability of a metric is well known, they can be defined using 'selectMean' and 'selectSD' arguments in core plot functions (e.g. XmRplots function). For example, if mean of retention time is 34.5 minutes, standard deviation is 1 minutes and X chart is used for peptide LVNELTEFAK, we use XmRplot function as follows.
+Predefined limits are commonly used in system sutiability studies. If the mean and variability of a metric is well known, they can be defined using 'selectMean' and 'selectSD' arguments in core plot functions (e.g. XmRplots function). For example, if mean of retention time is 28.5 minutes, standard deviation is 1 minutes and X chart is used for peptide LVNELTEFAK, we use XmRplot function as follows.
 
 ### Example
 
 ```{r, eval=FALSE}
 #Mean and standard deviation of LVNELTEFAK is known
-APlotFunction(data, "LVNELTEFAK", metric = "RetentionTime", selectMean = 34.5, selectSD = 1 )
+APlotFunction(data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 1 )
 ```
 
 Similarly, if the mean and standard deviation is known, summary functions uses `listMean` and `listSD` arguments. For example, if user monitors retention time and peak assymetry and mean and standard deviations of these metrics are known, arguments will require entering a vector for means and another vector for standard deviations. 
@@ -167,9 +167,9 @@ Similarly, if the mean and standard deviation is known, summary functions uses `
 ### Example
 
 ```{r, eval=FALSE}
-# Retention time >> mean is 34.5 and standard deviation is 1.0
+# Retention time >> mean is 28.5 and standard deviation is 1.0
 # Peak assymetry >> mean is 1.0  and standard deviation is 0.01
-ASummaryFunction(data, listMean=list("Retention time” = 34.5, “Peak asymmetry” = 1.0), listSD = list("Retention time” = 1, “Peak asymmetry” = 0.01))
+ASummaryFunction(data, listMean=list("Retention time” = 28.5, “Peak asymmetry” = 1.0), listSD = list("Retention time” = 1, “Peak asymmetry” = 0.01))
 ```
 
 #### Choosing a guide set 
@@ -205,8 +205,8 @@ These fuctions are used to generate individual (X) and moving range (mR), and cu
 ### Example: 
 
 ```{r, eval=FALSE}
-# Retention time >> mean is 34.5 and standard deviation is 1.0
-XmRChart(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", selectMean = 34.5, selectSD = 1)
+# Retention time >> mean is 28.5 and standard deviation is 1.0
+XmRChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="mean", selectMean = 28.5, selectSD = 1)
 ```
 
 If user constructs an X control chart of retention time and peak area for LVNELTEFAK and means and standard deviations are not known, the function is used as follows. 
@@ -215,7 +215,7 @@ If user constructs an X control chart of retention time and peak area for LVNELT
 
 ```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+XmRChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 XmRChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="mean", L = 1, U = 20)
 ```
 
@@ -223,19 +223,19 @@ If user constructs an mR control chart of retention time and peak area for LVNEL
 
 ### Example: 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
+XmRChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="dispersion", L = 1, U = 20)
 XmRChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="dispersion", L = 1, U = 20)
 ```
 
 Similarly, if user constructs a CUSUMm or a CUSUMv control chart of retention time and peak area for LVNELTEFAK and mean and standard deviations are not known, `CUSUMPlots` function is used as follows. 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-CUSUMChart(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", L=1, U=20, ytitle="CUSUMm")
+CUSUMChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="mean", L=1, U=20, ytitle="CUSUMm")
 CUSUMChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="mean", L=1, U=20, ytitle="CUSUMm")
-CUSUMChart(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="dispersion", L=1, U=20, ytitle="CUSUMv")
+CUSUMChart(S9Site54, "LVNELTEFAK", metric = "BestRetentionTime", type="dispersion", L=1, U=20, ytitle="CUSUMv")
 CUSUMChart(S9Site54, "LVNELTEFAK", metric = "TotalArea", type="dispersion", L=1, U=20, ytitle="CUSUMv")
 ```
 
@@ -253,10 +253,10 @@ Follow-up change point analysis is helpful to identify the time of a change for 
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+XmRChart(S9Site54, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ```
 
 We don't recommend using this function when all the observations are within control limits. In the case of retention time monitoring of LVNELTEFAK, there is no need to further analyse change point.
@@ -265,10 +265,10 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
+XmRChart(S9Site54, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "BestRetentionTime", type="dispersion", L = 1, U = 20)
 ```
 
 ### Tip for Shiny users:
@@ -281,7 +281,7 @@ ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="di
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
 XmRRiverPlot(S9Site54, L=1, U=20)
 XmRRadarPlot(S9Site54, L=1, U=20)
@@ -291,7 +291,7 @@ XmRRadarPlot(S9Site54, L=1, U=20)
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
 CUSUMRiverPlot(S9Site54, L=1, U=20)
 CUSUMRadarPlot(S9Site54, L=1, U=20)
