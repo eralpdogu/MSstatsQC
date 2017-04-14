@@ -1,0 +1,26 @@
+R version 3.2.4 (2016-03-10)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.11.3 (El Capitan)
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] scales_0.4.0        dplyr_0.4.3         gridExtra_2.2.1     hash_2.2.6         
+ [5] RecordLinkage_0.4-9 ffbase_0.12.3       ff_2.2-13           bit_1.1-12         
+ [9] RSQLite_1.0.0       DBI_0.4-1           shinyjs_0.6         markdown_0.7.7     
+[13] plotly_3.4.13       ggplot2_2.1.0       shinyBS_0.61        shiny_0.13.2       
+
+loaded via a namespace (and not attached):
+ [1] splines_3.2.4    lattice_0.20-33  colorspace_1.2-6 miniUI_0.1.1     htmltools_0.3.5 
+ [6] yaml_2.1.13      base64enc_0.1-3  chron_2.3-47     survival_2.39-3  prodlim_1.5.7   
+[11] e1071_1.6-7      plyr_1.8.3       lava_1.4.3       munsell_0.4.3    gtable_0.2.0    
+[16] htmlwidgets_0.6  labeling_0.3     ada_2.0-3        httpuv_1.3.3     parallel_3.2.4  
+[21] class_7.3-14     evd_2.3-2        Rcpp_0.12.4      xtable_1.8-2     ipred_0.9-5     
+[26] jsonlite_0.9.20  mime_0.4         fastmatch_1.0-4  digest_0.6.9     grid_3.2.4      
+[31] tools_3.2.4      magrittr_1.5     lazyeval_0.1.10  tidyr_0.4.1      MASS_7.3-45     
+[36] Matrix_1.2-6     rsconnect_0.4.3  data.table_1.9.6 assertthat_0.1   httr_1.1.0      
+[41] viridis_0.3.4    R6_2.1.2         rpart_4.1-10     nnet_7.3-12     
