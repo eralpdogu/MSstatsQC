@@ -49,7 +49,7 @@ S9Site54 <- read.csv('Sampledata_CPTAC_Study_9_1_Site54.csv', header=TRUE)
 * `Run with sample data` : Click to run MSstatsQC with sample data from CPTAC Study 9.1.
 * `Clear data and plots` : Click to clear all data and plots.
 
-<img src="MSstatsQC/vignettes/1.input_example.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png" width="500">
 
 # `MSstatsQC` functions 
 
@@ -196,7 +196,7 @@ ASummaryFunction(data, L=1, U=20)
 
 "Options" tab is used to set metrics and peptides of interest. Guide set and known mean and standard deviation are also set within "Options" tab.Select a proper and representative guide set using `Options` tab. The lower bound of guide set indicates the index of the first time point to be included in the guide set. For example, if you choose "1" as a lower bound, it means that first time point will be the first element of the guide set. Similarly, upper bound of guide set shows the index for the last observation. It is possible to use different guide sets for different metrics and peptides.   
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/2.options_example.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/2.options_example.png" width="500">
 
 # `MSstatsQC` functions: control charts
 
@@ -243,9 +243,9 @@ CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", 
 
 "Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/3.XmRChartTAA.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/3.XmRChartTAA.png" width="500">
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/4.CUSUMforTAA.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/4.CUSUMforTAA.png" width="500">
 
 ## Change Point Analysis
 
@@ -273,7 +273,7 @@ ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="di
 
 ### Tip for Shiny users:
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/5.CPforTAA.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/5.CPforTAA.png" width="500">
 
 # `MSstatsQC` functions: river and radar plots
 
@@ -300,7 +300,7 @@ CUSUMRadarPlots(S9Site54, L=1, U=20)
 
 Summary plots are available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/6.RiverRadar.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/6.RiverRadar.png" width="500">
 
 # `MSstatsQC` functions: decision map
 
@@ -325,7 +325,7 @@ DecisionMap(S9Site54,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYel
 
 Input for decision map can be selected using `Create decision rules` tab. After selection of thresholds decision maps are automatically created and  available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/7.DecisionInput.png" width="500">
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/8.Decisionmaps.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png" width="500">
+<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png" width="500">
 
 The `MSstatsQC` workflow is also summarized in a cheatsheet that is available at www.msstats.org/msstatsqc. Please refer to the cheatsheet for further information. 
