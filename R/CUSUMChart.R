@@ -23,16 +23,16 @@
 #' # Find the name of the peptides
 #' levels(sampleData$Precursor)
 #' # Calculate CUSUM statistics
-#' CUSUMPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' CUSUMPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#' CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+#' CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
 #'            ytitle = "CUSUMv", type = "dispersion")
-#' CUSUMPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#' CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
 #'            selectMean = 27.78, selectSD = 8.19)
-#' CUSUMPlot(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' CUSUMPlot(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+#' CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
+#' CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'            selectMean = 35097129, selectSD = 34132861)
-#' CUSUMPlot(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' CUSUMPlot(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
+#' CUSUMChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
+#' CUSUMChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 
 #################################################################################################
 CUSUMChart<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,

@@ -23,16 +23,16 @@
 #' # Find the name of the peptides
 #' levels(sampleData$Precursor)
 #' # Calculate X and mR statistics
-#' XmRPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' XmRPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+#' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
 #'          ytitle = "moving ranges", type = "dispersion")
-#' XmRPlot(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
 #'          selectMean = 27.78, selectSD = 8.19)
-#' XmRPlot(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' XmRPlot(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+#' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
+#' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'          selectMean = 35097129, selectSD = 34132861)
-#' XmRPlot(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' XmRPlot(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
+#' XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
+#' XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 ################################################################################################################
 XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual observations", type = "mean",
