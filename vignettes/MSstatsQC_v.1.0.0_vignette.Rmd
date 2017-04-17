@@ -49,7 +49,7 @@ S9Site54 <- read.csv('Sampledata_CPTAC_Study_9_1_Site54.csv', header=TRUE)
 * `Run with sample data` : Click to run MSstatsQC with sample data from CPTAC Study 9.1.
 * `Clear data and plots` : Click to clear all data and plots.
 
-<img src="/Users/ed/GitHub/MSstatsQC/vignettes/1.input_example.png" width="500">
+<img src="MSstatsQC/vignettes/1.input_example.png" width="500">
 
 # `MSstatsQC` functions 
 
