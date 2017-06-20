@@ -1,0 +1,13 @@
+
+citEntry(entry	= 'Article',
+	 title	= 'MSstatsQC: Longitudinal system suitability monitoring and quality control for targeted proteomic experiments',
+	 author = c(
+         person(‘Eralp’, ‘Dogu’, email=‘eralp.dogu@gmail.com’,
+                role = c('aut', 'cre')
+         ),
+	 journal='Molecular & Cellular Proteomics',
+	 volume='',
+	 page='mcp--M116',
+	 year = '2017’,
+	 textVersion = ‘E. Dogu, S. Mohammad-Taheri, S. E. Abbatiello, M. S. Bereman, B. MacLean, B. Schilling, O. Vitek, MSstatsQC: Longitudinal system suitability monitoring and quality control for targeted proteomic experiments, Molecular & Cellular Proteomics. mcp--M116, 2017.’
+)

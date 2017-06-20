@@ -18,6 +18,14 @@ Targeted liquid chromatography coupled with mass spectrometry (LC-MS) is a power
 
 This vignette summarizes various aspects of all functionalities in `MSstatsQC` package and Shiny interface. 
 
+# Installation
+To install this package, start R and enter:
+```{r,eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("MSstatsQC")
+```
+Shiny users can access MSstatsQC via https://eralpdogu.shinyapps.io/msstatsqc/. 
+
 # Input
 
 In order to analyze QC/SST data in `MSstatsQC`, input data must be a .csv file in a "long" format with related columns. This is a common data format that can be generated from spectral processing tools such as Skyline.
@@ -39,7 +47,8 @@ The example dataset is shown below. Each row corresponds to a single time point.
 ```{r, eval=FALSE}
 #A typical multi peptide and multi metric system suitability dataset
 #This dataset was generated during CPTAC Study 9.1 at Site 54
-S9Site54 <- read.csv('Sampledata_CPTAC_Study_9_1_Site54.csv', header=TRUE) 
+system.file(package = "MSstatsQC")
+S9Site54 <-load("S9Site54.RData")
 ```
 
 ### Tip for Shiny users: 
@@ -328,4 +337,3 @@ Input for decision map can be selected using `Create decision rules` tab. After 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png" width="500">
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png" width="500">
 
-The `MSstatsQC` workflow is also summarized in a cheatsheet that is available at www.msstats.org/msstatsqc. Please refer to the cheatsheet for further information. 
