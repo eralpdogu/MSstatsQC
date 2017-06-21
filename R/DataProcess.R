@@ -26,16 +26,6 @@ DataProcess <- function(data = NULL){
     finalfile <- paste(paste(filenaming,num,sep="-"),".log",sep="")
   }
 
-  #session <- sessionInfo()
-  #sink("./log/sessionInfo.txt")
-  #print(session)
-  #sink()
-
-  #processout <- as.matrix(read.table("./log/sessionInfo.txt", header=TRUE, sep="\t"))
-  #write.table(processout, file=finalfile, row.names=FALSE)
-
-  #processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))
-
   data <- input.sanity.check(data, finalfile)
 
   return(data)

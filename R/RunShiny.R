@@ -5,9 +5,12 @@
 #' @keywords shiny
 #' @export
 #' @import shiny
+#' @examples
+#' sampleData <- DataProcess(S9Site54)
+#' RunShiny(data = sampleData)
 
 RunShiny <- function(data = NULL) {
   appDir <- system.file(package = "MSstatsQC")
   source(paste0(appDir,"/shiny-examples/msstats-qc/app.R"))
-  #runner(data) # to be implemented
+  runner(data) # to be implemented
 }

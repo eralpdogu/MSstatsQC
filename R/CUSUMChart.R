@@ -36,14 +36,14 @@
 
 #################################################################################################
 CUSUMChart<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
-                      ytitle = "CUSUMm", type = "mean", selectMean = NULL, selectSD = NULL) {
+                      ytitle = "CUSUMm", type = "mean", selectMean = NULL, selectSD = NULL, referenceValue = 0.5, decisionInterval=5) {
   if(is.null(data))
     return()
   #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
   }
-  CUSUM.outrange.thld <- 5
+  CUSUM.outrange.thld <- decisionInterval
   metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
   plot.data <- CUSUM.data.prepare(data, metricData, peptide, type)
   plot.data1 <- data.frame(
