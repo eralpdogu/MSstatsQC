@@ -6,7 +6,8 @@
 \usage{
 CUSUMChart(data = NULL, peptide, L = 1, U = 5, metric,
   normalization = TRUE, ytitle = "CUSUMm", type = "mean",
-  selectMean = NULL, selectSD = NULL)
+  selectMean = NULL, selectSD = NULL, referenceValue = 0.5,
+  decisionInterval = 5)
 }
 \arguments{
 \item{data}{comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}

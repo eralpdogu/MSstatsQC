@@ -13,4 +13,8 @@ and the metrics columns.}
 \description{
 A function to launch MSstatsQC Shiny app.
 }
+\examples{
+sampleData <- DataProcess(S9Site54)
+RunShiny(data = sampleData)
+}
 \keyword{shiny}
