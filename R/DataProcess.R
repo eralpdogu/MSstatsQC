@@ -1,7 +1,7 @@
 #' A data processing function
 #'
-#' @param data Comma-separated (*.csv), QC file format.
-#'  It should contain a Precursor column and the metrics columns.
+#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
+#' @return A data frame that processes using \code{input.sanity.check} function.
 #' @export
 #' @import dplyr
 #' @import RecordLinkage

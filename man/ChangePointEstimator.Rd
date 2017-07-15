@@ -29,6 +29,9 @@ ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
 
 \item{selectSD}{the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.}
 }
+\value{
+A plot of likelihood statistics versus time per peptide and metric generated from \code{CP.data.prepare} data frame.
+}
 \description{
 A function to identify the time of a change in the mean or variability of a metric
 }

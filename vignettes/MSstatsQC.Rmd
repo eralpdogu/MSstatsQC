@@ -44,11 +44,11 @@ The example dataset is shown below. Each row corresponds to a single time point.
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 #A typical multi peptide and multi metric system suitability dataset
 #This dataset was generated during CPTAC Study 9.1 at Site 54
-system.file(package = "MSstatsQC")
-S9Site54 <-load("S9Site54.RData")
+library(MSstatsQC)
+data <- MSstatsQC::S9Site54
 ```
 
 ### Tip for Shiny users: 
@@ -60,9 +60,35 @@ S9Site54 <-load("S9Site54.RData")
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png" width="500">
 
-# `MSstatsQC` functions 
+# Data processing
 
-`MSstatsQC` provides several core functions for state-of-the art statistical process control methods that are not available in other software. Three main functions for monitoring are: `XmRPlots()`,`CUSUMPlots` and `ChangePointEstimator` functions. All of these core functions have the same architecture and they share the same arguments. In general, we will call these three functions as `APlotFunction` and we will later give details for each function. Now, we introduce the arguments for `APlotFunction`.
+Data is checked with `DataProcess()` function to ensure data sanity and efficiently use core and summary `MSstatsQC` funtions. `MSstatsQC` uses a data validation method where slight variations in column names are compansated and converted to the standard `MSstatsQC` format. For example, our data validation function converts column names like `Best.RT`, `best retention time`, `retention time`, `rt` and `best ret` into `BestRetentionTime`. This conversion also deals with case-sensitive typing. 
+
+### Arguments
+
+* `data` : comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.
+
+### Example
+
+```{r, eval=FALSE}
+head(DataProcess(data))
+```
+
+### Tip for Shiny users: 
+
+"Data import" tab automatically checks data and validate it for further use. 
+
+# `MSstatsQC` core functions: control charts
+
+The fuction `XmRChart()` is used to generate individual (X) and moving range (mR), and the function `CUSUMChart()` is used to construct cumulative sum for mean (CUSUMm) and cumulative sum for variability (CUSUMv) control charts for each metric. As a follow up change point estimation procedure `ChangePointEstimator` can be used. 
+
+Metrics (e.g. retention time and peak area) and peptides are chosen within all core functions with 'metric' and 'peptide' arguments. `MSstatsQC` can handle any metrics of interest. User needs to create data columns just after `Annotations` to import metrics into `MSstatsQC` successfully. 
+
+Predefined limits are commonly used in system sutiability monitoring and quality control studies. If the mean and variability of a metric is well known, they can be defined using 'selectMean' and 'selectSD' arguments in core plot functions (e.g. XmRplots function). For example, if mean of retention time is 28.5 minutes, standard deviation is 1 minutes and X chart is used for peptide LVNELTEFAK, we use XmRplot function as follows.
+
+The true values of mean and variability of a metric is typically unknown, and their estimates are obtained from a guide set of high quality runs. Generally, a data gathering and parameter estimation step is required. Within that phase, control limits are obtained to test the hypothesis of statistical control. These thresholds are selected to ensure a specified type I error probability (e.g. 0.0027). Constructing control charts and real time evaluation are considered after achieving this phase. Guide sets are defined with 'L' and 'U' arguments. For example, if retention time of a peptide is monitored and first 20 observations of the dataset are used as a guide set, a plot is constructed as follows. 
+
+# `MSstatsQC` core functions: `XmRChart()`
 
 ### Arguments
 
@@ -79,13 +105,28 @@ S9Site54 <-load("S9Site54.RData")
 
 ### Example
 
-```{r, eval=FALSE}
-#A general MSstatsQC plot function when a guide set (1-20 runs) is used to monitor the mean of a metric
-APlotFunction( S9Site54, peptide, L = 1, U = 5, metric, normalization = FALSE,
-                      ytitle = "A Plot", type = "mean", selectMean = NULL, selectSD = NULL )
+```{r, eval=TRUE, echo=TRUE}
+#An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL ,selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL ,selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL ,selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL, selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL )
+#An X chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
+#Mean and standard deviation of LVNELTEFAK is known
+XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 1 )
 ```
 
-`MSstatsQC` processes data and creates plots with core functions. However, multi metric and multi peptide cases are difficult to assess. Therefore, we introduce several summary functions that aggregate the conclusions from each metric over all the analytes and summaries obtained for a core function method. `RadarPlots()` and `RiverPlots` are `MSstatsQC` summary functions. In general, we will call these two functions as `ASummaryFunction` and we will later give details for each function. Now, we introduce the arguments for `ASummaryFunction`.
+# `MSstatsQC` core functions: `CUSUMChart()`
 
 ### Arguments
 
@@ -93,112 +134,34 @@ APlotFunction( S9Site54, peptide, L = 1, U = 5, metric, normalization = FALSE,
 * `peptide`: the name of precursor of interest.
 * `L`: lower bound of the guide set.
 * `U`: upper bound of the guide set.
-* `listMean`: list of the means for each metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
-* `listSD`: list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
+* `metric`: the name of metric of interest.
+* `normalization`: TRUE if data is standardized.
+* `ytitle`: the y-axis title of the plot. The x-axis title is by default "Time : name of peptide"
+* `type`: the type of the control chart. Two values can be assigned, "mean" or "dispersion". Default is "mean"
+* `referenceValue`: the value that is used to tune the control chart for a proper shift size. Recommended setting is 0.5 for standardized data.
+* `decisionInterval`: the threshold to detect an out-of-control observation. Recommended setting is 5 for standardized data. 
+* `selectMean`: the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
+* `selectSD`: the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
 
 ### Example
 
-```{r, eval=FALSE}
-#A general MSstatsQC summary function when a guide set (1-5 runs) is used 
-ASummaryFunction( S9Site54, L = 1, U = 5, listMean = NULL, listSD = NULL )
-```
-
-# Output
-
-Plots created by the core plot functions are generate by `plotly` which is an R package for interactive plot generation. The interactive plots created by `MSstatsQC`, can be saved as an html file using the save widget function. If the user wants to save a static png file, then `export` function can be used. The outputs of other MSstatsQC functions are generated by `ggplot2` package and saving those outputs would require using `ggsave` function.
-
-### Example
-
-```{r, eval=FALSE}
-#Saving plots generated by plotly
-p<-APlotFunction(S9Site54, peptide="a peptide", metric="a metric")
-htmlwidgets::saveWidget(p, "Aplot.html")
-export(p, file = "Aplot.png")
-
-#Saving plots generated by ggplot2
-p<-ASummaryFunction(S9Site54, L=1, U=5)
-ggsave(filename="Summary.pdf", plot=p)
-#or
-ggsave(filename="Summary.png", plot=p)
-```
-
-### Tip for Shiny users: 
-
-Each output generated by 'plotly' can be saved using the "plotly" toolset located in the corner of each plot.
-
-# Data processing
-
-Data is checked with `DataProcess()` function to ensure data sanity and efficiently use core and summary `MSstatsQC` funtions. `MSstatsQC` uses a data validation method where slight variations in column names are compansated and converted to the standard `MSstatsQC` format. For example, our data validation function converts column names like `Best.RT`, `best retention time`, `retention time`, `rt` and `best ret` into `BestRetentionTime`. This conversion also deals with case-sensitive typing. 
-
-### Arguments
-
-* `data` : comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.
-
-### Example
-
-```{r, eval=FALSE}
-DataProcess(S9Site54)
-```
-
-### Tip for Shiny users: 
-
-"Data import" tab automatically checks data and validate it for further use. 
-
-# Setting options
-
-## Chosing metrics
-
-Metrics (e.g. retention time and peak area) and peptides are chosen within all core functions with 'metric' argument. MSstatsQC can handle any metrics of interest. User needs to create data columns just after `Annotations` to import metrics into `MSstatsQC` successfully. 
-
-### Example
-
-```{r, eval=FALSE}
-#Defining metric of interest within APlotFunction
-APlotFunction(S9Site54, "LVNELTEFAK", metric = "TotalArea")
-APlotFunction(S9Site54, "LVNELTEFAK", metric = "RetentionTime")
-```
-
-## Defining mean and variability of a metric
-
-#### Setting predefined limits 
-
-Predefined limits are commonly used in system sutiability studies. If the mean and variability of a metric is well known, they can be defined using 'selectMean' and 'selectSD' arguments in core plot functions (e.g. XmRplots function). For example, if mean of retention time is 34.5 minutes, standard deviation is 1 minutes and X chart is used for peptide LVNELTEFAK, we use XmRplot function as follows.
-
-### Example
-
-```{r, eval=FALSE}
-#Mean and standard deviation of LVNELTEFAK is known
-APlotFunction(data, "LVNELTEFAK", metric = "RetentionTime", selectMean = 34.5, selectSD = 1 )
-```
-
-Similarly, if the mean and standard deviation is known, summary functions uses `listMean` and `listSD` arguments. For example, if user monitors retention time and peak assymetry and mean and standard deviations of these metrics are known, arguments will require entering a vector for means and another vector for standard deviations. 
-
-### Example
-
-```{r, eval=FALSE}
-# Retention time >> mean is 34.5 and standard deviation is 1.0
-# Peak assymetry >> mean is 1.0  and standard deviation is 0.01
-ASummaryFunction(data, listMean=list("Retention time” = 34.5, “Peak asymmetry” = 1.0), listSD = list("Retention time” = 1, “Peak asymmetry” = 0.01))
-```
-
-#### Choosing a guide set 
-
-The true values of mean and variability of a metric is typically unknown, and their estimates are obtained from a guide set of high quality runs. Generally, a data gathering and parameter estimation step is required. Within that phase, control limits are obtained to test the hypothesis of statistical control. These thresholds are selected to ensure a specified type I error probability (e.g. 0.0027). Constructing control charts and real time evaluation are considered after achieving this phase. Guide sets are defined with 'L' and 'U' arguments. For example, if retention time of a peptide is monitored and first 20 observations of the dataset are used as a guide set, a plot is constructed as follows. 
-
-### Example
-
-```{r, eval=FALSE}
-#Guide set is chosen as the first 20 observations of dataset
-APlotFunction(data, "peptide", metric = "QC metric", L=1, U=20) 
-```
-
-Guide sets are also required for summary functions when the mean and standard deviation of a metric is not known.
-
-### Example
-
-```{r, eval=FALSE}
-#Guide set is chosen as the first 20 observations of dataset
-ASummaryFunction(data, L=1, U=20) 
+```{r, eval=TRUE, echo =TRUE}
+#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
+#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMm Chart : peak area", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
+#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMv Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
+#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
+#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
+#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMm Chart : peak area", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
+#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
+#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 ```
 
 ### Tip for Shiny users: 
@@ -206,47 +169,6 @@ ASummaryFunction(data, L=1, U=20)
 "Options" tab is used to set metrics and peptides of interest. Guide set and known mean and standard deviation are also set within "Options" tab.Select a proper and representative guide set using `Options` tab. The lower bound of guide set indicates the index of the first time point to be included in the guide set. For example, if you choose "1" as a lower bound, it means that first time point will be the first element of the guide set. Similarly, upper bound of guide set shows the index for the last observation. It is possible to use different guide sets for different metrics and peptides.   
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/2.options_example.png" width="500">
-
-# `MSstatsQC` functions: control charts
-
-These fuctions are used to generate individual (X) and moving range (mR), and cumulative sum for mean (CUSUMm) and cumulative sum for variability (CUSUMv) control charts for each metric. X and mR charts are constructed using `XmRPlots()` function. For example, if user constructs an X control chart of retention time for LVNELTEFAK and retention time mean and standard deviations are present, the function is used as follows.
-
-### Example: 
-
-```{r, eval=FALSE}
-# Retention time >> mean is 34.5 and standard deviation is 1.0
-XmRPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", selectMean = 34.5, selectSD = 1)
-```
-
-If user constructs an X control chart of retention time and peak area for LVNELTEFAK and means and standard deviations are not known, the function is used as follows. 
-
-### Example: 
-
-```{r, eval=FALSE}
-# Retention time >> first 20 observations are used as a guide set
-XmRPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", L = 1, U = 20)
-XmRPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="mean", L = 1, U = 20)
-```
-
-If user constructs an mR control chart of retention time and peak area for LVNELTEFAK and mean and standard deviations are not known, the function is used as follows. 
-
-### Example: 
-
-```{r, eval=FALSE}
-# Retention time >> first 20 observations are used as a guide set
-XmRPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
-XmRPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", L = 1, U = 20)
-```
-
-Similarly, if user constructs a CUSUMm or a CUSUMv control chart of retention time and peak area for LVNELTEFAK and mean and standard deviations are not known, `CUSUMPlots` function is used as follows. 
-
-```{r, eval=FALSE}
-# Retention time >> first 20 observations are used as a guide set
-CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="mean", L=1, U=20, ytitle="CUSUMm")
-CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="mean", L=1, U=20, ytitle="CUSUMm")
-CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="dispersion", L=1, U=20, ytitle="CUSUMv")
-CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", L=1, U=20, ytitle="CUSUMv")
-```
 
 ### Tip for Shiny users:
 
@@ -256,16 +178,29 @@ CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", 
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/4.CUSUMforTAA.png" width="500">
 
-## Change Point Analysis
+# `MSstatsQC` core functions: `ChangePointEstimator()`
 
 Follow-up change point analysis is helpful to identify the time of a change for each peptide and metric. `ChangePointEstimator()` function is used for the analysis. This function is one of the core functions and uses the same arguments. We recommend using this function after control charts generate an out-of-control observation. For example, retention time of TAAYVNAIEK increases over time as CUSUMm statistics increases steadily after the 20th time point. User can follow-up with `ChangePointEstimator()` function to find the exact time of retention time drift.
 
+### Arguments
+
+* `data`: comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.
+* `peptide`: the name of precursor of interest.
+* `L`: lower bound of the guide set.
+* `U`: upper bound of the guide set.
+* `metric`: the name of metric of interest.
+* `normalization`: TRUE if data is standardized.
+* `ytitle`: the y-axis title of the plot. The x-axis title is by default "Time : name of peptide"
+* `type`: the type of the control chart. Two values can be assigned, "mean" or "dispersion". Default is "mean"
+* `selectMean`: the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
+* `selectSD`: the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
+
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-XmRPlots(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+XmRChart(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ```
 
 We don't recommend using this function when all the observations are within control limits. In the case of retention time monitoring of LVNELTEFAK, there is no need to further analyse change point.
@@ -274,44 +209,44 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-XmRPlots(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
+XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
 ```
 
 ### Tip for Shiny users:
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/5.CPforTAA.png" width="500">
 
-# `MSstatsQC` functions: river and radar plots
+# `MSstatsQC` summary functions: river and radar plots
 
-`XmRRiverPlots()` and `XmRRadarPlots()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for X and mR charts. For example, if user would like to aggregate the information gathered from the X charts of retention time for all analytes, upper panel of `XmRRiverPlots()` show for the increases and decreases in retention time. Next, `XmRRadarPlots()` are used to find out which peptides are affected by the problem. 
+`RiverPlot()` and `RadarPlot()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for X and mR charts or CUSUMm and CUSUMv charts. `method` argument is used to define the method where the results for multiple peptides are aggregated. For example, if user would like to aggregate information gathered from the X charts of retention time for all analytes, upper panel of `RiverPlot()` show for the increases and decreases in retention time. Next, `RadarPlot()` are used to find out which peptides are affected by the problem. 
 
-### Example
-
-```{r, eval=FALSE}
-# Retention time >> first 20 observations are used as a guide set
-XmRRiverPlots(S9Site54, L=1, U=20)
-XmRRadarPlots(S9Site54, L=1, U=20)
-```
-
-`CUSUMRiverPlots()` and `CUSUMRadarPlots()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for CUSUMm and CUSUMv charts. For example, if user would like to aggregate the information gathered from the CUSUMm charts of retention time for all analytes, upper panel of `CUSUMRiverPlots()` show for the increases and decreases in retention time. Next, `CUSUMRadarPlots()` are used to find out which peptides are affected by the problem. 
+If the mean and standard deviation is known, summary functions uses `listMean` and `listSD` arguments. For example, if user monitors retention time and peak assymetry and mean and standard deviations of these metrics are known, arguments will require entering a vector for means and another vector for standard deviations. 
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-CUSUMRiverPlots(S9Site54, L=1, U=20)
-CUSUMRadarPlots(S9Site54, L=1, U=20)
+RiverPlot(data, L=1, U=20, method = "XmR",
+                listMean = list("BestRetentionTime" = 27.78,                                 
+                                "TotalArea" = 35097129,
+                                "MaxFWHM" = 0.28,
+                                "PeakAssymetry" = 0.98),
+                listSD = list("BestRetentionTime" = 8.19,
+                              "TotalArea" = 34132861,
+                              "MaxFWHM" = 0.054,
+                              "PeakAssymetry" = 0.002))
 ```
+
 ### Tip for Shiny users:
 
 Summary plots are available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/6.RiverRadar.png" width="500">
 
-# `MSstatsQC` functions: decision map
+# `MSstatsQC` summary functions: decision map
 
 `DecisionMap()` functions another summary function used in `MSstatsQC`. It is used to compare aggregated results over all analytes for a certain method such as XmR charts with the user defined criteria. Firstly, user defines the performance criteria and run `DecisionMap()` function to visualize overall performance. This function uses all the arguments of summary plots listed previously. Additionally, the following arguments are used
 
@@ -326,8 +261,8 @@ Summary plots are available in the `Metric summary` tab under `Detailed performa
 ```{r, eval=FALSE}
 # A decision map for Site 54 can be generated using the following script
 # Retention time >> first 20 observations are used as a guide set
-DecisionMap(S9Site54,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
-                          L = 1,U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
+DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
+                          L = 1, U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
 ```
 
 ### Tip for Shiny users:
@@ -336,4 +271,30 @@ Input for decision map can be selected using `Create decision rules` tab. After 
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png" width="500">
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png" width="500">
+
+# Output
+
+Plots created by the core plot functions are generate by `plotly` which is an R package for interactive plot generation. These interactive plots created by `MSstatsQC`, can be saved as an html file using the save widget function. If the user wants to save a static png file, then `export` function can be used. The outputs of other MSstatsQC functions are generated by `ggplot2` package and saving those outputs would require using `ggsave` function.
+
+### Example
+
+```{r, eval=FALSE}
+#Saving plots generated by plotly
+p<-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE,
+                      ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL )
+htmlwidgets::saveWidget(p, "Aplot.html")
+export(p, file = "Aplot.png")
+
+#Saving plots generated by ggplot2
+p<-ASummaryFunction(data, L=1, U=5)
+ggsave(filename="Summary.pdf", plot=p)
+#or
+ggsave(filename="Summary.png", plot=p)
+```
+
+### Tip for Shiny users: 
+
+Each output generated by 'plotly' can be saved using the "plotly" toolset located in the corner of each plot.
+
+
 

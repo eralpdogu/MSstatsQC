@@ -2,7 +2,7 @@
 % Please edit documentation in R/RiverPlot.R
 \name{RiverPlot}
 \alias{RiverPlot}
-\title{A function to create river plot to aggregate results from X and mR charts}
+\title{A function to create river plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.}
 \usage{
 RiverPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
   listSD = NULL)
@@ -18,8 +18,11 @@ RiverPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
 
 \item{listSD}{list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.}
 }
+\value{
+A river plot to aggregate results per metric generated from \code{XmR.Summary.DataFrame} data frame or \code{CUSUM.Summary.DataFrame} data frame.
+}
 \description{
-A function to create river plot to aggregate results from X and mR charts
+A function to create river plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.
 }
 \examples{
 # First process the data to make sure it's ready to use

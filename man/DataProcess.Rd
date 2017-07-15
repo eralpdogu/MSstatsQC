@@ -7,8 +7,10 @@
 DataProcess(data = NULL)
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format.
-It should contain a Precursor column and the metrics columns.}
+\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+}
+\value{
+A data frame that processes using \code{input.sanity.check} function.
 }
 \description{
 A data processing function

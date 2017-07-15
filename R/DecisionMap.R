@@ -16,6 +16,7 @@
 #'   The default is NULL.
 #' @param type can take two values, "mean" or "dispersion". Defaults to "mean"
 #' @param title the title of the plot. Defaults to "heatmap plot"
+#' @return A heatmap to aggregate results per metric generated from \code{heatmap.DataFrame} data frame.
 #' @keywords heatmap
 #' @export
 #' @import ggplot2

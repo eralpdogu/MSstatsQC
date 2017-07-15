@@ -2,7 +2,7 @@
 % Please edit documentation in R/RadarPlot.R
 \name{RadarPlot}
 \alias{RadarPlot}
-\title{A function to create radar plot to aggregate results from X and mR charts}
+\title{A function to create radar plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.}
 \usage{
 RadarPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
   listSD = NULL)
@@ -21,8 +21,11 @@ RadarPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
 \item{listSD}{list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
 automatically by using L and U. The default is NULL.}
 }
+\value{
+A radar plot to aggregate results per metric generated from \code{XmR.Radar.Plot.DataFrame} data frame or \code{CUSUM.Radar.Plot.DataFrame} data frame.
+}
 \description{
-A function to create radar plot to aggregate results from X and mR charts
+A function to create radar plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.
 }
 \examples{
 # First process the data to make sure it's ready to use

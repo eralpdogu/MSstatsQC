@@ -1,4 +1,4 @@
-#' A function to create radar plot to aggregate results from X and mR charts
+#' A function to create radar plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.
 #'
 #' @param data omma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.
 #' @param L lower bound of the guide set.
@@ -7,6 +7,7 @@
 #' @param listMean list of the means for each metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
 #' @param listSD list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
 #' automatically by using L and U. The default is NULL.
+#' @return A radar plot to aggregate results per metric generated from \code{XmR.Radar.Plot.DataFrame} data frame or \code{CUSUM.Radar.Plot.DataFrame} data frame.
 #' @keywords XmR
 #' @export
 #' @import ggplot2

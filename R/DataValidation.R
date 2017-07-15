@@ -1,4 +1,3 @@
-
 #########################################################################################
 # here we put a selection of most column names that users use.
 #The first element of each vector should be the best name that
@@ -34,7 +33,6 @@ clearString <- function(x){
   return(tolower(punc_remove(camelCaseSplit(x))))
 }
 #### guessColumnName function ###########################################################################################
-
 # This function receives the data and check the column names of data and changes
 #the column names if it is not the
 # same names as our suggested sample data to fit our suggested sample data

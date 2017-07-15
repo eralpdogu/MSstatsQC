@@ -35,6 +35,9 @@ it as NULL and they will be calculated automatically by using L and U. The defau
 standard deviations leave it as NULL and they will be calculated automatically by using L and U.
  The default is NULL.}
 }
+\value{
+A heatmap to aggregate results per metric generated from \code{heatmap.DataFrame} data frame.
+}
 \description{
 A function to create heatmaps to compare performance with user defined performance criteria
 }

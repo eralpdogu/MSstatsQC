@@ -29,6 +29,9 @@ XmRChart(data = NULL, peptide, L = 1, U = 5, metric,
 
 \item{selectSD}{the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.}
 }
+\value{
+A plot of individual values or moving ranges versus time per peptide and metric generated from \code{XmR.data.prepare} data frame.
+}
 \description{
 A function to construct individual (X) and moving range (mR) control charts
 }
