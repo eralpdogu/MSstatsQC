@@ -24,7 +24,7 @@ CUSUMChart(data = NULL, peptide, L = 1, U = 5, metric,
 
 \item{ytitle}{the y-axis title of the plot.  Defaults to "CUSUMm". The x-axis title is by default "Time : name of peptide"}
 
-\item{type}{the type of the control chart. Two values can be assigned, "mean" or "dispersion". Default is "mean"}
+\item{type}{the type of the control chart. Two values can be assigned, "mean" or "variability". Default is "mean"}
 
 \item{selectMean}{the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.}
 
@@ -49,7 +49,7 @@ levels(sampleData$Precursor)
 # Calculate CUSUM statistics
 CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
 CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-           ytitle = "CUSUMv", type = "dispersion")
+           ytitle = "CUSUMv", type = "variability")
 CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
            selectMean = 27.78, selectSD = 8.19)
 CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")

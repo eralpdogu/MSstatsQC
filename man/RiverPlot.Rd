@@ -30,7 +30,7 @@ sampleData <- DataProcess(S9Site54)
 head(sampleData)
 # Draw XmR summary plot
 RiverPlot(data = sampleData)
-RiverPlot(data = sampleData,
+RiverPlot(data = sampleData, L=1, U=20, method = "XmR",
                 listMean = list("BestRetentionTime" = 27.78,
                                 "TotalArea" = 35097129,
                                  "MaxFWHM" = 0.28,

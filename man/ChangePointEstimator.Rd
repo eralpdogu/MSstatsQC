@@ -23,7 +23,7 @@ ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
 
 \item{ytitle}{the y-axis title of the plot.  Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
-\item{type}{the type of the control chart. Two values can be assigned, "mean" or "dispersion". Default is "mean".}
+\item{type}{the type of the control chart. Two values can be assigned, "mean" or "variability". Default is "mean".}
 
 \item{selectMean}{the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.}
 
@@ -44,7 +44,7 @@ levels(sampleData$Precursor)
 # Calculate change point statistics
 ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
 ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-                     ytitle = "Change Point Plot - dispersion", type = "dispersion")
+                     ytitle = "Change Point Plot - variability", type = "variability")
 ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
                      selectMean = 27.78, selectSD = 8.19)
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
