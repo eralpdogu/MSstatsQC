@@ -564,13 +564,13 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
   
   for (i in seq_len(max_QCno)) {
     if(plot.data$pr.y[i] > peptideThresholdRed){
-      plot.data$bin[i] <- "Unacceptable"
+      plot.data$bin[i] <- "Fail"
     }
     else if(plot.data$pr.y[i] > peptideThresholdYellow){
-      plot.data$bin[i] <- "Poor"
+      plot.data$bin[i] <- "Warning"
     }
     else {
-      plot.data$bin[i] <- "Acceptable"
+      plot.data$bin[i] <- "Pass"
     }
   }
   
