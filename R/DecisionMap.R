@@ -29,9 +29,9 @@
 #' head(sampleData)
 #' # Draw Decision maker plot
 #' DecisionMap(data = sampleData, method = "CUSUM")
-#' DecisionMap(data = sampleData, method = "CUSUM", type = "dispersion")
+#' DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 #' DecisionMap(data = sampleData, method = "XmR")
-#' DecisionMap(data = sampleData, method = "XmR", type = "dispersion")
+#' DecisionMap(data = sampleData, method = "XmR", type = "variability")
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
 #'               listMean = list("BestRetentionTime" = 27.78,
 #'                               "TotalArea" = 35097129,
