@@ -511,8 +511,6 @@ CUSUM.Radar.Plot.DataFrame <- function(data, data.metrics, L, U, listMean, listS
 #######################################################################################################
 Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed,
                                        peptideThresholdYellow, L, U,type, selectMean, selectSD) {
-  
-  h <- 5
   AcquiredTime <- data$AcquiredTime
   QCno <- seq_len(nrow(data))
   y <- rep(0,nrow(data))
@@ -539,10 +537,10 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
       
       plot.data <- CUSUM.data.prepare(data, metricData, precursor, type, referenceValue, decisionInterval)
-      sub <- plot.data[(plot.data$CUSUM.poz >= h |
-                          plot.data$CUSUM.poz <= -h) |
-                         (plot.data$CUSUM.neg >= h |
-                            plot.data$CUSUM.neg <= -h), ]
+      sub <- plot.data[(plot.data$CUSUM.poz >= decisionInterval |
+                          plot.data$CUSUM.poz <= -decisionInterval) |
+                         (plot.data$CUSUM.neg >= decisionInterval |
+                            plot.data$CUSUM.neg <= -decisionInterval), ]
       y[sub$QCno] <- y[sub$QCno] + 1
     }
   }
