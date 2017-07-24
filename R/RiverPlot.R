@@ -29,9 +29,9 @@
 #'                 )
 
 RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, listSD=NULL) {
-  
+
   if(method == "XmR") {
-    
+
   if(is.null(data))
     return()
   if(!is.data.frame(data)){
@@ -80,12 +80,15 @@ RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
                    legend.title=element_blank(),
                    plot.margin = unit(c(1,3,1,1), "lines")
   )
+  gt <- ggplot_gtable(ggplot_build(gg))
+  gt$layout$clip[gt$layout$name == "panel"] <- "off"
+  grid.draw(gt)
   gg
 
   }
-  
+
   else if(method == "CUSUM") {
-    
+
     if(is.null(data))
       return()
     if(!is.data.frame(data)){
@@ -95,10 +98,10 @@ RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
     data.metrics <- c(find_custom_metrics(data))
     remove <- c("MinStartTime","MaxEndTime")
     data.metrics <- data.metrics[!data.metrics %in% remove]
-    
+
     dat <- CUSUM.Summary.DataFrame(data, data.metrics, L, U,listMean,listSD, decisionInterval=5)
     tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics,listMean,listSD)
-    
+
     gg <- ggplot(dat)
     gg <- gg + geom_hline(yintercept=0, alpha=0.5)
     gg <- gg + stat_smooth(method="loess", aes(x=dat$QCno, y=dat$pr.y,
@@ -127,7 +130,7 @@ RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
                                   breaks = c(1,0.5,0,-0.5,-1) ,
                                   labels = c(1,0.5,0,"0.5","1"))
     gg <- gg + ggtitle("River plots : CUSUMm and CUSUMv")
-    
+
     gg <- gg + labs(x = "Time", y = "% of out of control \npeptides")
     gg <- gg + theme(plot.title = element_text(size=15, face="bold",
                                                margin = margin(10, 0, 10, 0)),
@@ -139,12 +142,12 @@ RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
                      legend.title=element_blank(),
                      plot.margin = unit(c(1,3,1,1), "lines")
     )
-    
+
     gt <- ggplot_gtable(ggplot_build(gg))
     gt$layout$clip[gt$layout$name == "panel"] <- "off"
     grid.draw(gt)
     gg
-    
+
   }
 }
 
