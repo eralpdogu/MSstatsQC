@@ -218,7 +218,7 @@ CUSUM.River.prepare <- function(data, metric, L, U,type, selectMean, selectSD, d
     metricData <- getMetricData(data, precursors[j], L, U, metric = metric,
                                 normalization = TRUE, selectMean, selectSD)
     counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
-    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue, decisionInterval)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue = 0.5, decisionInterval = 5)
 
     sub.poz <- plot.data[plot.data$CUSUM.poz >= h | plot.data$CUSUM.poz <= -h, ]
     sub.neg <- plot.data[plot.data$CUSUM.neg >= h | plot.data$CUSUM.neg <= -h, ]
@@ -287,10 +287,10 @@ XmR.River.prepare <- function(data, metric, L, U,type,selectMean,selectSD) {
   plot.data <- data.frame(QCno = rep(1:max_QCno,2),
                           pr.y = c(pr.y.poz, pr.y.neg),
                           group = ifelse(rep(type == "mean",2*max_QCno),
-                                         c(rep("Metric mean increase",max_QCno),
-                                           rep("Metric mean decrease",max_QCno)),
-                                         c(rep("Metric variability increase",max_QCno),
-                                           rep("Metric variability decrease",max_QCno))),
+                                         c(rep("Mean increase",max_QCno),
+                                           rep("Mean decrease",max_QCno)),
+                                         c(rep("Variability increase",max_QCno),
+                                           rep("Variability decrease",max_QCno))),
                           metric = rep(metric,max_QCno*2))
 
   return(plot.data)
@@ -372,7 +372,7 @@ Compute.QCno.OutOfRangePeptide.CUSUM <- function(data, L, U, metric, type, CUSUM
   for(j in seq_len(length(precursors))) {
     metricData <- getMetricData(data, precursors[j], L, U, metric = metric,
                                 normalization = TRUE,selectMean,selectSD)
-    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue, decisionInterval)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue = 0.5, decisionInterval = 5)
     if(CUSUM.type == "poz")
       QCno.out.range <- c(QCno.out.range,
                           length(plot.data[plot.data$CUSUM.poz >= h | plot.data$CUSUM.poz <= -h, ]$QCno))
@@ -433,19 +433,19 @@ XmR.Radar.Plot.DataFrame <- function(data, data.metrics, L, U, listMean, listSD)
   )
   for (metric in data.metrics) {
     data.1 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
-                                     type = "mean",group = "Metric mean increase",
+                                     type = "mean",group = "Mean increase",
                                      XmR.type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.2 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
-                                     type = "mean",group = "Metric mean decrease",
+                                     type = "mean",group = "Mean decrease",
                                      XmR.type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.3 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
-                                     type = "variability",group = "Metric variability increase",
+                                     type = "variability",group = "Variability increase",
                                      XmR.type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.4 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
-                                     type = "variability",group = "Metric variability decrease",
+                                     type = "variability",group = "Variability decrease",
                                      XmR.type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     dat <- rbind(dat, data.1, data.2, data.3, data.4)
@@ -463,7 +463,7 @@ CUSUM.Radar.Plot.prepare <- function(data, L, U, metric, type, group, CUSUM.type
     metricData <- getMetricData(data, precursors[j], L = L, U = U,
                                 metric = metric, normalization = TRUE, selectMean, selectSD)
     QCno.length <- c(QCno.length,length(metricData))
-    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue, decisionInterval)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type, referenceValue = 0.5, decisionInterval = 5)
 
     if(CUSUM.type == "poz")
       QCno.out.range <- c(QCno.out.range,
@@ -493,16 +493,16 @@ CUSUM.Radar.Plot.DataFrame <- function(data, data.metrics, L, U, listMean, listS
   )
   for (metric in data.metrics) {
     data.1 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
-                                       group = "Metric mean increase",CUSUM.type = "poz",
+                                       group = "Mean increase",CUSUM.type = "poz",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.2 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
-                                       group = "Metric mean decrease", CUSUM.type = "neg",
+                                       group = "Mean decrease", CUSUM.type = "neg",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.3 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "variability",
-                                       group = "Metric variability increase", CUSUM.type = "poz",
+                                       group = "Variability increase", CUSUM.type = "poz",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.4 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "variability",
-                                       group = "Metric variability decrease", CUSUM.type = "neg",
+                                       group = "Variability decrease", CUSUM.type = "neg",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     dat <- rbind(dat, data.1, data.2, data.3, data.4)
   }
@@ -536,7 +536,7 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
 
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
 
-      plot.data <- CUSUM.data.prepare(data, metricData, precursor, type, referenceValue, decisionInterval)
+      plot.data <- CUSUM.data.prepare(data, metricData, precursor, type, referenceValue = 0.5, decisionInterval = 5)
       sub <- plot.data[(plot.data$CUSUM.poz >= decisionInterval |
                           plot.data$CUSUM.poz <= -decisionInterval) |
                          (plot.data$CUSUM.neg >= decisionInterval |
