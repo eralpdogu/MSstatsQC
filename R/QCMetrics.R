@@ -314,8 +314,8 @@ XmR.River.DataFrame <- function(data, data.metrics, L, U, listMean, listSD) {
   return(dat)
 }
 ############################################################################################
-heatmap.DataFrame <- function(data, data.metrics,method,
-                              peptideThresholdRed,peptideThresholdYellow, L, U,
+heatmap.DataFrame <- function(data, data.metrics, method,
+                              peptideThresholdRed, peptideThresholdYellow, L, U,
                               type, listMean, listSD) {
 
   time <- c()
@@ -524,7 +524,7 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
                                   metric = metric, normalization = TRUE,selectMean,selectSD)
       #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
       counter[seq_along(metricData)] <- counter[ seq_along(metricData)]+1
-      plot.data <- XmR.data.prepare( metricData , L , U , type,selectMean,selectSD)
+      plot.data <- XmR.data.prepare( metricData , L , U , type, selectMean, selectSD)
       sub <- plot.data[plot.data$InRangeOutRange == "OutRange",]
       y[sub$QCno] <- y[sub$QCno] + 1
     }
@@ -537,6 +537,7 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
 
       plot.data <- CUSUM.data.prepare(data, metricData, precursor, type, referenceValue = 0.5, decisionInterval = 5)
+      decisionInterval <- 5
       sub <- plot.data[(plot.data$CUSUM.poz >= decisionInterval |
                           plot.data$CUSUM.poz <= -decisionInterval) |
                          (plot.data$CUSUM.neg >= decisionInterval |

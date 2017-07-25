@@ -227,17 +227,12 @@ If the mean and standard deviation is known, summary functions uses `listMean` a
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
-RiverPlot(data, L=1, U=20, method = "XmR",
-                listMean = list("BestRetentionTime" = 27.78,                                 
-                                "TotalArea" = 35097129,
-                                "MaxFWHM" = 0.28,
-                                "PeakAssymetry" = 0.98),
-                listSD = list("BestRetentionTime" = 8.19,
-                              "TotalArea" = 34132861,
-                              "MaxFWHM" = 0.054,
-                              "PeakAssymetry" = 0.002))
+RiverPlot(data = S9Site54, L = 1, U = 20, method = "XmR")
+RiverPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
+RadarPlot(data = S9Site54, L = 1, U = 20, method = "XmR")
+RadarPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 ```
 
 ### Tip for Shiny users:
