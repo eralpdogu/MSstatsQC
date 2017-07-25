@@ -20,9 +20,9 @@
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
-#' @importFrom  ggExtra removeGrid rotateTextX
 #' @import RecordLinkage
 #' @import grid
+#' @importFrom ggExtra removeGrid rotateTextX
 #' @examples
 #' # First process the data to make sure it's ready to use
 #' sampleData <- DataProcess(S9Site54)

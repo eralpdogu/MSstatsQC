@@ -4,7 +4,7 @@
 \alias{DecisionMap}
 \title{A function to create heatmaps to compare performance with user defined performance criteria}
 \usage{
-DecisionMap(data = NULL, method, peptideThresholdRed = 0.7,
+DecisionMap(data = NULL, method = "XmR", peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
   title = "heatmap plot", listMean = NULL, listSD = NULL)
 }

@@ -16,7 +16,9 @@ A data frame that can be used with MSstatsQC
 A function to convert MSnbase files to MSstatsQC format
 }
 \examples{
-dontrun{MSstatsQCdata<- MSnbaseToMSstatsQC(msfile)}
+library("RforProteomics")
+msfile <- getPXD000001mzXML()
+MSnbaseToMSstatsQC(msfile)
 }
 \keyword{MSnbase,}
 \keyword{input}

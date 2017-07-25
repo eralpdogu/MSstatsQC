@@ -20,7 +20,7 @@ This vignette summarizes various aspects of all functionalities in `MSstatsQC` p
 
 # Installation
 To install this package, start R and enter:
-```{r,eval=FALSE}
+```{r,eval=TRUE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("MSstatsQC")
 ```
@@ -60,6 +60,22 @@ data <- MSstatsQC::S9Site54
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png" width="500">
 
+# `MSnbaseToMSstatsQC` functions
+
+`MSnbaseToMSstatsQC` function converts `MSnbase` output to `MSstatQC` format using `QCmetrics` objects. 
+
+### Arguments
+
+* `msfile`: Mass spectrometry raw file that contains quality control measurements. 
+
+### Example
+
+```{r, eval=TRUE}
+library("RforProteomics")
+msfile <- getPXD000001mzXML()
+head(MSnbaseToMSstatsQC(msfile))
+```
+
 # Data processing
 
 Data is checked with `DataProcess()` function to ensure data sanity and efficiently use core and summary `MSstatsQC` funtions. `MSstatsQC` uses a data validation method where slight variations in column names are compansated and converted to the standard `MSstatsQC` format. For example, our data validation function converts column names like `Best.RT`, `best retention time`, `retention time`, `rt` and `best ret` into `BestRetentionTime`. This conversion also deals with case-sensitive typing. 
@@ -70,7 +86,7 @@ Data is checked with `DataProcess()` function to ensure data sanity and efficien
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 head(DataProcess(data))
 ```
 
@@ -105,7 +121,7 @@ The true values of mean and variability of a metric is typically unknown, and th
 
 ### Example
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=TRUE}
 #An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
 XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL ,selectSD = NULL )
 #An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
@@ -145,7 +161,7 @@ XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, s
 
 ### Example
 
-```{r, eval=TRUE, echo =TRUE}
+```{r, eval=TRUE, echo =FALSE, fig.height=3}
 #A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
 CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 #A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
@@ -197,7 +213,7 @@ Follow-up change point analysis is helpful to identify the time of a change for 
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
@@ -209,7 +225,7 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
@@ -227,7 +243,7 @@ If the mean and standard deviation is known, summary functions uses `listMean` a
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, echo=FALSE}
 # Retention time >> first 20 observations are used as a guide set
 RiverPlot(data = S9Site54, L = 1, U = 20, method = "XmR")
 RiverPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
@@ -253,7 +269,7 @@ Summary plots are available in the `Metric summary` tab under `Detailed performa
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 # A decision map for Site 54 can be generated using the following script
 # Retention time >> first 20 observations are used as a guide set
 DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
@@ -266,6 +282,7 @@ Input for decision map can be selected using `Create decision rules` tab. After 
 
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png" width="500">
 <img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png" width="500">
+
 
 # Output
 

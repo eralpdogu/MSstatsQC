@@ -33,7 +33,7 @@
 #'                 )
 ###########################################################################################
 RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, listSD=NULL) {
-  
+
   if(method == "XmR") {
     if(is.null(data))
       return()
@@ -81,7 +81,7 @@ RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
         plot.margin = unit(c(1,3,1,1), "lines")
       )
   }
-  
+
   else if(method == "CUSUM") {
     if(is.null(data))
       return()
@@ -93,7 +93,7 @@ RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
     peptides <- dat$peptides
     orderby <- dat$orderby
     group <- dat$group
-    
+
     ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
                     group = group, colour = group, fill = group)) +
       coord_polar() +
@@ -119,7 +119,7 @@ RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
       ggtitle("Radar plot : CUSUMm and CUSUMv") +
       xlab("") +
       ylab("# of out of control \nruns") +
-      
+
       theme(
         axis.text.x = element_text(face="bold",size = rel(0.7)),
         axis.title.y=element_text(size=12),
@@ -131,6 +131,6 @@ RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, list
         plot.margin = unit(c(1,3,1,1), "lines")
       )
   }
-  
+
 }
 

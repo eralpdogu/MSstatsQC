@@ -10,12 +10,12 @@
 #' @param type the type of the control chart. Two values can be assigned, "mean" or "variability". Default is "mean".
 #' @param selectMean the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
 #' @param selectSD the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
-#' @return A plot of likelihood statistics versus time per peptide and metric generated from \code{CP.data.prepare} data frame. 
+#' @return A plot of likelihood statistics versus time per peptide and metric generated from \code{CP.data.prepare} data frame.
 #' @keywords change point, control chart
 #' @export
-#' @import dplyr
 #' @importFrom plotly plot_ly add_markers add_lines layout
 #' @import RecordLinkage
+#' @import dplyr
 #' @examples
 #' # First process the data to make sure it's ready to use
 #' sampleData <- DataProcess(S9Site54)
