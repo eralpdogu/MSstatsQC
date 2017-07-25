@@ -234,10 +234,10 @@ CUSUM.River.prepare <- function(data, metric, L, U,type, selectMean, selectSD, d
   plot.data <- data.frame(QCno = rep(seq_len(max_QCno),2),
                           pr.y = c(pr.y.poz, pr.y.neg),
                           group = ifelse(rep(type == "mean",2*max_QCno),
-                                         c(rep("Metric mean increase",max_QCno),
-                                           rep("Metric mean decrease",max_QCno)),
-                                         c(rep("Metric variability increase",max_QCno),
-                                           rep("Metric variability decrease",max_QCno))),
+                                         c(rep("Mean increase",max_QCno),
+                                           rep("Mean decrease",max_QCno)),
+                                         c(rep("Variability increase",max_QCno),
+                                           rep("Variability decrease",max_QCno))),
                           metric = rep(metric,max_QCno*2)
   )
   return(plot.data)

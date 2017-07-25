@@ -258,7 +258,7 @@ Summary plots are available in the `Metric summary` tab under `Detailed performa
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # A decision map for Site 54 can be generated using the following script
 # Retention time >> first 20 observations are used as a guide set
 DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
