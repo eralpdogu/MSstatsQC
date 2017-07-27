@@ -13,9 +13,8 @@ License: Artistic License 2.0
 LazyData: TRUE
 RoxygenNote: 6.0.1.9000
 Imports:
-    dplyr,plotly,RecordLinkage,shiny,ggplot2,ggExtra,
-    stats,grid
-Suggests: knitr,
-    rmarkdown
+    dplyr,plotly,RecordLinkage,ggplot2,ggExtra,
+    stats,grid, MSnbase, qcmetrics
+Suggests: knitr,rmarkdown, testthat, RforProteomics
 VignetteBuilder: knitr
-biocViews: Software, QualityControl, Proteomics, MassSpectrometry, ReproducibleResearch
+biocViews: Software, QualityControl, Proteomics, MassSpectrometry

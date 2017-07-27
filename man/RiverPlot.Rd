@@ -14,6 +14,8 @@ RiverPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
 
 \item{U}{upper bound of the guide set.}
 
+\item{method}{defines the method selected to construct control charts.}
+
 \item{listMean}{list of the means for each metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.}
 
 \item{listSD}{list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.}

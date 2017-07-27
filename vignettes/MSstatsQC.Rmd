@@ -70,10 +70,8 @@ data <- MSstatsQC::S9Site54
 
 ### Example
 
-```{r, eval=TRUE}
-library("RforProteomics")
-msfile <- getPXD000001mzXML()
-head(MSnbaseToMSstatsQC(msfile))
+```{r, eval=FALSE}
+MSnbaseToMSstatsQC(msfile)
 ```
 
 # Data processing

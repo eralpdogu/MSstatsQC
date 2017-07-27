@@ -3,6 +3,7 @@
 #' @param data omma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.
 #' @param L lower bound of the guide set.
 #' @param U upper bound of the guide set.
+#' @param method defines the method selected to construct control charts.
 #' @param listMean list of the means for each metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.
 #' @param listSD list of the standard deviations for each metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.
 #' @return A river plot to aggregate results per metric generated from \code{XmR.Summary.DataFrame} data frame or \code{CUSUM.Summary.DataFrame} data frame.
