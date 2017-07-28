@@ -63,5 +63,5 @@ XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization =
     add_lines(x = ~QCno, y = ~IndividualValue, color = I("cornflowerblue"), showlegend = FALSE) %>%
     add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
     add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
-    layout(xaxis = x,yaxis = y)
+    layout(xaxis = x, yaxis = y)
 }
