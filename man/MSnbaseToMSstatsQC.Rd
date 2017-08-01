@@ -4,7 +4,7 @@
 \alias{MSnbaseToMSstatsQC}
 \title{A function to convert MSnbase files to MSstatsQC format}
 \usage{
-MSnbaseToMSstatsQC(msfile)
+MSnbaseToMSstatsQC(msfile, identfile)
 }
 \arguments{
 \item{msfile}{data file to be converted}
