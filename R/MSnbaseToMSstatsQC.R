@@ -4,21 +4,22 @@
 #' @return A data frame that can be used with MSstatsQC
 #' @keywords MSnbase, qcmetrics, input
 #' @export
-#' @import MSnbase
+#' @importFrom MSnbase readMSData addIdentificationData
 #' @import qcmetrics
 #' @examples
 #' library("RforProteomics")
 #' msfile <- getPXD000001mzXML()
 #' MSnbaseToMSstatsQC(msfile)
 
-MSnbaseToMSstatsQC  <-  function(msfile) {
+MSnbaseToMSstatsQC  <-  function(msfile, identfile) {
 
   data <- readMSData(msfile, verbose = FALSE)
+  msexp <- addIdentificationData(msfile, identFile)
 
   if (!inherits(data, "MSnExp")) {
     stop("Only MSnSet class can be converted to input format for MSstats.")
   }
-
+  Precursor <- fData(msexp)$sequence
   qc <- QcMetric(name = "NULL")
 
   #Examples of metrics that can be monotired ###############################

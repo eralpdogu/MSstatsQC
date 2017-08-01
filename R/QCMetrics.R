@@ -274,8 +274,8 @@ XmR.River.prepare <- function(data, metric, L, U,type,selectMean,selectSD) {
     counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
     plot.data <- XmR.data.prepare(metricData , L , U , type,selectMean,selectSD)
 
-    sub.poz <- plot.data[plot.data$t >= plot.data$UCL, ]
-    sub.neg <- plot.data[plot.data$t <= plot.data$LCL, ]
+    sub.poz <- plot.data[plot.data$IndividualValue >= plot.data$UCL, ]
+    sub.neg <- plot.data[plot.data$IndividualValue <= plot.data$LCL, ]
 
     y.poz[sub.poz$QCno] <- y.poz[sub.poz$QCno] + 1
     y.neg[sub.neg$QCno] <- y.neg[sub.neg$QCno] + 1
@@ -397,9 +397,9 @@ XmR.Radar.Plot.prepare <- function(data, L, U, metric, type, group, XmR.type, se
     plot.data <- XmR.data.prepare( metricData , L = L, U = U,
                                   type ,selectMean,selectSD)
     QCno.out.range.poz <- c(QCno.out.range.poz,
-                            length(plot.data[plot.data$t >= plot.data$UCL, ]$QCno))
+                            length(plot.data[plot.data$IndividualValue >= plot.data$UCL, ]$QCno))
     QCno.out.range.neg <- c(QCno.out.range.neg,
-                            length(plot.data[plot.data$t <= plot.data$LCL, ]$QCno))
+                            length(plot.data[plot.data$IndividualValue <= plot.data$LCL, ]$QCno))
   }
 
   if(XmR.type == "poz") {
