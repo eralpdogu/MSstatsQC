@@ -1,10 +1,12 @@
 #' A function to convert MSnbase files to MSstatsQC format
 #'
 #' @param msfile data file to be converted
+#' @param identfile data file for features
 #' @return A data frame that can be used with MSstatsQC
 #' @keywords MSnbase, qcmetrics, input
+#' @return A csv file that is converted from raw files
 #' @export
-#' @importFrom MSnbase readMSData addIdentificationData
+#' @importFrom MSnbase readMSData addIdentificationData fData rtime precursorIntensity
 #' @import qcmetrics
 #' @examples
 #' library("RforProteomics")

@@ -8,6 +8,9 @@
 \usage{
 data(S9Site54)
 }
+\value{
+An example dataset generated from CPTAC study 9.1
+}
 \description{
 system suitabilty testing results generated during CPTAC Study 9.1 for Site 54
 }

@@ -241,7 +241,7 @@ If the mean and standard deviation is known, summary functions uses `listMean` a
 
 ### Example
 
-```{r, eval=TRUE, echo=FALSE}
+```{r, eval=TRUE}
 # Retention time >> first 20 observations are used as a guide set
 RiverPlot(data = S9Site54, L = 1, U = 20, method = "XmR")
 RiverPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
@@ -267,7 +267,7 @@ Summary plots are available in the `Metric summary` tab under `Detailed performa
 
 ### Example
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=TRUE}
 # A decision map for Site 54 can be generated using the following script
 # Retention time >> first 20 observations are used as a guide set
 DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,

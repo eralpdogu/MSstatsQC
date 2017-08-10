@@ -8,9 +8,13 @@ MSnbaseToMSstatsQC(msfile, identfile)
 }
 \arguments{
 \item{msfile}{data file to be converted}
+
+\item{identfile}{data file for features}
 }
 \value{
 A data frame that can be used with MSstatsQC
+
+A csv file that is converted from raw files
 }
 \description{
 A function to convert MSnbase files to MSstatsQC format

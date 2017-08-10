@@ -6,6 +6,7 @@
 #' @usage data(S9Site54)
 #' @title CPTAC study 9.1 site 54 dataset
 #' @description system suitabilty testing results generated during CPTAC Study 9.1 for Site 54
+#' @return An example dataset generated from CPTAC study 9.1
 #' @format  csv
 #' @keywords datasets
 #' @references \url{http://www.mcponline.org/content/early/2015/02/18/mcp.M114.047050}
