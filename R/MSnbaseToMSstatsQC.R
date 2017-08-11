@@ -1,7 +1,6 @@
 #' A function to convert MSnbase files to MSstatsQC format
 #'
 #' @param msfile data file to be converted
-#' @param identfile data file for features
 #' @return A data frame that can be used with MSstatsQC
 #' @keywords MSnbase, qcmetrics, input
 #' @return A csv file that is converted from raw files
@@ -13,15 +12,13 @@
 #' msfile <- getPXD000001mzXML()
 #' MSnbaseToMSstatsQC(msfile)
 
-MSnbaseToMSstatsQC  <-  function(msfile, identfile) {
+MSnbaseToMSstatsQC  <-  function(msfile) {
 
   data <- readMSData(msfile, verbose = FALSE)
-  msexp <- addIdentificationData(msfile, identFile)
 
   if (!inherits(data, "MSnExp")) {
     stop("Only MSnSet class can be converted to input format for MSstats.")
   }
-  Precursor <- fData(msexp)$sequence
   qc <- QcMetric(name = "NULL")
 
   #Examples of metrics that can be monotired ###############################

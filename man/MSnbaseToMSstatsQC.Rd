@@ -4,12 +4,10 @@
 \alias{MSnbaseToMSstatsQC}
 \title{A function to convert MSnbase files to MSstatsQC format}
 \usage{
-MSnbaseToMSstatsQC(msfile, identfile)
+MSnbaseToMSstatsQC(msfile)
 }
 \arguments{
 \item{msfile}{data file to be converted}
-
-\item{identfile}{data file for features}
 }
 \value{
 A data frame that can be used with MSstatsQC
