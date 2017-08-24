@@ -364,8 +364,8 @@ Compute.QCno.OutOfRangePeptide.XmR <- function(data,L,U,metric,type,
   return(QCno.out.range)
 }
 #############################################################################################
-Compute.QCno.OutOfRangePeptide.CUSUM <- function(data, L, U, metric, type, CUSUM.type, selectMean, selectSD) {
-  h <- 5
+Compute.QCno.OutOfRangePeptide.CUSUM <- function(data, L, U, metric, type, CUSUM.type, selectMean, selectSD, decisionInterval) {
+  h <- decisionInterval
   precursors <- levels(data$Precursor)
   QCno.out.range <- c()
 
@@ -453,8 +453,8 @@ XmR.Radar.Plot.DataFrame <- function(data, data.metrics, L, U, listMean, listSD)
   return(dat)
 }
 #################################################################################################################
-CUSUM.Radar.Plot.prepare <- function(data, L, U, metric, type, group, CUSUM.type, selectMean, selectSD) {
-  h <- 5
+CUSUM.Radar.Plot.prepare <- function(data, L, U, metric, type, group, CUSUM.type, selectMean, selectSD, decisionInterval) {
+  h <- decisionInterval
   precursors <- levels(data$Precursor)
   precursors2 <- substring(precursors, first = 1, last = 3)
   QCno.length <- c()
@@ -494,16 +494,16 @@ CUSUM.Radar.Plot.DataFrame <- function(data, data.metrics, L, U, listMean, listS
   for (metric in data.metrics) {
     data.1 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
                                        group = "Mean increase",CUSUM.type = "poz",
-                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]])
+                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]], decisionInterval = 5)
     data.2 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
                                        group = "Mean decrease", CUSUM.type = "neg",
-                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]])
+                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]], decisionInterval = 5)
     data.3 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "variability",
                                        group = "Variability increase", CUSUM.type = "poz",
-                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]])
+                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]], decisionInterval = 5)
     data.4 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "variability",
                                        group = "Variability decrease", CUSUM.type = "neg",
-                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]])
+                                       selectMean = listMean[[metric]],selectSD = listSD[[metric]], decisionInterval = 5)
     dat <- rbind(dat, data.1, data.2, data.3, data.4)
   }
   return(dat)
