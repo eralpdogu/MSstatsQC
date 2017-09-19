@@ -529,11 +529,10 @@ Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
 
       plot.data <- CUSUM.data.prepare(data, metricData, precursor, type, referenceValue = 0.5, decisionInterval = 5)
-      decisionInterval <- 5
-      sub <- plot.data[(plot.data$CUSUM.poz >= decisionInterval |
-                          plot.data$CUSUM.poz <= -decisionInterval) |
-                         (plot.data$CUSUM.neg >= decisionInterval |
-                            plot.data$CUSUM.neg <= -decisionInterval), ]
+      sub <- plot.data[(plot.data$CUSUM.poz >= 5 |
+                          plot.data$CUSUM.poz <= -5) |
+                         (plot.data$CUSUM.neg >= 5 |
+                            plot.data$CUSUM.neg <= -5), ]
       y[sub$QCno] <- y[sub$QCno] + 1
     }
   }
