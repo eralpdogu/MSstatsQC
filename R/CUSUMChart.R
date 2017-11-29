@@ -68,7 +68,7 @@ CUSUMChart<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization 
     title = ytitle
   )
 
-  plot_ly(plot.data1, x = ~QCno, y = ~CUSUM.poz,showlegend = FALSE)%>%
+  plot_ly(plot.data1, x = ~QCno, y = ~CUSUM.poz,showlegend = FALSE, width = 500)%>%
     add_markers(x = ~QCno, y = ~CUSUMValue, color = ~outRangeInRange,
                 type="scatter",mode="markers", colors = pal , showlegend = TRUE) %>%
 
