@@ -57,7 +57,7 @@ XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization =
     title = ytitle
   )
 
-  plot_ly(plot.data, x = ~QCno, y = ~IndividualValue,showlegend = TRUE) %>%
+  plot_ly(plot.data, x = ~QCno, y = ~IndividualValue,showlegend = TRUE, width = 500) %>%
     add_trace(x = ~QCno, y = ~IndividualValue, color = ~InRangeOutRange, type="scatter",
               mode="markers", colors = pal , showlegend = TRUE) %>%
     add_lines(x = ~QCno, y = ~IndividualValue, color = I("cornflowerblue"), showlegend = FALSE) %>%

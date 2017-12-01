@@ -54,7 +54,7 @@ ChangePointEstimator <- function(data = NULL, peptide, L = 1, U = 5, metric, nor
     title = ytitle
   )
 
-  plot_ly(plot.data, x = ~QCno, y = ~Et,showlegend = FALSE)%>% #,text=precursor.data$Annotations)
+  plot_ly(plot.data, x = ~QCno, y = ~Et,showlegend = FALSE, width = 500)%>% #,text=precursor.data$Annotations)
     add_lines(x = ~tho.hat, color = I("red"))%>%
     add_lines(x = ~QCno, y = ~Et, color = I("cornflowerblue"))%>%
     add_markers(x = ~QCno, y = ~Et, color = I("blue"))%>%
