@@ -20,7 +20,7 @@ This vignette summarizes various aspects of all functionalities in `MSstatsQC` p
 
 # Installation
 To install this package, start R and enter:
-```{r,eval=TRUE}
+```{r,eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("MSstatsQC")
 ```
