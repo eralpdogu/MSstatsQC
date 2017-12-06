@@ -20,7 +20,7 @@ This vignette summarizes various aspects of all functionalities in `MSstatsQC` p
 
 # Installation
 To install this package, start R and enter:
-```{r,eval=FALSE}
+```{r,eval=TRUE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("MSstatsQC")
 ```
@@ -58,7 +58,7 @@ data <- MSstatsQC::S9Site54
 * `Run with sample data` : Click to run MSstatsQC with sample data from CPTAC Study 9.1.
 * `Clear data and plots` : Click to clear all data and plots.
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png" width="500">
+See [Input Example](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png)
 
 # `MSnbaseToMSstatsQC` functions
 
@@ -119,23 +119,15 @@ The true values of mean and variability of a metric is typically unknown, and th
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, fig.width=8, fig.height=5}
 #An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
 XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL ,selectSD = NULL )
 #An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
 XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL ,selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the variability of retention time
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL ,selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL, selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the variability of retention time
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
+#An mR chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
+#An mR chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL )
 #Mean and standard deviation of LVNELTEFAK is known
 XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 1 )
 ```
@@ -159,7 +151,7 @@ XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, s
 
 ### Example
 
-```{r, eval=TRUE, echo =FALSE, fig.height=3}
+```{r, eval=TRUE, echo =FALSE, fig.width=8, fig.height=5}
 #A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
 CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 #A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
@@ -168,29 +160,21 @@ CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", n
 CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMv Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 #A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
 CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
-#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
-#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMm Chart : peak area", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
-#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of retention time
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
-#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 ```
 
 ### Tip for Shiny users: 
 
 "Options" tab is used to set metrics and peptides of interest. Guide set and known mean and standard deviation are also set within "Options" tab.Select a proper and representative guide set using `Options` tab. The lower bound of guide set indicates the index of the first time point to be included in the guide set. For example, if you choose "1" as a lower bound, it means that first time point will be the first element of the guide set. Similarly, upper bound of guide set shows the index for the last observation. It is possible to use different guide sets for different metrics and peptides.   
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/2.options_example.png" width="500">
+See [MSstatsQC Option Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/2.options_example.png)
 
 ### Tip for Shiny users:
 
 "Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/3.XmRChartTAA.png" width="500">
+See [XmR Chart Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/3.XmRChartTAA.png)
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/4.CUSUMforTAA.png" width="500">
+See [CUSUMm and CUSUMv Charts Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/4.CUSUMforTAA.png)
 
 # `MSstatsQC` core functions: `ChangePointEstimator()`
 
@@ -211,7 +195,7 @@ Follow-up change point analysis is helpful to identify the time of a change for 
 
 ### Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE, fig.width=8, fig.height=5}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
@@ -223,7 +207,7 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=TRUE}
+```{r, eval=FALSE, fig.width=8, fig.height=5}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
@@ -231,7 +215,7 @@ ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="va
 
 ### Tip for Shiny users:
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/5.CPforTAA.png" width="500">
+See [Change Point Estimation Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/5.CPforTAA.png)
 
 # `MSstatsQC` summary functions: river and radar plots
 
@@ -253,7 +237,7 @@ RadarPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 
 Summary plots are available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/6.RiverRadar.png" width="500">
+See [Plot Summaries Output](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/6.RiverRadar.png)
 
 # `MSstatsQC` summary functions: decision map
 
@@ -278,8 +262,8 @@ DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow 
 
 Input for decision map can be selected using `Create decision rules` tab. After selection of thresholds decision maps are automatically created and  available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png" width="500">
-<img src="https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png" width="500">
+See [Input Example for Desicision Map](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png)
+See [Decision Map Output](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png)
 
 
 # Output
