@@ -1,5 +1,6 @@
 Package: MSstatsQC
-Version: 0.99.7
+Version: 1.1.1
+>>>>>>> upstream/master
 Type: Package
 Title: Longitudinal system suitability monitoring and quality control for
     proteomic experiments
