@@ -11,6 +11,8 @@ Description: MSstatsQC is an R package which provides longitudinal system
     suitability monitoring tools for proteomic experiments.
 License: Artistic License 2.0
 LazyData: TRUE
+URL: http://msstats.org/msstatsqc
+BugReports: https://groups.google.com/forum/#!forum/msstatsqc
 RoxygenNote: 6.0.1.9000
 Imports:
     dplyr,plotly,RecordLinkage,ggplot2,ggExtra,
