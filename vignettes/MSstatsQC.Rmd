@@ -20,7 +20,7 @@ This vignette summarizes various aspects of all functionalities in `MSstatsQC` p
 
 # Installation
 To install this package, start R and enter:
-```{r,eval=TRUE}
+```{r,eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("MSstatsQC")
 ```
@@ -30,7 +30,7 @@ Shiny users can access MSstatsQC via https://eralpdogu.shinyapps.io/msstatsqc/.
 
 In order to analyze QC/SST data in `MSstatsQC`, input data must be a .csv file in a "long" format with related columns. This is a common data format that can be generated from spectral processing tools such as Skyline.
 
-This file can be also uploaded through Shiny interface. If the user prefers the web-interface then `Upload file` option should be used and a csv file which includes QC metrics and peptide level data should be uploaded. The recommended format includes `Acquired Time`, `Peptide name`, `Annotations` and data for any QC metrics such as `Retention Time`, `Total Peak Area` and `Mass Accuracy` etc. 
+This file can be also uploaded through Shiny interface. If the user prefers the web-interface then `Upload file` option should be used and a csv file which includes QC metrics and peptide level data should be uploaded. The recommended format includes `Acquired Time`, `Peptide name`, `Annotations` and data for any QC metrics such as `Retention Time`, `Total Peak Area` and `Mass Accuracy` etc. Each input file should include `Acquired Time`, `Peptide name` annotations `Annotations` after the `Annotations` column user can parse any metric of interest with a proper column name.
 
 (a) `AcquiredTime`: This column shows the acquired time of the QC/SST sample in the format of MM/DD/YYYY HH:MM:SS AM/PM
 
