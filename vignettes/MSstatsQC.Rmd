@@ -3,6 +3,7 @@ title: "MSstatsQC: longitudinal system suitability monitoring and quality contro
 author: 
   - "Eralp DOGU <eralp.dogu@gmail.com>" 
   - "Sara TAHERI <srtaheri66@gmail.com>" 
+  - "Olga VITEK <o.vitek@neu.edu>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -13,10 +14,10 @@ vignette: >
 
 # Introduction 
 
-Targeted liquid chromatography coupled with mass spectrometry (LC-MS) is a powerful tool for detection and quantification of peptides in complex matrices. An important objective of targeted LC-MS is to obtain peptide quantifications that are (1) suitable for the purpose of the investigation, and (2) reproducible across laboratories and runs.  The first objective is achieved by system suitability tests (SST), which verify that mass spectrometric instrumentation performs as specified. The second objective is achieved by quality control (QC), which provides in-process quality assurance of the sample profile. A common aspect of SST and QC is the longitudinal nature of their data. Although SST and QC receive a lot of attention in the proteomic community, the currently used statistical methods are fairly limited. 
-`MSstatsQC` improves upon the existing statistical methodology for SST and QC. It translates the modern methods of longitudinal statistical process control, such as simultaneous and time weighted control charts and change point analysis to the context of LC-MS experiments The methods are implemented in an open-source R-based software package and its web-based graphical user interface (www.msstats.org/msstatsqc), and are available for use stand-alone, or for integration with automated pipelines. Example dataset was generated during CPTAC Study 9.1 at Site 54. Although the example focus on targeted proteomics, the statistical methods more generally apply.
+Liquid chromatography coupled with mass spectrometry (LC-MS) is a powerful tool for detection and quantification of peptides in complex matrices. An important objective of targeted LC-MS is to obtain peptide quantifications that are (1) suitable for the purpose of the investigation, and (2) reproducible across laboratories and runs.  The first objective is achieved by system suitability tests (SST), which verify that mass spectrometric instrumentation performs as specified. The second objective is achieved by quality control (QC), which provides in-process quality assurance of the sample profile. A common aspect of SST and QC is the longitudinal nature of their data. Although SST and QC receive a lot of attention in the proteomic community, the currently used statistical methods are fairly limited. 
+`MSstatsQC` improves upon the existing statistical methodology for SST and QC. It translates the modern methods of longitudinal statistical process control, such as simultaneous and time weighted control charts and change point analysis to the context of LC-MS experiments The methods are implemented in an open-source R-based software package (www.msstats.org/msstatsqc), and are available for use stand-alone, or for integration with automated pipelines. Example dataset was generated during CPTAC Study 9.1 at Site 54. Although the example focus on targeted proteomics, the statistical methods more generally apply.
 
-This vignette summarizes various aspects of all functionalities in `MSstatsQC` package and Shiny interface. 
+This vignette summarizes various aspects of all functionalities in `MSstatsQC` package.
 
 # Installation
 To install this package, start R and enter:
@@ -24,19 +25,18 @@ To install this package, start R and enter:
 source("https://bioconductor.org/biocLite.R")
 biocLite("MSstatsQC")
 ```
-Shiny users can access MSstatsQC via https://eralpdogu.shinyapps.io/msstatsqc/. 
 
 # Input
 
-In order to analyze QC/SST data in `MSstatsQC`, input data must be a .csv file in a "long" format with related columns. This is a common data format that can be generated from spectral processing tools such as Skyline.
+In order to analyze QC/SST data in `MSstatsQC`, input data must be a .csv file in a "long" format with related columns. This is a common data format that can be generated from spectral processing tools such as Skyline and Panorama AutoQC..
 
-This file can be also uploaded through Shiny interface. If the user prefers the web-interface then `Upload file` option should be used and a csv file which includes QC metrics and peptide level data should be uploaded. The recommended format includes `Acquired Time`, `Peptide name`, `Annotations` and data for any QC metrics such as `Retention Time`, `Total Peak Area` and `Mass Accuracy` etc. Each input file should include `Acquired Time`, `Peptide name` annotations `Annotations` after the `Annotations` column user can parse any metric of interest with a proper column name.
+The recommended format includes `Acquired Time`, `Peptide name`, `Annotations` and data for any QC metrics such as `Retention Time`, `Total Peak Area` and `Mass Accuracy` etc. Each input file should include `Acquired Time`, `Peptide name` and `Annotations`. After the `Annotations` column user can parse any metric of interest with a proper column name.
 
-(a) `AcquiredTime`: This column shows the acquired time of the QC/SST sample in the format of MM/DD/YYYY HH:MM:SS AM/PM
+(a) `AcquiredTime`: This column shows the acquired time of the QC/SST sample in the format of MM/DD/YYYY HH:MM:SS AM/PM. 
 
-(b) `Precursor`: This column shows information about Precursor id. Statistical analysis will be done separately for each unique label in this column. 
+(b) `Precursor`: This column shows information about Precursor id. Statistical analysis will be conducted for each unique label in this column. 
 
-(c) `Annotations`: Annotations are free-text information given by the analyst about each run. They can be informative explanations of any special cause or any observations related to a particular run. Annotations are carried in the plots provided by `MSstatsQC` interactively.  
+(c) `Annotations`: Annotations are free-text information given by the analyst about each run. They can be information related to any special cause or any observations related to a particular run. Annotations are carried in the plots provided by `MSstatsQC` interactively.  
 
 (d)-(f) `RetentionTime`, `TotalPeakArea`, `FWHM`, `MassAccuracy`, and `PeakAssymetry`, and other metrics: These columns define a *feature* of a peak for a specific peptide. 
 
@@ -50,15 +50,6 @@ The example dataset is shown below. Each row corresponds to a single time point.
 library(MSstatsQC)
 data <- MSstatsQC::S9Site54
 ```
-
-### Tip for Shiny users: 
-
-"Data import" tab is used to upload data.  User can also run with sample data and clear the outputs with the related buttons.
-
-* `Run with sample data` : Click to run MSstatsQC with sample data from CPTAC Study 9.1.
-* `Clear data and plots` : Click to clear all data and plots.
-
-See [Input Example](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/1.input_example.png)
 
 # `MSnbaseToMSstatsQC` functions
 
@@ -76,7 +67,7 @@ MSnbaseToMSstatsQC(msfile)
 
 # Data processing
 
-Data is checked with `DataProcess()` function to ensure data sanity and efficiently use core and summary `MSstatsQC` funtions. `MSstatsQC` uses a data validation method where slight variations in column names are compansated and converted to the standard `MSstatsQC` format. For example, our data validation function converts column names like `Best.RT`, `best retention time`, `retention time`, `rt` and `best ret` into `BestRetentionTime`. This conversion also deals with case-sensitive typing. 
+Data is processed with `DataProcess()` function to ensure data sanity and efficiently use core and summary `MSstatsQC` funtions. `MSstatsQC` uses a data validation method where slight variations in column names are compansated and converted to the standard `MSstatsQC` format. For example, our data validation function converts column names like `Best.RT`, `best retention time`, `retention time`, `rt` and `best ret` into `BestRetentionTime`. This conversion also deals with case-sensitive typing. 
 
 ### Arguments
 
@@ -87,10 +78,6 @@ Data is checked with `DataProcess()` function to ensure data sanity and efficien
 ```{r, eval=TRUE}
 data<-DataProcess(data)
 ```
-
-### Tip for Shiny users: 
-
-"Data import" tab automatically checks data and validate it for further use. 
 
 # `MSstatsQC` core functions: control charts
 
@@ -162,20 +149,6 @@ CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetention
 CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
 ```
 
-### Tip for Shiny users: 
-
-"Options" tab is used to set metrics and peptides of interest. Guide set and known mean and standard deviation are also set within "Options" tab.Select a proper and representative guide set using `Options` tab. The lower bound of guide set indicates the index of the first time point to be included in the guide set. For example, if you choose "1" as a lower bound, it means that first time point will be the first element of the guide set. Similarly, upper bound of guide set shows the index for the last observation. It is possible to use different guide sets for different metrics and peptides.   
-
-See [MSstatsQC Option Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/2.options_example.png)
-
-### Tip for Shiny users:
-
-"Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
-
-See [XmR Chart Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/3.XmRChartTAA.png)
-
-See [CUSUMm and CUSUMv Charts Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/4.CUSUMforTAA.png)
-
 # `MSstatsQC` core functions: `ChangePointEstimator()`
 
 Follow-up change point analysis is helpful to identify the time of a change for each peptide and metric. `ChangePointEstimator()` function is used for the analysis. This function is one of the core functions and uses the same arguments. We recommend using this function after control charts generate an out-of-control observation. For example, retention time of TAAYVNAIEK increases over time as CUSUMm statistics increases steadily after the 20th time point. User can follow-up with `ChangePointEstimator()` function to find the exact time of retention time drift.
@@ -213,10 +186,6 @@ XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, 
 ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
 ```
 
-### Tip for Shiny users:
-
-See [Change Point Estimation Tab](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/5.CPforTAA.png)
-
 # `MSstatsQC` summary functions: river and radar plots
 
 `RiverPlot()` and `RadarPlot()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for X and mR charts or CUSUMm and CUSUMv charts. `method` argument is used to define the method where the results for multiple peptides are aggregated. For example, if user would like to aggregate information gathered from the X charts of retention time for all analytes, upper panel of `RiverPlot()` show for the increases and decreases in retention time. Next, `RadarPlot()` are used to find out which peptides are affected by the problem. 
@@ -232,12 +201,6 @@ RiverPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 RadarPlot(data = S9Site54, L = 1, U = 20, method = "XmR")
 RadarPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 ```
-
-### Tip for Shiny users:
-
-Summary plots are available in the `Metric summary` tab under `Detailed performance: plot summaries`.
-
-See [Plot Summaries Output](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/6.RiverRadar.png)
 
 # `MSstatsQC` summary functions: decision map
 
@@ -257,14 +220,6 @@ See [Plot Summaries Output](https://github.com/eralpdogu/MSstatsQC/blob/master/v
 DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
                          L = 1, U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
 ```
-
-### Tip for Shiny users:
-
-Input for decision map can be selected using `Create decision rules` tab. After selection of thresholds decision maps are automatically created and  available in the `Metric summary` tab under `Detailed performance: plot summaries`.
-
-See [Input Example for Desicision Map](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/7.DecisionInput.png)
-See [Decision Map Output](https://github.com/eralpdogu/MSstatsQC/blob/master/vignettes/8.Decisionmaps.png)
-
 
 # Output
 
@@ -286,9 +241,27 @@ ggsave(filename="Summary.pdf", plot=p)
 ggsave(filename="Summary.png", plot=p)
 ```
 
-### Tip for Shiny users: 
+## Output
 
-Each output generated by 'plotly' can be saved using the "plotly" toolset located in the corner of each plot.
+Plots created by the core plot functions are generated by [plotly](https://plot.ly/r/) which is an R package for interactive plot generation. Each output generated by 'plotly' can be saved using the "plotly" toolset.
+
+## Project website
+Please use [MSstats.org/MSstatsQC](https://www.MSstats.org/MSstatsQC) and [github repository](https://github.com/eralpdogu/MSstatsQCgui) for further details about this tool.
+
+## Question and issues
+Please use [Google group](https://groups.google.com/forum/#!forum/msstatsqc) if you want to file bug reports or feature requests.
+
+# Citation
+
+Please cite MSstatsQC: 
+
+* Dogu, E., Mohammad-Taheri, S., Abbatiello, S. E., Bereman, M. S., MacLean, B., Schilling, B., & Vitek, O. (2017). MSstatsQC: Longitudinal system suitability monitoring and quality control for targeted proteomic experiments. Molecular & Cellular Proteomics, 16(7), 1335-1347.
+
+# Session information
+
+```{r si}
+sessionInfo()
+```
 
 
 
