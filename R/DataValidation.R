@@ -37,9 +37,9 @@ clearString <- function(x){
 #the column names if it is not the
 # same names as our suggested sample data to fit our suggested sample data
 guessColumnName <- function(x){
-  
+
   a <- clearString(x)
-  
+
   max_index <- 0
   max <- -1
   for(i in seq_along(best_colnames)){
@@ -61,15 +61,15 @@ guessColumnName <- function(x){
 }
 #################################################################################################
 input.sanity.check <- function(data, finalfile) {
-  
+
   error_message <- ""
-  
+
   # get the column names and change them to the column names that we want
   #(For ecample we want Retention Time but a user might use RT, this function
   #auotomatically change RT to Retention Time)
   colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
-  
-  
+
+
   ############## conditions ##############
   # check that the data includes all the requiered columns and if not tell user what column is missing
   required_column_names <- c("Precursor","Annotations")
@@ -84,27 +84,29 @@ input.sanity.check <- function(data, finalfile) {
                            " is(are) not provided in data set. Please add it to your
                            data and try again.\n\n")
   }
-  
+
   # check that all columns other than Precursor and Acquired Time and
   #Annotations are numeric.
   AfterannoColNum <- (which(colnames(data)=="Annotations")) + 1
-  
+
   for(i in  AfterannoColNum:ncol(data)) {
     if(is.numeric(data[,i]) == FALSE) {
       error_message <- paste(error_message, "All the values of",
                              colnames(data)[i], "should be numeric and positive.\n\n")
     }
   }
-  
+
   if(error_message != "") {
     return(paste(error_message))
   }
   # for custom metrics we are checking them to be numeric in QCMetrics in
   # "find_custom_metrics" function and only accepting numeric columns after Annotation
-  
+
   # if there is any missing value in data replace it with NA
   data[data==""] <- NA
-  
+  levels(data$Annotations) = c(levels(data$Annotations), "Not Available")
+  data["Annotations"][is.na(data["Annotations"])] <- "Not Available"
+
   # Define peak assymetry
   if("MinStartTime" %in% provided_column_names && "MaxEndTime" %in% provided_column_names) {
     peakAss <- 2*data$MinStartTime/(data$MaxEndTime+data$MinStartTime)
