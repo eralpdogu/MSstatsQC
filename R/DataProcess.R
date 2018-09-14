@@ -28,5 +28,10 @@ DataProcess <- function(data = NULL){
 
   data <- input.sanity.check(data, finalfile)
 
+  missing<-rowSums(is.na(data))
+  data <- cbind(data,missing)
+
+  data <- data[complete.cases(data),] #work with complete cases
+
   return(data)
 }
