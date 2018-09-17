@@ -4,8 +4,8 @@
 \alias{RadarPlot}
 \title{A function to create radar plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.}
 \usage{
-RadarPlot(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL,
-  listSD = NULL)
+RadarPlot(data = NULL, L = 1, U = 5, method = "XmR",
+  listMean = NULL, listSD = NULL)
 }
 \arguments{
 \item{data}{omma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}
