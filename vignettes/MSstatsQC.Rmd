@@ -15,7 +15,7 @@ vignette: >
 # Introduction 
 
 Liquid chromatography coupled with mass spectrometry (LC-MS) is a powerful tool for detection and quantification of peptides in complex matrices. An important objective of targeted LC-MS is to obtain peptide quantifications that are (1) suitable for the purpose of the investigation, and (2) reproducible across laboratories and runs.  The first objective is achieved by system suitability tests (SST), which verify that mass spectrometric instrumentation performs as specified. The second objective is achieved by quality control (QC), which provides in-process quality assurance of the sample profile. A common aspect of SST and QC is the longitudinal nature of their data. Although SST and QC receive a lot of attention in the proteomic community, the currently used statistical methods are fairly limited. 
-`MSstatsQC` improves upon the existing statistical methodology for SST and QC. It translates the modern methods of longitudinal statistical process control, such as simultaneous and time weighted control charts and change point analysis to the context of LC-MS experiments The methods are implemented in an open-source R-based software package (www.msstats.org/msstatsqc), and are available for use stand-alone, or for integration with automated pipelines. Example dataset was generated during CPTAC Study 9.1 at Site 54. Although the example focus on targeted proteomics, the statistical methods more generally apply.
+`MSstatsQC` improves upon the existing statistical methodology for SST and QC. It translates the modern methods of longitudinal statistical process control, such as simultaneous and time weighted control charts and change point analysis to the context of LC-MS experiments The methods are implemented in an open-source R-based software package (www.msstats.org/msstatsqc), and are available for use stand-alone, or for integration with automated pipelines. Example datatsets include SRM based system suitability dataset from CPTAC Study 9.1 at Site 54, DDA and SRM based QC datasets from the QCloud system and a dataset for DIA type quantification for iRT peptides from QuiC system. Although the first example here focus on targeted proteomics, the statistical methods more generally apply. Version 2.0 includes data processing extensions for missing value handling. DDA and DIA examples can be found at the end of this document. 
 
 This vignette summarizes various aspects of all functionalities in `MSstatsQC` package.
 
@@ -219,6 +219,26 @@ RadarPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 # Retention time >> first 20 observations are used as a guide set
 DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
                          L = 1, U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
+```
+
+# Use case: longitudinal profiling of DDA with missing values
+
+We analyzed the DDA-QCloud dataset in Figure \ref{figure2a}. The dataset had many missing values and MSstatsQC 2.0 processed these missing values and generated control charts and summary plots for longitudinal performance assessment.
+
+```{r}
+MissingDataMap(QCloudDDA)
+RiverPlot(data = QCloudDDA, L = 1, U = 20, method = "XmR")
+RadarPlot(data = QCloudDDA, L = 1, U = 20, method = "XmR")
+```
+
+# Use case: longitudinal profiling of QC with iRT peptides
+
+We analyzed the DIA-QuiC dataset which included longitudinal profiles of 11 iRT peptides. The data comprised two DIA experiments acquired in duplicate with 11 days in between the two measurement sequences. 
+
+```{r}
+MissingDataMap(QuiCDIA)
+RiverPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
+RadarPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 ```
 
 # Output
