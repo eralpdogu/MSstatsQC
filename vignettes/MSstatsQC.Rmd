@@ -181,7 +181,7 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ### Example
 
-```{r, eval=FALSE, fig.width=8, fig.height=5}
+```{r, eval=TRUE, fig.width=8, fig.height=5}
 # Retention time >> first 20 observations are used as a guide set
 XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
 ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
