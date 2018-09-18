@@ -225,18 +225,20 @@ DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow 
 
 We analyzed the DDA-QCloud dataset in Figure \ref{figure2a}. The dataset had many missing values and MSstatsQC 2.0 processed these missing values and generated control charts and summary plots for longitudinal performance assessment.
 
-```{r}
-MissingDataMap(QCloudDDA)
-RiverPlot(data = QCloudDDA, L = 1, U = 20, method = "XmR")
-RadarPlot(data = QCloudDDA, L = 1, U = 20, method = "XmR")
+```{r, eval=TRUE, fig.width=8, fig.height=5}
+mydata<-DataProcess(MSstatsQC::QCloudDDA)
+MissingDataMap(mydata)
+mydata<-RemoveMissing(mydata)
+RiverPlot(mydata[,-9], L=1, U=20, method="XmR")
+RadarPlot(mydata[,-9], L=1, U=20, method="XmR")
 ```
 
 # Use case: longitudinal profiling of QC with iRT peptides
 
 We analyzed the DIA-QuiC dataset which included longitudinal profiles of 11 iRT peptides. The data comprised two DIA experiments acquired in duplicate with 11 days in between the two measurement sequences. 
 
-```{r}
-MissingDataMap(QuiCDIA)
+```{r, eval=TRUE, fig.width=8, fig.height=5}
+MissingDataMap(MSstatsQC::QuiCDIA)
 RiverPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 RadarPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 ```
@@ -275,7 +277,8 @@ Please use [Google group](https://groups.google.com/forum/#!forum/msstatsqc) if 
 
 Please cite MSstatsQC: 
 
-* Dogu, E., Mohammad-Taheri, S., Abbatiello, S. E., Bereman, M. S., MacLean, B., Schilling, B., & Vitek, O. (2017). MSstatsQC: Longitudinal system suitability monitoring and quality control for targeted proteomic experiments. Molecular & Cellular Proteomics, 16(7), 1335-1347.
+* Dogu, E., Mohammad-Taheri, S., Abbatiello, S. E., Bereman, M. S., MacLean, B., Schilling, B., & Vitek, O. (2017). MSstatsQC: Longitudinal system suitability monitoring and quality control for targeted proteomic experiments. Molecular & Cellular Proteomics, 16(7), 1335-1347. 
+* Dogu, E., Mohammad-Taheri, S., Olivella, R.,  Marty, F., Lienert, I., Reiter, L., Sabidó, E., Vitek, O. (2018). MSstatsQC 2.0: R/Bioconductor package for statistical quality control of mass spectrometry-based proteomic experiments. Submitted to JPR.
 
 # Session information
 

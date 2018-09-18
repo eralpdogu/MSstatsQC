@@ -17,6 +17,6 @@ A function to summarize missing values
 }
 \examples{
 # The data is "S9Site54" which is defined in the package.
-data <- DataProcess(S9Site54)
-MissingDataMap(data)
+#data <- DataProcess(S9Site54)
+#MissingDataMap(data)
 }

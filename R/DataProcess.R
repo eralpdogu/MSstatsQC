@@ -9,8 +9,6 @@
 #' # The data is "S9Site54" which is defined in the package.
 #' data <- DataProcess(S9Site54)
 
-#########################################################################################################
-
 DataProcess <- function(data = NULL){
   if(is.null(data))
     return()
@@ -30,8 +28,5 @@ DataProcess <- function(data = NULL){
 
   missing<-rowSums(is.na(data))
   data<-cbind(data,missing)
-
-  #data <- data[complete.cases(data),] #work with complete cases
-
   return(data)
 }
