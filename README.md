@@ -4,4 +4,5 @@ Statistical process control (SPC) is a general and well-established method of qu
 Installation
 
 To install this package, start R and enter:
-source("https://bioconductor.org/biocLite.R")biocLite("MSstatsQC")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")

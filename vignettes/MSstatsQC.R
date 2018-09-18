@@ -1,6 +1,7 @@
 ## ----eval=TRUE-----------------------------------------------------------
-source("https://bioconductor.org/biocLite.R")
-biocLite("MSstatsQC")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("MSstatsQC")
 
 ## ---- eval=TRUE----------------------------------------------------------
 #A typical multi peptide and multi metric system suitability dataset
