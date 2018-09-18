@@ -116,7 +116,7 @@ XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", nor
 #An mR chart when a guide set (1-20 runs) is used to monitor the variability of retention time
 XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL )
 #Mean and standard deviation of LVNELTEFAK is known
-XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 1 )
+XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 0.5 )
 ```
 
 # `MSstatsQC` core functions: `CUSUMChart()`
@@ -223,25 +223,37 @@ DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow 
 
 # Use case: longitudinal profiling of DDA with missing values
 
-We analyzed the DDA-QCloud dataset in Figure \ref{figure2a}. The dataset had many missing values and MSstatsQC 2.0 processed these missing values and generated control charts and summary plots for longitudinal performance assessment.
+We analyzed the QCloudDDA dataset. The dataset had many missing values and MSstatsQC 2.0 processed these missing values and generated control charts and summary plots for longitudinal performance assessment.
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
 mydata<-DataProcess(MSstatsQC::QCloudDDA)
 MissingDataMap(mydata)
+XmRChart(mydata, "EACFAVEGPK", metric = "missing", type="mean", L = 1, U = 15)
 mydata<-RemoveMissing(mydata)
-RiverPlot(mydata[,-9], L=1, U=20, method="XmR")
-RadarPlot(mydata[,-9], L=1, U=20, method="XmR")
+RiverPlot(mydata[,-9], L=1, U=15, method="XmR")
+RadarPlot(mydata[,-9], L=1, U=15, method="XmR")
 ```
 
 # Use case: longitudinal profiling of QC with iRT peptides
 
-We analyzed the DIA-QuiC dataset which included longitudinal profiles of 11 iRT peptides. The data comprised two DIA experiments acquired in duplicate with 11 days in between the two measurement sequences. 
+We analyzed the QuiCDIA dataset which included longitudinal profiles of 11 iRT peptides. The data comprised two DIA experiments acquired in duplicate with 11 days in between the two measurement sequences. 
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
 MissingDataMap(MSstatsQC::QuiCDIA)
 RiverPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 RadarPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 ```
+
+# Use case: longitudinal profiling of QC from an SRM experiment
+
+Following the implementation in Dogu et al. (2017), we analyzed the QCloudSRM dataset. This dataset was previously evaluated by the experts as well-performing for all peptides and metrics, except for the outlying peptide TCVADESHAGCEK.
+
+```{r, eval=TRUE, fig.width=8, fig.height=5}
+MissingDataMap(MSstatsQC::QCloudSRM)
+RiverPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
+RadarPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
+```
+
 
 # Output
 

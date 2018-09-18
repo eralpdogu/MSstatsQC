@@ -56,7 +56,7 @@ XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization =
   y <- list(
     title = ytitle
   )
-
+  if( type=="mean" ){
   plot_ly(plot.data, x = ~QCno, y = ~IndividualValue,showlegend = TRUE, width = 500) %>%
     add_trace(x = ~QCno, y = ~IndividualValue, color = ~InRangeOutRange, type="scatter",
               mode="markers", colors = pal , showlegend = TRUE) %>%
@@ -64,4 +64,14 @@ XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization =
     add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
     add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
     layout(xaxis = x, yaxis = y)
+  }
+  else {
+    plot_ly(plot.data, x = ~QCno, y = ~mR,showlegend = TRUE, width = 500) %>%
+      add_trace(x = ~QCno, y = ~mR, color = ~InRangeOutRange, type="scatter",
+                mode="markers", colors = pal , showlegend = TRUE) %>%
+      add_lines(x = ~QCno, y = ~mR, color = I("cornflowerblue"), showlegend = FALSE) %>%
+      add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
+      add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
+      layout(xaxis = x, yaxis = y)
+    }
 }

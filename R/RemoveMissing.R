@@ -11,6 +11,5 @@
 RemoveMissing <- function(data = NULL){
 
   data <- data[complete.cases(data),] #work with complete cases
-
   return(data)
 }
