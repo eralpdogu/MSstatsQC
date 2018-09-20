@@ -17,4 +17,7 @@ QC results generated from QCloud system
 \details{
 DDA QC data from QCloud System
 }
+\examples{
+head(QCloudDDA)
+}
 \keyword{datasets}

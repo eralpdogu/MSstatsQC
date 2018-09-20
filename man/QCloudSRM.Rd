@@ -17,4 +17,7 @@ QC results generated from QCloud system
 \details{
 SRM QC data from QCloud System
 }
+\examples{
+head(QCloudSRM)
+}
 \keyword{datasets}
