@@ -6,8 +6,8 @@
 #' @import ggplot2
 #' @examples
 #' # The data is "S9Site54" which is defined in the package.
-#' #data <- DataProcess(S9Site54)
-#' #MissingDataMap(data)
+#' data <- DataProcess(S9Site54)
+#' MissingDataMap(data)
 
 MissingDataMap <- function(data){
 
