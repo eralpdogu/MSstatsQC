@@ -18,11 +18,11 @@ test_that("clearString changes all upper level letters to lower
 }
 )
 
-test_that("guessColumnName is returning the column names that we want",{
-  expect_equal(guessColumnName("prucurs"),"Precursor")
-  expect_equal(guessColumnName("minsttime"),"MinStartTime")
-  expect_equal(guessColumnName("aqired.time"),"AcquiredTime")
-  expect_equal(guessColumnName("max.time"),"MaxEndTime")
-  expect_equal(guessColumnName("wdrft"),"wdrft")
-}
-)
+# test_that("guessColumnName is returning the column names that we want",{
+#   expect_equal(guessColumnName("prucurs"),"Precursor")
+#   expect_equal(guessColumnName("minsttime"),"MinStartTime")
+#   expect_equal(guessColumnName("aqired.time"),"AcquiredTime")
+#   expect_equal(guessColumnName("max.time"),"MaxEndTime")
+#   expect_equal(guessColumnName("wdrft"),"wdrft")
+# }
+# )

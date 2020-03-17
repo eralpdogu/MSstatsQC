@@ -11,7 +11,6 @@
 #' @keywords XmR
 #' @export
 #' @import ggplot2
-#' @import RecordLinkage
 #' @import grid
 #' @importFrom  stats reorder
 #' @examples

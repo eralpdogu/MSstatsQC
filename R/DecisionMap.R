@@ -20,7 +20,6 @@
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
-#' @import RecordLinkage
 #' @import grid
 #' @importFrom ggExtra removeGrid rotateTextX
 #' @examples
@@ -56,8 +55,7 @@ DecisionMap <- function(data = NULL, method = "XmR",
   }
 
   data.metrics <- c(find_custom_metrics(data))
-  remove <- c("MinStartTime","MaxEndTime")
-  data.metrics <- data.metrics[!data.metrics %in% remove]
+  #data.metrics <- data.metrics[!data.metrics %in% remove]
 
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
                             peptideThresholdYellow, L, U, type,listMean, listSD)

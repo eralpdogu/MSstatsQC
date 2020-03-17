@@ -16,7 +16,6 @@
 #' @keywords cumulative Sum, control chart
 #' @export
 #' @import dplyr
-#' @import RecordLinkage
 #' @importFrom plotly plot_ly add_markers add_lines layout
 #' @importFrom stats setNames
 #' @examples
@@ -35,7 +34,6 @@
 #' CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'            selectMean = 35097129, selectSD = 34132861)
 #' CUSUMChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' CUSUMChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 
 #################################################################################################
 CUSUMChart<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
