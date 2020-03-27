@@ -17,6 +17,11 @@ A csv file that is converted from raw files
 \description{
 A function to convert MSnbase files to MSstatsQC format
 }
+\examples{
+\dontrun{library(RforProteomics)}
+\dontrun{msfile <- getPXD000001mzXML()}
+\dontrun{MSnbaseToMSstatsQC(msfile)}
+}
 \keyword{MSnbase,}
 \keyword{input}
 \keyword{qcmetrics,}

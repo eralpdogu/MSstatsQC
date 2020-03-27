@@ -9,4 +9,6 @@
 #' @return An example dataset generated from QuiC system
 #' @format  csv
 #' @keywords datasets
+#' @examples
+#' head(QuiCDIA)
 "QuiCDIA"

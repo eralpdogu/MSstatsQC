@@ -7,7 +7,7 @@
 #' @export
 #' @importFrom MSnbase readMSData addIdentificationData fData rtime precursorIntensity
 #' @import qcmetrics
-#' @example
+#' @examples
 #' \dontrun{library(RforProteomics)}
 #' \dontrun{msfile <- getPXD000001mzXML()}
 #' \dontrun{MSnbaseToMSstatsQC(msfile)}

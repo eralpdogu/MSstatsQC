@@ -9,4 +9,6 @@
 #' @return An example dataset generated from QCloud system
 #' @format  csv
 #' @keywords datasets
+#' @examples
+#' head(QCloudDDA)
 "QCloudDDA"

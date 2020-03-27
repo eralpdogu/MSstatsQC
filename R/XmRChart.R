@@ -32,7 +32,6 @@
 #' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'          selectMean = 35097129, selectSD = 34132861)
 #' XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 ################################################################################################################
 XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual observations", type = "mean",

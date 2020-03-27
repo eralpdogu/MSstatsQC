@@ -60,7 +60,6 @@ XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
 XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
          selectMean = 35097129, selectSD = 34132861)
 XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{XmR,}
 \keyword{chart}

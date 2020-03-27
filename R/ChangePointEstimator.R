@@ -31,7 +31,6 @@
 #' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'                      selectMean = 35097129, selectSD = 34132861)
 #' ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 
 ChangePointEstimator <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
                                  ytitle = "Change Point Plot - mean", type = "mean", selectMean = NULL,

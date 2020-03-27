@@ -60,7 +60,6 @@ ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "Tota
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
                      selectMean = 35097129, selectSD = 34132861)
 ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{change}
 \keyword{chart}

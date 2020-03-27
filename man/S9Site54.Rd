@@ -19,6 +19,9 @@ system suitabilty testing results generated during CPTAC Study 9.1 for Site 54
 \details{
 CPTAC system suitability testing data for Site 54 from Study 9.1
 }
+\examples{
+head(S9Site54)
+}
 \references{
 \url{http://www.mcponline.org/content/early/2015/02/18/mcp.M114.047050}
 }

@@ -19,4 +19,7 @@ QC results generated from QuiC system
 \details{
 DIA iRT data from QuiC System
 }
+\examples{
+head(QuiCDIA)
+}
 \keyword{datasets}
