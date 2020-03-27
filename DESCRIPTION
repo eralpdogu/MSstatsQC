@@ -14,7 +14,7 @@ URL: http://msstats.org/msstatsqc
 BugReports: https://groups.google.com/forum/#!forum/msstatsqc
 RoxygenNote: 7.1.0
 Imports:
-    dplyr,plotly,RecordLinkage,ggplot2,ggExtra,
+    dplyr,plotly,ggplot2,ggExtra,
     stats,grid, MSnbase, qcmetrics
 Suggests: knitr,rmarkdown, testthat, RforProteomics
 VignetteBuilder: knitr
