@@ -4,7 +4,9 @@
 \name{S9Site54}
 \alias{S9Site54}
 \title{CPTAC study 9.1 site 54 dataset}
-\format{csv}
+\format{
+csv
+}
 \usage{
 data(S9Site54)
 }

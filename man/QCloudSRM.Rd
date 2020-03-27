@@ -4,7 +4,9 @@
 \name{QCloudSRM}
 \alias{QCloudSRM}
 \title{SRM QC data from QCloud System}
-\format{csv}
+\format{
+csv
+}
 \usage{
 data(QCloudSRM)
 }

@@ -4,9 +4,18 @@
 \alias{ChangePointEstimator}
 \title{A function to identify the time of a change in the mean or variability of a metric}
 \usage{
-ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
-  normalization = TRUE, ytitle = "Change Point Plot - mean",
-  type = "mean", selectMean = NULL, selectSD = NULL)
+ChangePointEstimator(
+  data = NULL,
+  peptide,
+  L = 1,
+  U = 5,
+  metric,
+  normalization = TRUE,
+  ytitle = "Change Point Plot - mean",
+  type = "mean",
+  selectMean = NULL,
+  selectSD = NULL
+)
 }
 \arguments{
 \item{data}{comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}

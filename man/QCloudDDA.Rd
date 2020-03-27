@@ -4,7 +4,9 @@
 \name{QCloudDDA}
 \alias{QCloudDDA}
 \title{DDA QC data from QCloud System}
-\format{csv}
+\format{
+csv
+}
 \usage{
 data(QCloudDDA)
 }

@@ -4,8 +4,14 @@
 \alias{RiverPlot}
 \title{A function to create river plot to aggregate results from X and mR charts or CUSUMm and CUSUMv charts.}
 \usage{
-RiverPlot(data = NULL, L = 1, U = 5, method = "XmR",
-  listMean = NULL, listSD = NULL)
+RiverPlot(
+  data = NULL,
+  L = 1,
+  U = 5,
+  method = "XmR",
+  listMean = NULL,
+  listSD = NULL
+)
 }
 \arguments{
 \item{data}{omma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}

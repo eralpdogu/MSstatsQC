@@ -14,7 +14,6 @@
 #' @keywords XmR, control chart
 #' @export
 #' @import dplyr
-#' @import RecordLinkage
 #' @importFrom plotly plot_ly add_trace add_lines layout
 #' @importFrom stats setNames sd
 #' @examples

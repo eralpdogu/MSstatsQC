@@ -4,9 +4,18 @@
 \alias{XmRChart}
 \title{A function to construct individual (X) and moving range (mR) control charts}
 \usage{
-XmRChart(data = NULL, peptide, L = 1, U = 5, metric,
-  normalization = FALSE, ytitle = "Individual observations",
-  type = "mean", selectMean = NULL, selectSD = NULL)
+XmRChart(
+  data = NULL,
+  peptide,
+  L = 1,
+  U = 5,
+  metric,
+  normalization = FALSE,
+  ytitle = "Individual observations",
+  type = "mean",
+  selectMean = NULL,
+  selectSD = NULL
+)
 }
 \arguments{
 \item{data}{comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}
