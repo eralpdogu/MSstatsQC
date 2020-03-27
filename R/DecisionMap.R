@@ -55,7 +55,10 @@ DecisionMap <- function(data = NULL, method = "XmR",
   }
 
   data.metrics <- c(find_custom_metrics(data))
+<<<<<<< HEAD
   #data.metrics <- data.metrics[!data.metrics %in% remove]
+=======
+>>>>>>> origin/RELEASE_3_10
 
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
                             peptideThresholdYellow, L, U, type,listMean, listSD)

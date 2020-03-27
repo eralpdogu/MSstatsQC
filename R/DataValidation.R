@@ -67,6 +67,10 @@ input.sanity.check <- function(data, finalfile) {
   # get the column names and change them to the column names that we want
   #(For ecample we want Retention Time but a user might use RT, this function
   #auotomatically change RT to Retention Time)
+<<<<<<< HEAD
+=======
+  # colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
+>>>>>>> origin/RELEASE_3_10
 
   #colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
 
