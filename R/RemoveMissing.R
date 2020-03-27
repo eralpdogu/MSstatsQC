@@ -6,7 +6,7 @@
 #' @importFrom stats complete.cases
 #' @examples
 #' # The data is "S9Site54" which is defined in the package.
-#' # data <- RemoveMissing(S9Site54)
+#' data <- RemoveMissing(S9Site54)
 
 RemoveMissing <- function(data = NULL){
 
