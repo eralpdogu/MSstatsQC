@@ -17,5 +17,5 @@ A data processing function for removing missing values
 }
 \examples{
 # The data is "S9Site54" which is defined in the package.
-# data <- RemoveMissing(S9Site54)
+data <- RemoveMissing(S9Site54)
 }
