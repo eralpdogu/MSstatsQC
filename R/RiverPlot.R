@@ -9,7 +9,6 @@
 #' @return A river plot to aggregate results per metric generated from \code{XmR.Summary.DataFrame} data frame or \code{CUSUM.Summary.DataFrame} data frame.
 #' @keywords XmR
 #' @export
-#' @import RecordLinkage
 #' @import ggplot2
 #' @import grid
 #' @examples

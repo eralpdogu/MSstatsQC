@@ -20,7 +20,6 @@
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
-#' @import RecordLinkage
 #' @import grid
 #' @importFrom ggExtra removeGrid rotateTextX
 #' @examples

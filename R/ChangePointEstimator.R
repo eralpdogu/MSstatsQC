@@ -14,7 +14,6 @@
 #' @keywords change point, control chart
 #' @export
 #' @importFrom plotly plot_ly add_markers add_lines layout
-#' @import RecordLinkage
 #' @import dplyr
 #' @examples
 #' # First process the data to make sure it's ready to use

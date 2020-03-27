@@ -16,7 +16,6 @@
 #' @keywords cumulative Sum, control chart
 #' @export
 #' @import dplyr
-#' @import RecordLinkage
 #' @importFrom plotly plot_ly add_markers add_lines layout
 #' @importFrom stats setNames
 #' @examples
