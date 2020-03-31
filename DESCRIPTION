@@ -18,4 +18,4 @@ Imports:
     stats,grid, MSnbase, qcmetrics
 Suggests: knitr,rmarkdown, testthat, RforProteomics
 VignetteBuilder: knitr
-biocViews: Software, QualityControl, Proteomics, MassSpectrometry
+biocViews: ImmunoOncology, Software, QualityControl, Proteomics, MassSpectrometry
