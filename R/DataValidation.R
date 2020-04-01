@@ -36,29 +36,7 @@ clearString <- function(x){
 # This function receives the data and check the column names of data and changes
 #the column names if it is not the
 # same names as our suggested sample data to fit our suggested sample data
-guessColumnName <- function(x){
 
-  a <- clearString(x)
-
-  max_index <- 0
-  max <- -1
-  for(i in seq_along(best_colnames)){
-    col <- best_colnames[[i]]
-    for(j in seq_along(col)){
-      sim <- levenshteinSim(a,clearString(col[j]))
-      if(sim > max){
-        max <- sim
-        max_index <- i
-      }
-    }
-  }
-  if (max > 0.6) {
-    return(best_colnames[[max_index]][1])
-  }
-  else {
-    return(x)
-  }
-}
 #################################################################################################
 input.sanity.check <- function(data, finalfile) {
 
@@ -67,8 +45,7 @@ input.sanity.check <- function(data, finalfile) {
   # get the column names and change them to the column names that we want
   #(For ecample we want Retention Time but a user might use RT, this function
   #auotomatically change RT to Retention Time)
-  #colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
-
+  # colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
 
   ############## conditions ##############
   # check that the data includes all the requiered columns and if not tell user what column is missing
@@ -108,11 +85,11 @@ input.sanity.check <- function(data, finalfile) {
   data["Annotations"][is.na(data["Annotations"])] <- "Not Available"
 
   # Define peak assymetry
-  if("MinStartTime" %in% provided_column_names && "MaxEndTime" %in% provided_column_names) {
-    peakAss <- 2*data$MinStartTime/(data$MaxEndTime+data$MinStartTime)
-    # locate a new column named "Peak Assymetry" right after the column named "Annotation"
-    data[,"Peak Assymetry"] <- peakAss
-  }
+  # if("MinStartTime" %in% provided_column_names && "MaxEndTime" %in% provided_column_names) {
+  #   peakAss <- 2*data$MinStartTime/(data$MaxEndTime+data$MinStartTime)
+  #   # locate a new column named "Peak Assymetry" right after the column named "Annotation"
+  #   data[,"Peak Assymetry"] <- peakAss
+  # }
   print("Your data is ready to go!")
   return(data)
   }
