@@ -4,9 +4,18 @@
 \alias{ChangePointEstimator}
 \title{A function to identify the time of a change in the mean or variability of a metric}
 \usage{
-ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
-  normalization = TRUE, ytitle = "Change Point Plot - mean",
-  type = "mean", selectMean = NULL, selectSD = NULL)
+ChangePointEstimator(
+  data = NULL,
+  peptide,
+  L = 1,
+  U = 5,
+  metric,
+  normalization = TRUE,
+  ytitle = "Change Point Plot - mean",
+  type = "mean",
+  selectMean = NULL,
+  selectSD = NULL
+)
 }
 \arguments{
 \item{data}{comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}
@@ -51,7 +60,6 @@ ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "Tota
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
                      selectMean = 35097129, selectSD = 34132861)
 ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{change}
 \keyword{chart}

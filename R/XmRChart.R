@@ -14,7 +14,6 @@
 #' @keywords XmR, control chart
 #' @export
 #' @import dplyr
-#' @import RecordLinkage
 #' @importFrom plotly plot_ly add_trace add_lines layout
 #' @importFrom stats setNames sd
 #' @examples
@@ -33,7 +32,7 @@
 #' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
 #'          selectMean = 35097129, selectSD = 34132861)
 #' XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
+#' XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "MinStartTime")
 ################################################################################################################
 XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual observations", type = "mean",

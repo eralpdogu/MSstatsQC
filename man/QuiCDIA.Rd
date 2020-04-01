@@ -4,7 +4,9 @@
 \name{QuiCDIA}
 \alias{QuiCDIA}
 \title{DIA iRT data from QuiC System}
-\format{csv}
+\format{
+csv
+}
 \usage{
 data(QuiCDIA)
 }

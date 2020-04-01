@@ -9,7 +9,6 @@
 #' @return A river plot to aggregate results per metric generated from \code{XmR.Summary.DataFrame} data frame or \code{CUSUM.Summary.DataFrame} data frame.
 #' @keywords XmR
 #' @export
-#' @import RecordLinkage
 #' @import ggplot2
 #' @import grid
 #' @examples
@@ -22,11 +21,11 @@
 #'                 listMean = list("BestRetentionTime" = 27.78,
 #'                                 "TotalArea" = 35097129,
 #'                                  "MaxFWHM" = 0.28,
-#'                                  "PeakAssymetry" = 0.98),
+#'                                  "MinStartTime" = 24),
 #'                 listSD = list("BestRetentionTime" = 8.19,
 #'                               "TotalArea" = 34132861,
 #'                               "MaxFWHM" = 0.054,
-#'                               "PeakAssymetry" = 0.002)
+#'                               "MinStartTime" = 24)
 #'                 )
 
 RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, listSD=NULL) {

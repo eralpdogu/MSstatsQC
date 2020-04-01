@@ -20,7 +20,6 @@
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
-#' @import RecordLinkage
 #' @import grid
 #' @importFrom ggExtra removeGrid rotateTextX
 #' @examples
@@ -32,16 +31,6 @@
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 #' DecisionMap(data = sampleData, method = "XmR")
 #' DecisionMap(data = sampleData, method = "XmR", type = "variability")
-#' DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
-#'               listMean = list("BestRetentionTime" = 27.78,
-#'                               "TotalArea" = 35097129,
-#'                               "MaxFWHM" = 0.28,
-#'                               "Peak Assymetry" = 0.98),
-#'               listSD = list("BestRetentionTime" = 8.19,
-#'                             "TotalArea" = 34132861,
-#'                             "MaxFWHM" = 0.054,
-#'                             "Peak Assymetry" = 0.002)
-#'                  )
 
 #########################################################################################################
 DecisionMap <- function(data = NULL, method = "XmR",

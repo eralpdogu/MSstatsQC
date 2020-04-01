@@ -4,9 +4,18 @@
 \alias{DecisionMap}
 \title{A function to create heatmaps to compare performance with user defined performance criteria}
 \usage{
-DecisionMap(data = NULL, method = "XmR", peptideThresholdRed = 0.7,
-  peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
-  title = "heatmap plot", listMean = NULL, listSD = NULL)
+DecisionMap(
+  data = NULL,
+  method = "XmR",
+  peptideThresholdRed = 0.7,
+  peptideThresholdYellow = 0.5,
+  L = 1,
+  U = 5,
+  type = "mean",
+  title = "heatmap plot",
+  listMean = NULL,
+  listSD = NULL
+)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor
@@ -50,15 +59,5 @@ DecisionMap(data = sampleData, method = "CUSUM")
 DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 DecisionMap(data = sampleData, method = "XmR")
 DecisionMap(data = sampleData, method = "XmR", type = "variability")
-DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
-              listMean = list("BestRetentionTime" = 27.78,
-                              "TotalArea" = 35097129,
-                              "MaxFWHM" = 0.28,
-                              "Peak Assymetry" = 0.98),
-              listSD = list("BestRetentionTime" = 8.19,
-                            "TotalArea" = 34132861,
-                            "MaxFWHM" = 0.054,
-                            "Peak Assymetry" = 0.002)
-                 )
 }
 \keyword{heatmap}
