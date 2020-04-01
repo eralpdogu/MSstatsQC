@@ -17,6 +17,16 @@
 #' head(sampleData)
 #' # Draw XmR summary plot
 #' RiverPlot(data = sampleData)
+#' RiverPlot(data = sampleData, L=1, U=20, method = "XmR",
+#'                 listMean = list("BestRetentionTime" = 27.78,
+#'                                 "TotalArea" = 35097129,
+#'                                  "MaxFWHM" = 0.28,
+#'                                  "MinStartTime" = 24),
+#'                 listSD = list("BestRetentionTime" = 8.19,
+#'                               "TotalArea" = 34132861,
+#'                               "MaxFWHM" = 0.054,
+#'                               "MinStartTime" = 24)
+#'                 )
 
 RiverPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, listSD=NULL) {
 

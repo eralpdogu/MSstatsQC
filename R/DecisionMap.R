@@ -31,6 +31,7 @@
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 #' DecisionMap(data = sampleData, method = "XmR")
 #' DecisionMap(data = sampleData, method = "XmR", type = "variability")
+<<<<<<< HEAD
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
 #'               listMean = list("BestRetentionTime" = 27.78,
 #'                               "TotalArea" = 35097129,
@@ -41,6 +42,8 @@
 #'                             "MaxFWHM" = 0.054,
 #'                             "MinStartTime" = 24)
 #'                  )
+=======
+>>>>>>> master
 
 #########################################################################################################
 DecisionMap <- function(data = NULL, method = "XmR",
