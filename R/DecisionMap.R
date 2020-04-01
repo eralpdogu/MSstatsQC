@@ -35,11 +35,11 @@
 #'               listMean = list("BestRetentionTime" = 27.78,
 #'                               "TotalArea" = 35097129,
 #'                               "MaxFWHM" = 0.28,
-#'                               "Peak Assymetry" = 0.98),
+#'                               "MinStartTime" = 24),
 #'               listSD = list("BestRetentionTime" = 8.19,
 #'                             "TotalArea" = 34132861,
 #'                             "MaxFWHM" = 0.054,
-#'                             "Peak Assymetry" = 0.002)
+#'                             "MinStartTime" = 24)
 #'                  )
 
 #########################################################################################################
@@ -55,6 +55,7 @@ DecisionMap <- function(data = NULL, method = "XmR",
   }
 
   data.metrics <- c(find_custom_metrics(data))
+
   #data.metrics <- data.metrics[!data.metrics %in% remove]
 
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
