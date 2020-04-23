@@ -31,19 +31,6 @@
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 #' DecisionMap(data = sampleData, method = "XmR")
 #' DecisionMap(data = sampleData, method = "XmR", type = "variability")
-<<<<<<< HEAD
-#' DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
-#'               listMean = list("BestRetentionTime" = 27.78,
-#'                               "TotalArea" = 35097129,
-#'                               "MaxFWHM" = 0.28,
-#'                               "MinStartTime" = 24),
-#'               listSD = list("BestRetentionTime" = 8.19,
-#'                             "TotalArea" = 34132861,
-#'                             "MaxFWHM" = 0.054,
-#'                             "MinStartTime" = 24)
-#'                  )
-=======
->>>>>>> master
 
 #########################################################################################################
 DecisionMap <- function(data = NULL, method = "XmR",
@@ -58,7 +45,14 @@ DecisionMap <- function(data = NULL, method = "XmR",
   }
 
   data.metrics <- c(find_custom_metrics(data))
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
+>>>>>>> Stashed changes
   #data.metrics <- data.metrics[!data.metrics %in% remove]
 
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,

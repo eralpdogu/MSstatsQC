@@ -45,11 +45,8 @@ input.sanity.check <- function(data, finalfile) {
   # get the column names and change them to the column names that we want
   #(For ecample we want Retention Time but a user might use RT, this function
   #auotomatically change RT to Retention Time)
-<<<<<<< HEAD
+
   #colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
-=======
-  # colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
->>>>>>> master
 
   ############## conditions ##############
   # check that the data includes all the requiered columns and if not tell user what column is missing
