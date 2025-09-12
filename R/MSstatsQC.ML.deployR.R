@@ -6,7 +6,6 @@
 #' @param peptide the name of peptide of interest.
 #' @param rf_model the model that was trained previosly by MSstatsQC-ML training process
 #' @export
-#' @import dplyr
 #' @import h2o
 #' @import ggplot2
 #' @import gridExtra

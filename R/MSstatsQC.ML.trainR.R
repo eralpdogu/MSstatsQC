@@ -7,7 +7,6 @@
 #' @param a lower threshold to define shift size
 #' @param b upper threshold to define shift size
 #' @export
-#' @import dplyr
 #' @import h2o
 #' @import ggplot2
 #' @import gridExtra
