@@ -1,8 +1,7 @@
 ---
-title: "MSstatsQC: longitudinal system suitability monitoring and quality control for proteomic experiments"
+title: "MSstatsQC: An R/Bioconductor package for longitudinal system suitability monitoring and quality control for proteomic experiments"
 author: 
   - "Eralp DOGU <eralp.dogu@gmail.com>" 
-  - "Sara TAHERI <srtaheri66@gmail.com>" 
   - "Olga VITEK <o.vitek@neu.edu>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

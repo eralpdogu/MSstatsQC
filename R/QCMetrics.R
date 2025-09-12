@@ -670,3 +670,306 @@ SummaryPlot <- function(data = NULL, L = 1, U = 5, method = "CUSUM",
   theme_set(theme_gray(base_size = 15))
   gg
 }
+
+
+# ML Functions ------------------------------------------------------------
+
+# Step shift --------------------------------------------------------------
+
+QcClassifier_data_step <- function(guide.set,nmetric,factor.names,sim.size,peptide.colname, L, U){
+
+  # if(!is.factor(guide.set[,paste(peptide.colname)])){
+  #   guide.set$peptide <-as.factor(guide.set$peptide.colname)
+  # }
+  #factorial matrix
+  factorial <- FrF2(2^nmetric, nmetric,factor.names)
+  tag_neg <- 0
+  data <- data.frame(NULL)
+
+  for(i in 1:nrow(factorial)){
+    data.set <- data.frame(NULL)
+    if(all(factorial[i,]== rep(-1,nmetric))){
+      ####### In control observation ~ 5* sim size  the of the actual
+      sample_data_k <- sample_density(guide.set, sim.size*(2^(nmetric)-1))
+    }
+
+    else{
+      ###### Base Data set to begin with
+      sample_data_k <- sample_density(guide.set, sim.size)
+      #sample_data_k <- robust.scale(sample_data_k)
+
+      for(j in 1:ncol(sample_data_k)){
+        #change in a metric for some peptides
+        if(factorial[i,j]== "1" & colnames(factorial[i,j])==colnames(sample_data_k)[j]){
+          beta=runif(sim.size,L,U)
+          sample_data_k[,j] <- sample_data_k[,j] + beta*mad(sample_data_k[,j])
+          tag_neg <- 1
+
+        }# column ends
+      }
+    }
+    data.set <- rbind(data.set,add_features(sample_data_k)) #with feature engineering
+    #data.set <- rbind(sample_data_k) #without feature engineering
+    #data.set[,"peptide"] <- NULL
+    if(tag_neg == 1){
+      data.set$RESPONSE <- c("FAIL")
+      tag_neg <- 0
+    }
+    else{
+      data.set$RESPONSE <- c("PASS")
+    }
+    data <- data[,order(names(data))]
+    data.set <- data.set[,order(names(data.set))]
+    data <-rbind(data,data.set)
+  }
+
+  data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
+  data$RESPONSE <- as.factor(data$RESPONSE)
+
+  return(data)
+}
+
+# Variance change ---------------------------------------------------------
+
+QcClassifier_data_var <- function(data,nmetric,factor.names,sim.size,peptide.colname, L, U){
+
+  # if(!is.factor(guide.set[,paste(peptide.colname)])){
+  #   guide.set$peptide <-as.factor(guide.set$peptide.colname)
+  # }
+  #factorial matrix
+  factorial <- FrF2(2^nmetric, nmetric,factor.names)
+
+
+  tag_neg <- 0
+  data <- data.frame(NULL)
+
+  for(i in 1:nrow(factorial)){
+    data.set <- data.frame(NULL)
+    if(all(factorial[i,]== rep(-1,nmetric))){
+      ####### In cntrol observation ~ 5* sim size  the of the actual
+      sample_data_k <- sample_density(guide.set, sim.size*(2^(nmetric)-1))
+    }
+
+    else{
+      ###### Base Data set to begin with
+      sample_data_k <- sample_density(guide.set, sim.size)
+      #sample_data_k <- robust.scale(sample_data_k)
+
+      for(j in 1:ncol(sample_data_k)){
+        #change in a metric for some peptides
+        if(factorial[i,j]== "1" & colnames(factorial[i,j])==colnames(sample_data_k)[j]){
+          beta=runif(sim.size,L,U)
+          sample_data_k[,j]<-ifelse(sample_data_k[,j] > median(sample_data_k[,j]), sample_data_k[,j]+beta, sample_data_k[,j]-beta)
+          tag_neg <- 1
+        }# column ends
+      }
+    }
+    data.set <- rbind(data.set,add_features(sample_data_k)) #with feature engineering
+    #data.set <- rbind(sample_data_k) #without feature engineering
+    #data.set[,"peptide"] <- NULL
+    if(tag_neg == 1){
+      data.set$RESPONSE <- c("FAIL")
+      tag_neg <- 0
+    }
+    else{
+      data.set$RESPONSE <- c("PASS")
+    }
+    data <- data[,order(names(data))]
+    data.set <- data.set[,order(names(data.set))]
+    data <-rbind(data,data.set)
+  }
+
+  data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
+  data$RESPONSE <- as.factor(data$RESPONSE)
+
+  return(data)
+}
+
+
+# Linear drift ------------------------------------------------------------
+
+QcClassifier_data_linear <- function(data,nmetric,factor.names,sim.size,peptide.colname, L, U){
+
+  # if(!is.factor(guide.set[,paste(peptide.colname)])){
+  #   guide.set$peptide <-as.factor(guide.set$peptide.colname)
+  # }
+  #factorial matrix
+  factorial <- FrF2(2^nmetric, nmetric,factor.names)
+
+
+  tag_neg <- 0
+  data <- data.frame(NULL)
+
+  for(i in 1:nrow(factorial)){
+    data.set <- data.frame(NULL)
+    if(all(factorial[i,]== rep(-1,nmetric))){
+      ####### In cntrol observation ~ 5* sim size  the of the actual
+      sample_data_k <- sample_density(guide.set, sim.size*(2^(nmetric)-1))
+    }
+
+    else{
+      ###### Base Data set to begin with
+      sample_data_k <- sample_density(guide.set, sim.size)
+      #sample_data_k <- robust.scale(sample_data_k)
+
+      for(j in 1:ncol(sample_data_k)){
+        #change in a metric for some peptides
+        if(factorial[i,j]== "1" & colnames(factorial[i,j])==colnames(sample_data_k)[j]){
+          beta=runif(sim.size,L,U)
+          beta=sort(beta)
+          #for(k in 1:sim.size){beta[k]=beta[k]*(k-sim.size)/sim.size}
+          sample_data_k[,j] <- sample_data_k[,j]-beta[sim.size-j+1]*mad(sample_data_k[,j])
+          tag_neg <- 1
+
+        }# column ends
+      }
+    }
+    data.set <- rbind(data.set,add_features(sample_data_k)) #with feature engineering
+    #data.set <- rbind(sample_data_k) #without feature engineering
+    #data.set[,"peptide"] <- NULL
+    if(tag_neg == 1){
+      data.set$RESPONSE <- c("FAIL")
+      tag_neg <- 0
+    }
+    else{
+      data.set$RESPONSE <- c("PASS")
+    }
+    data <- data[,order(names(data))]
+    data.set <- data.set[,order(names(data.set))]
+    data <-rbind(data,data.set)
+  }
+
+  data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
+  data$RESPONSE <- as.factor(data$RESPONSE)
+
+  return(data)
+}
+
+####################################################################################
+QcClassifier_data_annotated <- function(guide.set, guide.set.annotations){
+
+  data<-list()
+
+  for(i in 1:nlevels(guide.set.annotations$peptide)){
+
+    guide.set.annotations.scale <- guide.set.annotations[guide.set.annotations$peptide==levels(guide.set.annotations$peptide)[i],c(1, 3:(ncol(guide.set.annotations)))]
+
+    guide.set.new<-guide.set[guide.set$peptide==levels(guide.set$peptide)[i],c(3:(ncol(guide.set)))]
+
+    for(k in 2:ncol(guide.set.annotations.scale)){
+      guide.set.annotations.scale[,k]=(guide.set.annotations.scale[,k]-median(guide.set.new[,k-1]))/mad(guide.set.new[,k-1])
+    }
+
+    guide.set.new <- robust.scale(guide.set.new)
+
+    for(k in 2:ncol(guide.set.annotations.scale)){guide.set.annotations.scale[,k] <- bctrans.test((guide.set.new[,k-1]),guide.set.annotations.scale[,k])}
+
+    names(guide.set.annotations.scale) <- colnames(guide.set.annotations[,c(1,3:(ncol(guide.set.annotations)))])
+
+    #data[[i]] <- guide.set.annotations.scale[,2:ncol(guide.set.annotations.scale)] #without feature engineering
+
+    data[[i]] <- add_features(guide.set.annotations.scale[,2:ncol(guide.set.annotations.scale)]) #with feature engineering
+
+    data[[i]] <- data[[i]][,order(names(data[[i]]), decreasing = TRUE)]
+
+  }
+
+  data<- dplyr::bind_rows(data)
+  data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
+  RESPONSE<-"FAIL"
+  data <- cbind(data,RESPONSE)
+
+  return(data)
+}
+
+
+# Robust scaling ----------------------------------------------------------
+
+robust.scale<-function(sample_data_k){
+  for(i in 1:ncol(sample_data_k)){
+    sample_data_k[,i]=(sample_data_k[,i]-median(sample_data_k[,i]))/(mad(sample_data_k[,i])+0.005)
+  }
+  return(sample_data_k)
+}
+
+
+# Sample density ----------------------------------------------------------
+
+dens<-function(temp.Data, n){
+  dat.dens = stats::density(temp.Data, n=2^10)
+  sim.sample = sample(dat.dens$x, n, replace=TRUE, prob=dat.dens$y)
+  sim.sample}
+
+sample_density <- function(guide.set, n){
+  sample_data<-c()
+  guide.set.scale<-data.frame(NULL)
+  for(i in 1:nlevels(guide.set$peptide)){
+    guide.set.temp<-robust.scale(guide.set[guide.set$peptide==levels(guide.set$peptide)[i],3:ncol(guide.set)])
+    guide.set.scale<-rbind(guide.set.scale, guide.set.temp)
+  }
+  for(k in 1:ncol(guide.set.scale)){guide.set.scale[,k] <- bctrans(guide.set.scale[,k])}
+
+  sample_data<-as.data.frame(matrix(0, n, ncol(guide.set.scale)))
+
+  for(j in 1:ncol(guide.set.scale)){
+    sample_data[,j] <- dens(guide.set.scale[,j], n)
+  }
+
+  names(sample_data) <- colnames(guide.set[,c(3:(ncol(guide.set)))])
+
+  return(sample_data)
+}
+
+
+# Transformation ----------------------------------------------------------
+
+bctrans<-function( data1){
+
+  lambda.fm1 <- car::boxCox(data1 ~ 1, family ="yjPower", plotit = FALSE)
+  lambda.max <- lambda.fm1$x[which.max(lambda.fm1$y)]
+  metric = yjPower(data1, lambda=lambda.max, jacobian.adjusted=FALSE)
+  return(metric)
+}
+
+bctrans.test<-function( data1, data2){
+
+  lambda.fm1 <- car::boxCox(data1 ~ 1, family ="yjPower", plotit = FALSE)
+  lambda.max <- lambda.fm1$x[which.max(lambda.fm1$y)]
+  metric = yjPower(data2, lambda=lambda.max, jacobian.adjusted=FALSE)
+  return(metric)
+}
+
+
+# Add features ------------------------------------------------------------
+
+add_features<-function(temp.Data){
+  for(i in 1:ncol(temp.Data)){
+    v <- numeric(length(temp.Data[,i]))
+    moving.range <- numeric(length(temp.Data[,i]))
+    mean.increase <- numeric(length(temp.Data[,i]))
+    mean.decrease <- numeric(length(temp.Data[,i]))
+    dispersion.increase <- numeric(length(temp.Data[,i]))
+    mean.increase[1]<-0
+    mean.decrease[1]<-0
+    dispersion.increase[1]<-0
+    moving.range[1]<-0
+    v[1] <- (sqrt(abs(temp.Data[1,i]))-0.822)/0.349
+    d<-0.5
+    for(k in 2:length(temp.Data[,i])) {
+      moving.range[k] <- abs(temp.Data[k,i]-temp.Data[(k-1),i])
+      v[k] <- (sqrt(abs(temp.Data[k,i]))-0.822)/0.349
+      if ( mean.increase[k]>5){mean.increase[k] <- max(0,(temp.Data[k,i]-d+0))}
+      else {mean.increase[k] <- max(0,(temp.Data[k,i]-d+mean.increase[k-1]))}
+      if ( mean.decrease[k]>5){mean.decrease[k] <- max(0,(-d-temp.Data[k,i]+0))}
+      else {mean.decrease[k] <- max(0,(-d-temp.Data[k,i]+mean.decrease[k-1]))}
+      if ( dispersion.increase[k]>5){dispersion.increase[k] <- max(0,(v[k]-d+0))}
+      else {dispersion.increase[k] <- max(0,(v[k]-d+dispersion.increase[k-1]))}
+    }
+    addfeatures<-cbind(moving.range,mean.increase,mean.decrease, dispersion.increase)
+    #addfeatures<-cbind(MR,CUSUMpoz.m,CUSUMneg.m)
+    colnames(addfeatures) <- paste(colnames(temp.Data)[i], colnames(addfeatures), sep = ".")
+    temp.Data<-cbind(temp.Data,addfeatures) # full dataset with external features
+  }
+  return(temp.Data)
+}
+
