@@ -1,12 +1,11 @@
 Package: MSstatsQC
-Version: 2.5.5
+Version: 2.9.1
 Type: Package
 Title: Longitudinal system suitability monitoring and quality control for
     proteomic experiments
 Authors@R: c(
 	person("Eralp", "Dogu", role = c("aut", "cre"),email = "eralp.dogu@gmail.com"),
-  	person("Sara", "Taheri", role = "aut",email = "srtaheri66@gmail.com"),
-      	person("Olga", "Vitek", role = "aut",email = "o.vitek@neu.edu"))
+  	      	person("Olga", "Vitek", role = "aut",email = "o.vitek@neu.edu"))
 Description: MSstatsQC is an R package which provides longitudinal system suitability monitoring and quality control tools for proteomic experiments.
 License: Artistic License 2.0
 LazyData: TRUE
@@ -14,8 +13,11 @@ URL: http://msstats.org/msstatsqc
 BugReports: https://groups.google.com/forum/#!forum/msstatsqc
 RoxygenNote: 7.1.0
 Imports:
-    dplyr,plotly,ggplot2,ggExtra,
-    stats,grid, MSnbase, qcmetrics
-Suggests: knitr,rmarkdown, testthat, RforProteomics
+    dplyr,plyr, 
+    plotly, ggplot2, ggExtra, gridExtra,
+    stats, grid, MSnbase, qcmetrics, 
+    h2o, FrF2, car, reshape2, 
+
+Suggests: knitr, rmarkdown, testthat, RforProteomics
 VignetteBuilder: knitr
 biocViews: Software, QualityControl, Proteomics, MassSpectrometry
