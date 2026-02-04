@@ -20,5 +20,5 @@ Imports:
     h2o, FrF2, car, reshape2, jsonlite 
 Suggests: knitr, rmarkdown, testthat, RforProteomics
 VignetteBuilder: knitr
-biocViews: Software, QualityControl, Proteomics, MassSpectrometry
+biocViews: Software, QualityControl, Proteomics, MassSpectrometry, Normalization
 Encoding: UTF-8
