@@ -21,10 +21,11 @@ This vignette summarizes various aspects of all functionalities in `MSstatsQC` p
 # Installation
 To install this package, start R and enter:
 ```{r,eval=FALSE}
- if (!requireNamespace("BiocManager", quietly=TRUE))
-     install.packages("BiocManager")
- BiocManager::install("MSstatsQC")
-#devtools::install_github("eralpdogu/MSstatsQC")
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+# BiocManager::install("MSstatsQC")
+devtools::install_github("eralpdogu/MSstatsQC")
 ```
 
 # Input
@@ -46,8 +47,8 @@ The example dataset is shown below. Each row corresponds to a single time point.
 ### Example
 
 ```{r, eval=TRUE}
-#A typical multi peptide and multi metric system suitability dataset
-#This dataset was generated during CPTAC Study 9.1 at Site 54
+# A typical multi peptide and multi metric system suitability dataset
+# This dataset was generated during CPTAC Study 9.1 at Site 54
 library(MSstatsQC)
 data <- MSstatsQC::S9Site54
 ```
@@ -77,7 +78,7 @@ Data is processed with `DataProcess()` function to ensure data sanity and effici
 ### Example
 
 ```{r, eval=TRUE}
-data<-DataProcess(data)
+data <- DataProcess(data)
 ```
 
 # `MSstatsQC` core functions: control charts
@@ -108,24 +109,24 @@ The true values of mean and variability of a metric is typically unknown, and th
 ### Example
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL ,selectSD = NULL )
-#An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL ,selectSD = NULL )
+# An X chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+XmRChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE, ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL)
+# An X chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+XmRChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = FALSE, ytitle = "X Chart : peak area", type = "mean", selectMean = NULL, selectSD = NULL)
 ```
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#An mR chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL )
-#An mR chart when a guide set (1-20 runs) is used to monitor the variability of retention time
-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL )
-#Mean and standard deviation of LVNELTEFAK is known
-XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 0.5 )
+# An mR chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+XmRChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "mR Chart : peak area", type = "variability", selectMean = NULL, selectSD = NULL)
+# An mR chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+XmRChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "mR Chart : retention time", type = "variability", selectMean = NULL, selectSD = NULL)
+# Mean and standard deviation of LVNELTEFAK is known
+XmRChart(data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 0.5)
 ```
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#Mean and standard deviation of LVNELTEFAK is known
-XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 0.5 )
+# Mean and standard deviation of LVNELTEFAK is known
+XmRChart(data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, selectSD = 0.5)
 ```
 # `MSstatsQC` core functions: `CUSUMChart()`
 
@@ -147,17 +148,17 @@ XmRChart( data, "LVNELTEFAK", metric = "BestRetentionTime", selectMean = 28.5, s
 ### Example
 
 ```{r, eval=TRUE, echo =FALSE, fig.width=8, fig.height=5}
-#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
-#A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMm Chart : peak area", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL  )
+# A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of retention time
+CUSUMChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMm Chart : retention time", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL, selectSD = NULL)
+# A CUSUMm chart when a guide set (1-20 runs) is used to monitor the mean of total peak area
+CUSUMChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMm Chart : peak area", type = "mean", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL, selectSD = NULL)
 ```
 
 ```{r, eval=TRUE, echo =FALSE, fig.width=8, fig.height=5}
-#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of retention time
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMv Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
-#A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
-CUSUMChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL ,selectSD = NULL )
+# A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of retention time
+CUSUMChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = TRUE, ytitle = "CUSUMv Chart : retention time", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL, selectSD = NULL)
+# A CUSUMv chart when a guide set (1-20 runs) is used to monitor the variability of total peak area
+CUSUMChart(data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "TotalArea", normalization = TRUE, ytitle = "CUSUMv Chart : peak area", type = "variability", referenceValue = 0.5, decisionInterval = 5, selectMean = NULL, selectSD = NULL)
 ```
 # `MSstatsQC` core functions: `ChangePointEstimator()`
 
@@ -180,8 +181,8 @@ Follow-up change point analysis is helpful to identify the time of a change for 
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(data, "TAAYVNAIEK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
+XmRChart(data, "TAAYVNAIEK", metric = "BestRetentionTime", type = "mean", L = 1, U = 20)
+ChangePointEstimator(data, "TAAYVNAIEK", metric = "BestRetentionTime", type = "mean", L = 1, U = 20)
 ```
 
 We don't recommend using this function when all the observations are within control limits. In the case of retention time monitoring of LVNELTEFAK, there is no need to further analyse change point.
@@ -192,8 +193,8 @@ The time of a variability change can be analyzed with the same fucntion. For exa
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
 # Retention time >> first 20 observations are used as a guide set
-XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="mean", L = 1, U = 20)
-ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type="variability", L = 1, U = 20)
+XmRChart(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type = "mean", L = 1, U = 20)
+ChangePointEstimator(data, "YSTDVSVDEVK", metric = "BestRetentionTime", type = "variability", L = 1, U = 20)
 ```
 
 # `MSstatsQC` summary functions: river and radar plots
@@ -227,8 +228,10 @@ RadarPlot(data = S9Site54, L = 1, U = 20, method = "CUSUM")
 ```{r, eval=TRUE,fig.width=10, fig.height=5}
 # A decision map for Site 54 can be generated using the following script
 # Retention time >> first 20 observations are used as a guide set
-DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
-                         L = 1, U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
+DecisionMap(data,
+    method = "XmR", peptideThresholdRed = 0.25, peptideThresholdYellow = 0.10,
+    L = 1, U = 20, type = "mean", title = "Decision map", listMean = NULL, listSD = NULL
+)
 ```
 
 # Use case: longitudinal profiling of DDA with missing values
@@ -236,38 +239,38 @@ DecisionMap(data,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow 
 We analyzed the QCloudDDA dataset. The dataset had many missing values and MSstatsQC 2.0 processed these missing values and generated control charts and summary plots for longitudinal performance assessment.
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-mydata<-DataProcess(MSstatsQC::QCloudDDA)
-#Creating a missing data map
+mydata <- DataProcess(MSstatsQC::QCloudDDA)
+# Creating a missing data map
 MissingDataMap(mydata)
-XmRChart(mydata, "EACFAVEGPK", metric = "missing", type="mean", L = 1, U = 15)
-mydata<-RemoveMissing(mydata)
-RiverPlot(mydata[,-9], L=1, U=15, method="XmR")
-RadarPlot(mydata[,-9], L=1, U=15, method="XmR")
+XmRChart(mydata, "EACFAVEGPK", metric = "missing", type = "mean", L = 1, U = 15)
+mydata <- RemoveMissing(mydata)
+RiverPlot(mydata[, -9], L = 1, U = 15, method = "XmR")
+RadarPlot(mydata[, -9], L = 1, U = 15, method = "XmR")
 ```
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-mydata<-DataProcess(MSstatsQC::QCloudDDA)
-#Creating a missing data map
+mydata <- DataProcess(MSstatsQC::QCloudDDA)
+# Creating a missing data map
 MissingDataMap(mydata)
 ```
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#Creating an X chart for missing counts
-XmRChart(mydata, "EACFAVEGPK", metric = "missing", type="mean", L = 1, U = 15)
+# Creating an X chart for missing counts
+XmRChart(mydata, "EACFAVEGPK", metric = "missing", type = "mean", L = 1, U = 15)
 ```
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#Removing missing values and analyzing the data
-mydata<-RemoveMissing(mydata)
-RiverPlot(mydata[,-9], L=1, U=15, method="XmR")
-RadarPlot(mydata[,-9], L=1, U=15, method="XmR")
+# Removing missing values and analyzing the data
+mydata <- RemoveMissing(mydata)
+RiverPlot(mydata[, -9], L = 1, U = 15, method = "XmR")
+RadarPlot(mydata[, -9], L = 1, U = 15, method = "XmR")
 ```
 # Use case: longitudinal profiling of QC with iRT peptides
 
 We analyzed the QuiCDIA dataset which included longitudinal profiles of 11 iRT peptides. The data comprised two DIA experiments acquired in duplicate with 11 days in between the two measurement sequences. 
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#Checking missing values and analyzing the data
+# Checking missing values and analyzing the data
 MissingDataMap(MSstatsQC::QuiCDIA)
 RiverPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 RadarPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
@@ -278,7 +281,7 @@ RadarPlot(data = QuiCDIA, L = 1, U = 20, method = "XmR")
 Following the implementation in Dogu et al. (2017), we analyzed the QCloudSRM dataset. This dataset was previously evaluated by the experts as well-performing for all peptides and metrics, except for the outlying peptide TCVADESHAGCEK.
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-#Checking missing values and analyzing the data
+# Checking missing values and analyzing the data
 MissingDataMap(MSstatsQC::QCloudSRM)
 RiverPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
 RadarPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
@@ -291,17 +294,19 @@ Plots created by the core plot functions are generate by `plotly` which is an R 
 ### Example
 
 ```{r, eval=FALSE}
-#Saving plots generated by plotly
-p<-XmRChart( data, peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE,
-                      ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL )
+# Saving plots generated by plotly
+p <- XmRChart(data,
+    peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE,
+    ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL
+)
 htmlwidgets::saveWidget(p, "Aplot.html")
 export(p, file = "Aplot.png")
 
-#Saving plots generated by ggplot2
-p<-RiverPlot(data, L=1, U=20)
-ggsave(filename="Summary.pdf", plot=p)
-#or
-ggsave(filename="Summary.png", plot=p)
+# Saving plots generated by ggplot2
+p <- RiverPlot(data, L = 1, U = 20)
+ggsave(filename = "Summary.pdf", plot = p)
+# or
+ggsave(filename = "Summary.png", plot = p)
 ```
 
 # `MSstatsQC-ML` functions: MSstatsQC-ML.trainR() and MSstatsQC.deployR()
@@ -311,19 +316,20 @@ ggsave(filename="Summary.png", plot=p)
 ### Example
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-# first 20 observations are used as a guide set. Only retention time and total area is used 
-S9Site54.dataML<-DataProcess(MSstatsQC::S9Site54[,-c(4,5,8)])
-colnames(S9Site54.dataML)[1]<-c("idfile")
-colnames(S9Site54.dataML)[2]<-c("peptide")
-S9Site54.dataML$peptide <-as.factor(S9Site54.dataML$peptide)
-S9Site54.dataML$idfile<-as.numeric(S9Site54.dataML$idfile)
+# first 20 observations are used as a guide set. Only retention time and total area is used
+S9Site54.dataML <- DataProcess(MSstatsQC::S9Site54[, -c(4, 5, 8)])
+colnames(S9Site54.dataML)[1] <- c("idfile")
+colnames(S9Site54.dataML)[2] <- c("peptide")
+S9Site54.dataML$peptide <- as.factor(S9Site54.dataML$peptide)
+S9Site54.dataML$idfile <- as.numeric(S9Site54.dataML$idfile)
 S9Site54.dataML <- within(S9Site54.dataML, rm(Annotations, missing))
-guide.set <- dplyr::filter(S9Site54.dataML, idfile<=20)
-Test.set <-  dplyr::filter(S9Site54.dataML, idfile>20)
+guide.set <- dplyr::filter(S9Site54.dataML, idfile <= 20)
+Test.set <- dplyr::filter(S9Site54.dataML, idfile > 20)
 Test.set <- S9Site54.dataML
-#MSstatsQC.ML.sim.size.detectR(guide.set, sim.start=10, sim.end=100)
-rf_model = MSstatsQC.ML.trainR(guide.set, sim.size=10)
-MSstatsQC.ML.deployR(Test.set, guide.set, rf_model=rf_model)
+head(Test.set)
+# MSstatsQC.ML.sim.size.detectR(guide.set, sim.start=10, sim.end=100)
+# rf_model = MSstatsQC.ML.trainR(guide.set, sim.size=10)
+# MSstatsQC.ML.deployR(Test.set, guide.set, rf_model=rf_model)
 ```
 
 ## Project website

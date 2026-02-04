@@ -58,13 +58,19 @@ head(sampleData)
 levels(sampleData$Precursor)
 # Calculate CUSUM statistics
 CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-           ytitle = "CUSUMv", type = "variability")
-CUSUMChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-           selectMean = 27.78, selectSD = 8.19)
+CUSUMChart(
+    data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+    ytitle = "CUSUMv", type = "variability"
+)
+CUSUMChart(
+    data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+    selectMean = 27.78, selectSD = 8.19
+)
 CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-CUSUMChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-           selectMean = 35097129, selectSD = 34132861)
+CUSUMChart(
+    data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+    selectMean = 35097129, selectSD = 34132861
+)
 CUSUMChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
 }
 \keyword{Sum,}

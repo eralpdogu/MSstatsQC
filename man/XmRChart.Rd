@@ -52,13 +52,19 @@ head(sampleData)
 levels(sampleData$Precursor)
 # Calculate X and mR statistics
 XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-         ytitle = "moving ranges", type = "variability")
-XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-         selectMean = 27.78, selectSD = 8.19)
+XmRChart(
+    data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+    ytitle = "moving ranges", type = "variability"
+)
+XmRChart(
+    data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+    selectMean = 27.78, selectSD = 8.19
+)
 XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-         selectMean = 35097129, selectSD = 34132861)
+XmRChart(
+    data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+    selectMean = 35097129, selectSD = 34132861
+)
 XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
 XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "MinStartTime")
 }

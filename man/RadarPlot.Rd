@@ -40,15 +40,20 @@ head(sampleData)
 # Draw XmR radar plot
 RadarPlot(data = sampleData)
 RadarPlot(data = sampleData, method = "CUSUM")
-RadarPlot(data = sampleData,
-                listMean = list("BestRetentionTime" = 27.78,
-                                "TotalArea" = 35097129,
-                                "MaxFWHM" = 0.28,
-                                "MinStartTime" = 24),
-                listSD = list("BestRetentionTime" = 8.19,
-                              "TotalArea" = 34132861,
-                              "MaxFWHM" = 0.054,
-                              "MinStartTime" = 24)
-                )
+RadarPlot(
+    data = sampleData,
+    listMean = list(
+        "BestRetentionTime" = 27.78,
+        "TotalArea" = 35097129,
+        "MaxFWHM" = 0.28,
+        "MinStartTime" = 24
+    ),
+    listSD = list(
+        "BestRetentionTime" = 8.19,
+        "TotalArea" = 34132861,
+        "MaxFWHM" = 0.054,
+        "MinStartTime" = 24
+    )
+)
 }
 \keyword{XmR}

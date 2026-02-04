@@ -31,35 +31,38 @@
 #' DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
 #' DecisionMap(data = sampleData, method = "XmR")
 #' DecisionMap(data = sampleData, method = "XmR", type = "variability")
-
 #########################################################################################################
 DecisionMap <- function(data = NULL, method = "XmR",
-                          peptideThresholdRed = 0.7, peptideThresholdYellow = 0.5,
-                          L = 1, U = 5, type = "mean", title = "heatmap plot",
-                          listMean = NULL, listSD = NULL) {
+                        peptideThresholdRed = 0.7, peptideThresholdYellow = 0.5,
+                        L = 1, U = 5, type = "mean", title = "heatmap plot",
+                        listMean = NULL, listSD = NULL) {
+    if (is.null(data)) {
+        return()
+    }
+    if (!is.data.frame(data)) {
+        stop(data)
+    }
 
-  if(is.null(data))
-    return()
-  if(!is.data.frame(data)){
-    stop(data)
-  }
+    data.metrics <- c(find_custom_metrics(data))
 
-  data.metrics <- c(find_custom_metrics(data))
+    # data.metrics <- data.metrics[!data.metrics %in% remove]
 
-  #data.metrics <- data.metrics[!data.metrics %in% remove]
+    data <- heatmap.DataFrame(
+        data, data.metrics, method, peptideThresholdRed,
+        peptideThresholdYellow, L, U, type, listMean, listSD
+    )
 
-  data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
-                            peptideThresholdYellow, L, U, type,listMean, listSD)
-
-  p <- ggplot(data,aes(data$time,data$metric, group = data$bin, fill = data$bin))
-  p <- p + scale_fill_manual(values =
-                               c("Pass" = "blue","Fail" = "red","Warning" = "yellow"))
-  p <- p + geom_tile(colour="white",size=.1)
-  p <- p + coord_equal()
-  p <- p + removeGrid()
-  p <- p + rotateTextX()
-  p <- p + ggtitle(title,subtitle = "")
-  p <- p + labs(x=NULL, y=NULL)
-  p <- p +  theme(axis.text=element_text(size=12),legend.title = element_blank())
-  p
+    p <- ggplot(data, aes(data$time, data$metric, group = data$bin, fill = data$bin))
+    p <- p + scale_fill_manual(
+        values =
+            c("Pass" = "blue", "Fail" = "red", "Warning" = "yellow")
+    )
+    p <- p + geom_tile(colour = "white", size = .1)
+    p <- p + coord_equal()
+    p <- p + removeGrid()
+    p <- p + rotateTextX()
+    p <- p + ggtitle(title, subtitle = "")
+    p <- p + labs(x = NULL, y = NULL)
+    p <- p + theme(axis.text = element_text(size = 12), legend.title = element_blank())
+    p
 }

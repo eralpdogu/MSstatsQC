@@ -7,25 +7,25 @@
 #' @examples
 #' # The data is "S9Site54" which is defined in the package.
 #' data <- DataProcess(S9Site54)
+DataProcess <- function(data = NULL) {
+    if (is.null(data)) {
+        return()
+    }
+    ## save process output in each step #### creating a log file ########### from Meena's code
+    allfiles <- list.files()
 
-DataProcess <- function(data = NULL){
-  if(is.null(data))
-    return()
-  ## save process output in each step #### creating a log file ########### from Meena's code
-  allfiles <- list.files()
+    num <- 0
+    filenaming <- "./log/msstatsqc"
+    finalfile <- "msstatsqc.log"
 
-  num <- 0
-  filenaming <- "./log/msstatsqc"
-  finalfile <- "msstatsqc.log"
+    while (is.element(finalfile, allfiles)) {
+        num <- num + 1
+        finalfile <- paste(paste(filenaming, num, sep = "-"), ".log", sep = "")
+    }
 
-  while(is.element(finalfile,allfiles)) {
-    num <- num+1
-    finalfile <- paste(paste(filenaming,num,sep="-"),".log",sep="")
-  }
+    data <- input.sanity.check(data, finalfile)
 
-  data <- input.sanity.check(data, finalfile)
-
-  missing<-rowSums(is.na(data))
-  data<-cbind(data,missing)
-  return(data)
+    missing <- rowSums(is.na(data))
+    data <- cbind(data, missing)
+    return(data)
 }

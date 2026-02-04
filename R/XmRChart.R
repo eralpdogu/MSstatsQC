@@ -24,53 +24,63 @@
 #' levels(sampleData$Precursor)
 #' # Calculate X and mR statistics
 #' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'          ytitle = "moving ranges", type = "variability")
-#' XmRChart(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'          selectMean = 27.78, selectSD = 8.19)
+#' XmRChart(
+#'     data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'     ytitle = "moving ranges", type = "variability"
+#' )
+#' XmRChart(
+#'     data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'     selectMean = 27.78, selectSD = 8.19
+#' )
 #' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' XmRChart(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-#'          selectMean = 35097129, selectSD = 34132861)
+#' XmRChart(
+#'     data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+#'     selectMean = 35097129, selectSD = 34132861
+#' )
 #' XmRChart(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
 #' XmRChart(data = sampleData, peptide = "LVNELTEFAK", metric = "MinStartTime")
 ################################################################################################################
 XmRChart <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual observations", type = "mean",
                      selectMean = NULL, selectSD = NULL) {
-  #data <- input_checking(data)
-  if(is.null(data))
-    return()
-  if(!is.data.frame(data)){
-    stop(data)
-  }
-  metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
-  precursor.data <- data[data$Precursor==peptide,]
-  plot.data <- XmR.data.prepare(metricData, L, U, type, selectMean, selectSD)
+    # data <- input_checking(data)
+    if (is.null(data)) {
+        return()
+    }
+    if (!is.data.frame(data)) {
+        stop(data)
+    }
+    metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
+    precursor.data <- data[data$Precursor == peptide, ]
+    plot.data <- XmR.data.prepare(metricData, L, U, type, selectMean, selectSD)
 
-  pal <- c("blue","red")
-  pal <- setNames(pal,c("InRange","OutRange"))
-  x <- list(
-    title = paste("Time : ", peptide)
-  )
-  y <- list(
-    title = ytitle
-  )
-  if( type=="mean" ){
-  plot_ly(plot.data, x = ~QCno, y = ~IndividualValue,showlegend = TRUE, width = 500) %>%
-    add_trace(x = ~QCno, y = ~IndividualValue, color = ~InRangeOutRange, type="scatter",
-              mode="markers", colors = pal , showlegend = TRUE) %>%
-    add_lines(x = ~QCno, y = ~IndividualValue, color = I("cornflowerblue"), showlegend = FALSE) %>%
-    add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
-    add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
-    layout(xaxis = x, yaxis = y)
-  }
-  else {
-    plot_ly(plot.data, x = ~QCno, y = ~mR,showlegend = TRUE, width = 500) %>%
-      add_trace(x = ~QCno, y = ~mR, color = ~InRangeOutRange, type="scatter",
-                mode="markers", colors = pal , showlegend = TRUE) %>%
-      add_lines(x = ~QCno, y = ~mR, color = I("cornflowerblue"), showlegend = FALSE) %>%
-      add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
-      add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
-      layout(xaxis = x, yaxis = y)
+    pal <- c("blue", "red")
+    pal <- setNames(pal, c("InRange", "OutRange"))
+    x <- list(
+        title = paste("Time : ", peptide)
+    )
+    y <- list(
+        title = ytitle
+    )
+    if (type == "mean") {
+        plot_ly(plot.data, x = ~QCno, y = ~IndividualValue, showlegend = TRUE, width = 500) %>%
+            add_trace(
+                x = ~QCno, y = ~IndividualValue, color = ~InRangeOutRange, type = "scatter",
+                mode = "markers", colors = pal, showlegend = TRUE
+            ) %>%
+            add_lines(x = ~QCno, y = ~IndividualValue, color = I("cornflowerblue"), showlegend = FALSE) %>%
+            add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
+            add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
+            layout(xaxis = x, yaxis = y)
+    } else {
+        plot_ly(plot.data, x = ~QCno, y = ~mR, showlegend = TRUE, width = 500) %>%
+            add_trace(
+                x = ~QCno, y = ~mR, color = ~InRangeOutRange, type = "scatter",
+                mode = "markers", colors = pal, showlegend = TRUE
+            ) %>%
+            add_lines(x = ~QCno, y = ~mR, color = I("cornflowerblue"), showlegend = FALSE) %>%
+            add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
+            add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE) %>%
+            layout(xaxis = x, yaxis = y)
     }
 }

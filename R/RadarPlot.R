@@ -20,116 +20,145 @@
 #' # Draw XmR radar plot
 #' RadarPlot(data = sampleData)
 #' RadarPlot(data = sampleData, method = "CUSUM")
-#' RadarPlot(data = sampleData,
-#'                 listMean = list("BestRetentionTime" = 27.78,
-#'                                 "TotalArea" = 35097129,
-#'                                 "MaxFWHM" = 0.28,
-#'                                 "MinStartTime" = 24),
-#'                 listSD = list("BestRetentionTime" = 8.19,
-#'                               "TotalArea" = 34132861,
-#'                               "MaxFWHM" = 0.054,
-#'                               "MinStartTime" = 24)
-#'                 )
+#' RadarPlot(
+#'     data = sampleData,
+#'     listMean = list(
+#'         "BestRetentionTime" = 27.78,
+#'         "TotalArea" = 35097129,
+#'         "MaxFWHM" = 0.28,
+#'         "MinStartTime" = 24
+#'     ),
+#'     listSD = list(
+#'         "BestRetentionTime" = 8.19,
+#'         "TotalArea" = 34132861,
+#'         "MaxFWHM" = 0.054,
+#'         "MinStartTime" = 24
+#'     )
+#' )
 ###########################################################################################
-RadarPlot <- function(data = NULL, L=1, U=5, method = "XmR", listMean=NULL, listSD=NULL) {
+RadarPlot <- function(data = NULL, L = 1, U = 5, method = "XmR", listMean = NULL, listSD = NULL) {
+    if (method == "XmR") {
+        if (is.null(data)) {
+            return()
+        }
+        data.metrics <- c(find_custom_metrics(data))
+        remove <- c("MinStartTime", "MaxEndTime")
+        data.metrics <- data.metrics[!data.metrics %in% remove]
+        dat <- XmR.Radar.Plot.DataFrame(data, data.metrics, L, U, listMean, listSD)
+        OutRangeQCno <- dat$OutRangeQCno
+        peptides <- dat$peptides
+        orderby <- dat$orderby
+        group <- dat$group
+        ggplot(dat, aes(
+            y = OutRangeQCno, x = reorder(peptides, orderby),
+            group = group, colour = group, fill = group
+        )) +
+            coord_polar() +
+            geom_point() +
+            scale_fill_manual(
+                breaks = c(
+                    "Mean increase",
+                    "Mean decrease",
+                    "Variability increase",
+                    "Variability decrease"
+                ),
+                values = c(
+                    "Mean increase" = "#E69F00",
+                    "Mean decrease" = "#56B4E9",
+                    "Variability increase" = "#009E73",
+                    "Variability decrease" = "#D55E00"
+                )
+            ) +
+            scale_color_manual(
+                breaks = c(
+                    "Mean increase",
+                    "Mean decrease",
+                    "Variability increase",
+                    "Variability decrease"
+                ),
+                values = c(
+                    "Mean increase" = "#E69F00",
+                    "Mean decrease" = "#56B4E9",
+                    "Variability increase" = "#009E73",
+                    "Variability decrease" = "#D55E00"
+                )
+            ) +
+            facet_wrap(~metric, nrow = ceiling(length(data.metrics) / 4)) +
+            geom_polygon(alpha = 0.5) +
+            ggtitle("Radar plot : X and mR") +
+            xlab("") +
+            ylab("# of out of control \nruns") +
+            theme(
+                axis.text.x = element_text(face = "bold", size = rel(0.7)),
+                axis.title.y = element_text(size = 12),
+                axis.text.y = element_text(size = 12, hjust = 0.5),
+                plot.title = element_text(size = 15, face = "bold", margin = margin(10, 0, 10, 0)),
+                legend.title = element_blank(),
+                legend.text = element_text(size = 12),
+                panel.grid.major = element_line(colour = "firebrick3", linetype = "dotted"),
+                plot.margin = unit(c(1, 3, 1, 1), "lines")
+            )
+    } else if (method == "CUSUM") {
+        if (is.null(data)) {
+            return()
+        }
+        data.metrics <- c(find_custom_metrics(data))
+        remove <- c("MinStartTime", "MaxEndTime")
+        data.metrics <- data.metrics[!data.metrics %in% remove]
+        dat <- CUSUM.Radar.Plot.DataFrame(data, data.metrics, L, U, listMean, listSD)
+        OutRangeQCno <- dat$OutRangeQCno
+        peptides <- dat$peptides
+        orderby <- dat$orderby
+        group <- dat$group
 
-  if(method == "XmR") {
-    if(is.null(data))
-      return()
-    data.metrics <- c(find_custom_metrics(data))
-    remove <- c("MinStartTime","MaxEndTime")
-    data.metrics <- data.metrics[!data.metrics %in% remove]
-    dat <- XmR.Radar.Plot.DataFrame(data, data.metrics, L,U,listMean,listSD)
-    OutRangeQCno <- dat$OutRangeQCno
-    peptides <- dat$peptides
-    orderby <- dat$orderby
-    group <- dat$group
-    ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
-                    group = group, colour = group, fill=group)) +
-      coord_polar() +
-      geom_point() +
-      scale_fill_manual(breaks = c("Mean increase",
-                                   "Mean decrease",
-                                   "Variability increase",
-                                   "Variability decrease"),
-                        values = c("Mean increase" = "#E69F00",
-                                   "Mean decrease" = "#56B4E9",
-                                   "Variability increase" = "#009E73",
-                                   "Variability decrease" = "#D55E00")) +
-      scale_color_manual(breaks = c("Mean increase",
-                                    "Mean decrease",
-                                    "Variability increase",
-                                    "Variability decrease"),
-                         values = c("Mean increase" = "#E69F00",
-                                    "Mean decrease" = "#56B4E9",
-                                    "Variability increase" = "#009E73",
-                                    "Variability decrease" = "#D55E00")) +
-      facet_wrap(~metric,nrow = ceiling(length(data.metrics)/4)) +
-      geom_polygon(alpha=0.5)+
-      ggtitle("Radar plot : X and mR") +
-      xlab("") +
-      ylab("# of out of control \nruns") +
-      theme(
-        axis.text.x = element_text(face="bold",size = rel(0.7)),
-        axis.title.y=element_text(size=12),
-        axis.text.y=element_text(size=12, hjust=0.5),
-        plot.title = element_text(size=15, face="bold",margin = margin(10, 0, 10, 0)),
-        legend.title=element_blank(),
-        legend.text = element_text(size = 12),
-        panel.grid.major = element_line(colour = "firebrick3",linetype = "dotted"),
-        plot.margin = unit(c(1,3,1,1), "lines")
-      )
-  }
-
-  else if(method == "CUSUM") {
-    if(is.null(data))
-      return()
-    data.metrics <- c(find_custom_metrics(data))
-    remove <- c("MinStartTime","MaxEndTime")
-    data.metrics <- data.metrics[!data.metrics %in% remove]
-    dat <- CUSUM.Radar.Plot.DataFrame(data, data.metrics, L,U,listMean,listSD)
-    OutRangeQCno <- dat$OutRangeQCno
-    peptides <- dat$peptides
-    orderby <- dat$orderby
-    group <- dat$group
-
-    ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
-                    group = group, colour = group, fill = group)) +
-      coord_polar() +
-      geom_point() +
-      scale_fill_manual(breaks = c("Mean increase",
-                                   "Mean decrease",
-                                   "Variability increase",
-                                   "Variability decrease"),
-                        values = c("Mean increase" = "#E69F00",
-                                   "Mean decrease" = "#56B4E9",
-                                   "Variability increase" = "#009E73",
-                                   "Variability decrease" = "#D55E00")) +
-      scale_color_manual(breaks = c("Mean increase",
-                                    "Mean decrease",
-                                    "Variability increase",
-                                    "Variability decrease"),
-                         values = c("Mean increase" = "#E69F00",
-                                    "Mean decrease" = "#56B4E9",
-                                    "Variability increase" = "#009E73",
-                                    "Variability decrease" = "#D55E00")) +
-      facet_wrap(~metric,nrow = ceiling(length(data.metrics)/4)) +
-      geom_polygon(alpha=0.5)+
-      ggtitle("Radar plot : CUSUMm and CUSUMv") +
-      xlab("") +
-      ylab("# of out of control \nruns") +
-
-      theme(
-        axis.text.x = element_text(face="bold",size = rel(0.7)),
-        axis.title.y=element_text(size=12),
-        axis.text.y=element_text(size=12, hjust=0.5),
-        plot.title = element_text(size=15, face="bold",margin = margin(10, 0, 10, 0)),
-        legend.title=element_blank(),
-        legend.text = element_text(size = 12),
-        panel.grid.major = element_line(colour = "firebrick3",linetype = "dotted"),
-        plot.margin = unit(c(1,3,1,1), "lines")
-      )
-  }
-
+        ggplot(dat, aes(
+            y = OutRangeQCno, x = reorder(peptides, orderby),
+            group = group, colour = group, fill = group
+        )) +
+            coord_polar() +
+            geom_point() +
+            scale_fill_manual(
+                breaks = c(
+                    "Mean increase",
+                    "Mean decrease",
+                    "Variability increase",
+                    "Variability decrease"
+                ),
+                values = c(
+                    "Mean increase" = "#E69F00",
+                    "Mean decrease" = "#56B4E9",
+                    "Variability increase" = "#009E73",
+                    "Variability decrease" = "#D55E00"
+                )
+            ) +
+            scale_color_manual(
+                breaks = c(
+                    "Mean increase",
+                    "Mean decrease",
+                    "Variability increase",
+                    "Variability decrease"
+                ),
+                values = c(
+                    "Mean increase" = "#E69F00",
+                    "Mean decrease" = "#56B4E9",
+                    "Variability increase" = "#009E73",
+                    "Variability decrease" = "#D55E00"
+                )
+            ) +
+            facet_wrap(~metric, nrow = ceiling(length(data.metrics) / 4)) +
+            geom_polygon(alpha = 0.5) +
+            ggtitle("Radar plot : CUSUMm and CUSUMv") +
+            xlab("") +
+            ylab("# of out of control \nruns") +
+            theme(
+                axis.text.x = element_text(face = "bold", size = rel(0.7)),
+                axis.title.y = element_text(size = 12),
+                axis.text.y = element_text(size = 12, hjust = 0.5),
+                plot.title = element_text(size = 15, face = "bold", margin = margin(10, 0, 10, 0)),
+                legend.title = element_blank(),
+                legend.text = element_text(size = 12),
+                panel.grid.major = element_line(colour = "firebrick3", linetype = "dotted"),
+                plot.margin = unit(c(1, 3, 1, 1), "lines")
+            )
+    }
 }
-

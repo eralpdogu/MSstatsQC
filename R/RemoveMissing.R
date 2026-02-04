@@ -7,9 +7,7 @@
 #' @examples
 #' # The data is "S9Site54" which is defined in the package.
 #' data <- RemoveMissing(S9Site54)
-
-RemoveMissing <- function(data = NULL){
-
-  data <- data[complete.cases(data),] #work with complete cases
-  return(data)
+RemoveMissing <- function(data = NULL) {
+    data <- data[complete.cases(data), ] # work with complete cases
+    return(data)
 }

@@ -18,9 +18,15 @@ A csv file that is converted from raw files
 A function to convert MSnbase files to MSstatsQC format
 }
 \examples{
-\dontrun{library(RforProteomics)}
-\dontrun{msfile <- getPXD000001mzXML()}
-\dontrun{MSnbaseToMSstatsQC(msfile)}
+\donttest{
+library(RforProteomics)
+}
+\donttest{
+msfile <- getPXD000001mzXML()
+}
+\donttest{
+MSnbaseToMSstatsQC(msfile)
+}
 }
 \keyword{MSnbase,}
 \keyword{input}

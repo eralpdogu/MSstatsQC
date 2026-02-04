@@ -23,38 +23,44 @@
 #' levels(sampleData$Precursor)
 #' # Calculate change point statistics
 #' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'                      ytitle = "Change Point Plot - variability", type = "variability")
-#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'                      selectMean = 27.78, selectSD = 8.19)
+#' ChangePointEstimator(
+#'     data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'     ytitle = "Change Point Plot - variability", type = "variability"
+#' )
+#' ChangePointEstimator(
+#'     data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'     selectMean = 27.78, selectSD = 8.19
+#' )
 #' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-#'                      selectMean = 35097129, selectSD = 34132861)
+#' ChangePointEstimator(
+#'     data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+#'     selectMean = 35097129, selectSD = 34132861
+#' )
 #' ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-
 ChangePointEstimator <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
                                  ytitle = "Change Point Plot - mean", type = "mean", selectMean = NULL,
                                  selectSD = NULL) {
-  if(is.null(data))
-    return()
-  if(!is.data.frame(data)){
-    stop(data)
-  }
-  metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
-  precursor.data <- data[data$Precursor==peptide,]
-  ## Create variables
-  plot.data <- CP.data.prepare(metricData, type)
+    if (is.null(data)) {
+        return()
+    }
+    if (!is.data.frame(data)) {
+        stop(data)
+    }
+    metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
+    precursor.data <- data[data$Precursor == peptide, ]
+    ## Create variables
+    plot.data <- CP.data.prepare(metricData, type)
 
-  x <- list(
-    title = paste("Time : ", peptide)
-  )
-  y <- list(
-    title = ytitle
-  )
+    x <- list(
+        title = paste("Time : ", peptide)
+    )
+    y <- list(
+        title = ytitle
+    )
 
-  plot_ly(plot.data, x = ~QCno, y = ~Et,showlegend = FALSE, width = 500)%>% #,text=precursor.data$Annotations)
-    add_lines(x = ~tho.hat, color = I("red"))%>%
-    add_lines(x = ~QCno, y = ~Et, color = I("cornflowerblue"))%>%
-    add_markers(x = ~QCno, y = ~Et, color = I("blue"))%>%
-    layout(xaxis = x,yaxis = y)
+    plot_ly(plot.data, x = ~QCno, y = ~Et, showlegend = FALSE, width = 500) %>% # ,text=precursor.data$Annotations)
+        add_lines(x = ~tho.hat, color = I("red")) %>%
+        add_lines(x = ~QCno, y = ~Et, color = I("cornflowerblue")) %>%
+        add_markers(x = ~QCno, y = ~Et, color = I("blue")) %>%
+        layout(xaxis = x, yaxis = y)
 }
