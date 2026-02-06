@@ -1,9 +1,10 @@
 #' A function to convert mzQC files to MSstatsQC format
 #'
 #' @param mzQCfile data file to be converted
+#' @param n the number of qc runs
 #' @return A data frame that can be used with MSstatsQC
 #' @keywords mzqc, qcmetrics, input
-#' @return A csv file that is converted from raw files
+#' @return A csv file that is converted from mzQC files
 #' @export
 #' @import jsonlite
 #' @examples
@@ -16,12 +17,12 @@
 #' \donttest{
 #' mzQCToMSstatsQC(msfile)
 #' }
-mzQCToMSstatsQC <- function(mzQCfile) {
-    mzqc_data <- fromJSON("mzqc-reanalyse.mzqc")
+mzQCToMSstatsQC <- function(mzQCfile, n) {
+    mzqc_data <- fromJSON(mzQCfile)
 
     MSstatsQCdata <- data.frame()
 
-    for (i in 1:49) {
+    for (i in 1:n) {
         df <- cbind(
             AcquiredTime = mzqc_data$mzQC$runQualities$metadata$inputFiles[[i]]$fileProperties[[1]]$value,
             Precursor = mzqc_data$mzQC$runQualities$qualityMetrics[[i]]$value[[2]]$Precursor,
