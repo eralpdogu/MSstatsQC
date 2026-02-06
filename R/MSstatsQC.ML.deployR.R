@@ -142,9 +142,9 @@ MSstatsQC.ML.deployR <- function(Test.set, guide.set, rf_model) {
 
     interpret.plots
 
-    c("Drew the plots for interpretation")
+    message("Drew the plots for interpretation")
 
     decision.map
 
-    c("Drew the plot for final evaluation")
+    message("Drew the plot for final evaluation")
 }
