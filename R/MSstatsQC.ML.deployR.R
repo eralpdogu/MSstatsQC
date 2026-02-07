@@ -140,11 +140,10 @@ MSstatsQC.ML.deployR <- function(Test.set, guide.set, rf_model) {
             axis.ticks.length = unit(0, "pt")
         )
 
-    interpret.plots
+    output_list <- list(
+      InterpretationPlots = interpret.plots,
+      DecisionMap = decision.map
+    )
 
-    message("Drew the plots for interpretation")
-
-    decision.map
-
-    message("Drew the plot for final evaluation")
+    return(output_list)
 }

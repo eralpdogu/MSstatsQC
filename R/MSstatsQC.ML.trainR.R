@@ -60,10 +60,12 @@ MSstatsQC.ML.trainR <- function(guide.set,
     # d<-rbind(d1,d2, d3, d4,d5, d6)
     ## 80% of the sample size
     # smp_size <- floor(0.8 * nrow(d))
-    h2o.init()
-
-    d <- as.h2o(d)
+    if (!requireNamespace("h2o", quietly = TRUE)) {
+      stop("The h2o package is required.")
+    }
+    h2o::h2o.init(nthreads = -1)
     d$RESPONSE <- as.factor(d$RESPONSE)
+    d <- as.h2o(d)
 
     # train_ind <- sample(seq_len(nrow(d)), size = smp_size)
     splits <- h2o.splitFrame(
