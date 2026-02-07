@@ -1,0 +1,27 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/MSstatsQC.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/ChangePointEstimator.html</loc></url>
+<url><loc>/reference/CUSUMChart.html</loc></url>
+<url><loc>/reference/DataProcess.html</loc></url>
+<url><loc>/reference/DecisionMap.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/MissingDataMap.html</loc></url>
+<url><loc>/reference/MSnbaseToMSstatsQC.html</loc></url>
+<url><loc>/reference/MSstatsQC.ML.deployR.html</loc></url>
+<url><loc>/reference/MSstatsQC.ML.sim.size.detectR.html</loc></url>
+<url><loc>/reference/MSstatsQC.ML.trainR.html</loc></url>
+<url><loc>/reference/mzQCToMSstatsQC.html</loc></url>
+<url><loc>/reference/QCloudDDA.html</loc></url>
+<url><loc>/reference/QCloudSRM.html</loc></url>
+<url><loc>/reference/QuiCDIA.html</loc></url>
+<url><loc>/reference/RadarPlot.html</loc></url>
+<url><loc>/reference/RemoveMissing.html</loc></url>
+<url><loc>/reference/RiverPlot.html</loc></url>
+<url><loc>/reference/S9Site54.html</loc></url>
+<url><loc>/reference/XmRChart.html</loc></url>
+</urlset>
+
