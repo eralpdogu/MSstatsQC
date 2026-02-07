@@ -11,29 +11,34 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+# Introduction to MSstatsQC
 
-# Introduction 
+Liquid chromatography coupled with mass spectrometry (LC-MS) is the gold standard for peptide quantification in complex matrices. However, achieving reproducible results across different laboratories and runs requires rigorous monitoring. This involves two critical components: **System Suitability Tests (SST)** to verify instrumentation performance, and **Quality Control (QC)** to ensure in-process quality assurance.
 
-Liquid chromatography coupled with mass spectrometry (LC-MS) is a powerful tool for detection and quantification of peptides in complex matrices. An important objective of targeted LC-MS is to obtain peptide quantifications that are (1) suitable for the purpose of the investigation, and (2) reproducible across laboratories and runs.  The first objective is achieved by system suitability tests (SST), which verify that mass spectrometric instrumentation performs as specified. The second objective is achieved by quality control (QC), which provides in-process quality assurance of the sample profile. A common aspect of SST and QC is the longitudinal nature of their data. Although SST and QC receive a lot of attention in the proteomic community, the currently used statistical methods are fairly limited. 
-`MSstatsQC` improves upon the existing statistical methodology for SST and QC. It translates the modern methods of longitudinal statistical process control, such as simultaneous and time weighted control charts and change point analysis to the context of LC-MS experiments The methods are implemented in an open-source R-based software package (www.msstats.org/msstatsqc), and are available for use stand-alone, or for integration with automated pipelines. Example datasets include SRM based system suitability dataset from CPTAC Study 9.1 at Site 54, DDA and SRM based QC datasets from the QCloud system and a dataset for DIA type quantification for iRT peptides from QuiC system. Although the first example here focus on targeted proteomics, the statistical methods more generally apply. Version 2.0 includes data processing extensions for missing value handling. DDA and DIA examples can be found at the end of this document. 
+While the longitudinal nature of SST and QC data is well recognized, traditional statistical methods often fall short in detecting subtle drifts. **MSstatsQC** addresses this gap by translating modern **Statistical Process Control (SPC)** methods—such as simultaneous and time-weighted control charts and change point analysis—into the context of LC-MS experiments.
 
-The latest release of the package includes MSstatsQC-ML, a machine learning approach to system suitability and quality control that optimizes decision making from standard mixtures with many analytes and metrics. MSstatsQC-ML combines supervised tree-based machine learning classifiers with experimental design strategies to simulate possible suboptimal MS runs that have not been observed yet. For training the classifiers, the proposed approach incorporates
-informative features from the analyte’s metrics. Analysis of longitudinal values of each
-feature allows us to interpret the root causes of loss of performance and helps design
-preventive actions to reduce nuisance variation.
+## Key Features & Innovations
 
-The latest release also includes a converter function for mzQC format 
+* **MSstatsQC-ML (Machine Learning):** The latest release introduces a cutting-edge machine learning approach optimized for decision-making in complex standard mixtures. By combining supervised tree-based classifiers with experimental design strategies, `MSstatsQC-ML` can simulate unobserved, suboptimal MS runs. This allows for the training of robust models even with limited failure data, enabling users to interpret the root causes of performance loss and design preventive actions.
 
-This vignette summarizes various aspects of all functionalities in `MSstatsQC` package.
+* **Versatility & Compatibility:** The package supports data processing for missing values (v2.0) and includes a converter function for the standardized **mzQC** format.
 
-# Installation
-To install this package, start R and enter:
-```{r,eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
+* **Proven Application:** The methods are demonstrated using diverse datasets, including SRM-based system suitability data (CPTAC Study 9.1, Site 54), DDA and SRM-based QC datasets (QCloud system), and DIA quantification for iRT peptides (QuiC system).
+
+This vignette summarizes the functionalities of the `MSstatsQC` package, which is available as a stand-alone R package or for integration into automated pipelines.
+
+## Installation
+
+**Note on System Requirements:**
+The machine learning module (`MSstatsQC-ML`) relies on the `h2o` package, which requires **Java (JDK 8 or higher)** to be installed on your system. Please ensure Java is installed before proceeding.
+
+To install the stable version from Bioconductor:
+
+```{r install-bioc, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-}
+
 BiocManager::install("MSstatsQC")
-#devtools::install_github("eralpdogu/MSstatsQC")
 ```
 
 # Input
@@ -295,28 +300,6 @@ RiverPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
 RadarPlot(data = QCloudSRM, L = 1, U = 20, method = "CUSUM")
 ```
 
-# Output
-
-Plots created by the core plot functions are generate by `plotly` which is an R package for interactive plot generation. These interactive plots created by `MSstatsQC`, can be saved as an html file using the save widget function. If the user wants to save a static png file, then `export` function can be used. The outputs of other MSstatsQC functions are generated by `ggplot2` package and saving those outputs would require using `ggsave` function.
-
-### Example
-
-```{r, eval=FALSE}
-# Saving plots generated by plotly
-p <- XmRChart(data,
-    peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE,
-    ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL
-)
-htmlwidgets::saveWidget(p, "Aplot.html")
-export(p, file = "Aplot.png")
-
-# Saving plots generated by ggplot2
-p <- RiverPlot(data, L = 1, U = 20)
-ggsave(filename = "Summary.pdf", plot = p)
-# or
-ggsave(filename = "Summary.png", plot = p)
-```
-
 # `MSstatsQC-ML` functions: MSstatsQC-ML.trainR() and MSstatsQC.deployR()
 
 `MSstatsQC-ML.trainR()` and `MSstatsQC.deployR()` functions are the two main functions to use machine learning approach proposed in this package. The two packages needs to be used in an order. The user first needs to train a model with the first function (trainR) and than use this function to predict labels per QC run using the second function (deployR). The first function returns a trained RF model from the guide set automating split, feature engineering, hypertuning and finalizing training based on train/validation/test datasets. It requires a simulation size to generate synthetic runs with random artifacts of deterioration. Deployment function labels each peptide per run with a probability of failure output that is defined to evaluate quality of a run.   
@@ -324,32 +307,17 @@ ggsave(filename = "Summary.png", plot = p)
 ### Example
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
-# first 20 observations are used as a guide set. Only retention time and total area is used
-# utils::data("S9Site54", package = "MSstatsQC", envir = environment())
-# S9Site54.dataML <- DataProcess(S9Site54[, -c(4, 5, 8)])
-# colnames(S9Site54.dataML)[1] <- c("idfile")
-# colnames(S9Site54.dataML)[2] <- c("peptide")
-# S9Site54.dataML$peptide <- as.factor(S9Site54.dataML$peptide)
-# S9Site54.dataML$idfile <- as.numeric(S9Site54.dataML$idfile)
-# S9Site54.dataML <- within(S9Site54.dataML, rm(Annotations, missing))
-# guide.set <- dplyr::filter(S9Site54.dataML, idfile <= 20)
-# Test.set <- dplyr::filter(S9Site54.dataML, idfile > 20)
-# Test.set <- S9Site54.dataML
-# rf_model = MSstatsQC.ML.trainR(as.data.frame(guide.set), sim.size = 10)
-# MSstatsQC.ML.deployR(Test.set, guide.set, rf_model=rf_model)
-# 1. Önce H2O'yu başlat (Eğer zaten açıksa sorun çıkarmaz)
+
 if (requireNamespace("h2o", quietly = TRUE)) {
   tryCatch({
     h2o::h2o.init(nthreads = -1)
   }, error = function(e) {
-    warning("H2O başlatılamadı.")
+    warning("H2O did not start.")
   })
 }
 
-# 2. Veriyi KESİN olarak yükle (LazyData kapalı olduğu için bu şart!)
 utils::data("S9Site54", package = "MSstatsQC", envir = environment())
 
-# 3. Veriyi guide.set değişkenine ata ve data.frame olduğundan emin ol
 S9Site54.dataML <- DataProcess(S9Site54[, -c(4, 5, 8)])
 colnames(S9Site54.dataML)[1] <- c("idfile")
 colnames(S9Site54.dataML)[2] <- c("peptide")
@@ -372,8 +340,30 @@ for (p in results$InterpretationPlots) {
 
 ```
 
+# Output
+
+Plots created by the core plot functions are generate by `plotly` which is an R package for interactive plot generation. These interactive plots created by `MSstatsQC`, can be saved as an html file using the save widget function. If the user wants to save a static png file, then `export` function can be used. The outputs of other MSstatsQC functions are generated by `ggplot2` package and saving those outputs would require using `ggsave` function.
+
+### Example
+
+```{r, eval=FALSE}
+# Saving plots generated by plotly
+p <- XmRChart(data,
+    peptide = "TAAYVNAIEK", L = 1, U = 20, metric = "BestRetentionTime", normalization = FALSE,
+    ytitle = "X Chart : retention time", type = "mean", selectMean = NULL, selectSD = NULL
+)
+htmlwidgets::saveWidget(p, "Aplot.html")
+export(p, file = "Aplot.png")
+
+# Saving plots generated by ggplot2
+p <- RiverPlot(data, L = 1, U = 20)
+ggsave(filename = "Summary.pdf", plot = p)
+# or
+ggsave(filename = "Summary.png", plot = p)
+```
+
 ## Project website
-Please use [MSstats.org/MSstatsQC](https://www.MSstats.org/MSstatsQC) and [github repository](https://github.com/eralpdogu/MSstatsQCgui) for further details about this tool.
+Please use [MSstats.org/MSstatsQC](https://www.MSstats.org/MSstatsQC) and [github repository](https://github.com/eralpdogu/MSstatsQC) and [github page](https://eralpdogu.github.io/MSstatsQC/) for further details about this tool.
 
 ## Question and issues
 Please use [Google group](https://groups.google.com/forum/#!forum/msstatsqc) if you want to file bug reports or feature requests.
