@@ -21,6 +21,8 @@ informative features from the analyte’s metrics. Analysis of longitudinal valu
 feature allows us to interpret the root causes of loss of performance and helps design
 preventive actions to reduce nuisance variation.
 
+The latest release also includes a converter function for mzQC format 
+
 This vignette summarizes various aspects of all functionalities in `MSstatsQC` package.
 
 # Installation
@@ -29,8 +31,8 @@ To install this package, start R and enter:
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
-# BiocManager::install("MSstatsQC")
-devtools::install_github("eralpdogu/MSstatsQC")
+BiocManager::install("MSstatsQC")
+#devtools::install_github("eralpdogu/MSstatsQC")
 ```
 
 # Input
@@ -322,19 +324,51 @@ ggsave(filename = "Summary.png", plot = p)
 
 ```{r, eval=TRUE, fig.width=8, fig.height=5}
 # first 20 observations are used as a guide set. Only retention time and total area is used
-S9Site54.dataML <- DataProcess(MSstatsQC::S9Site54[, -c(4, 5, 8)])
+# utils::data("S9Site54", package = "MSstatsQC", envir = environment())
+# S9Site54.dataML <- DataProcess(S9Site54[, -c(4, 5, 8)])
+# colnames(S9Site54.dataML)[1] <- c("idfile")
+# colnames(S9Site54.dataML)[2] <- c("peptide")
+# S9Site54.dataML$peptide <- as.factor(S9Site54.dataML$peptide)
+# S9Site54.dataML$idfile <- as.numeric(S9Site54.dataML$idfile)
+# S9Site54.dataML <- within(S9Site54.dataML, rm(Annotations, missing))
+# guide.set <- dplyr::filter(S9Site54.dataML, idfile <= 20)
+# Test.set <- dplyr::filter(S9Site54.dataML, idfile > 20)
+# Test.set <- S9Site54.dataML
+# rf_model = MSstatsQC.ML.trainR(as.data.frame(guide.set), sim.size = 10)
+# MSstatsQC.ML.deployR(Test.set, guide.set, rf_model=rf_model)
+# 1. Önce H2O'yu başlat (Eğer zaten açıksa sorun çıkarmaz)
+if (requireNamespace("h2o", quietly = TRUE)) {
+  tryCatch({
+    h2o::h2o.init(nthreads = -1)
+  }, error = function(e) {
+    warning("H2O başlatılamadı.")
+  })
+}
+
+# 2. Veriyi KESİN olarak yükle (LazyData kapalı olduğu için bu şart!)
+utils::data("S9Site54", package = "MSstatsQC", envir = environment())
+
+# 3. Veriyi guide.set değişkenine ata ve data.frame olduğundan emin ol
+S9Site54.dataML <- DataProcess(S9Site54[, -c(4, 5, 8)])
 colnames(S9Site54.dataML)[1] <- c("idfile")
 colnames(S9Site54.dataML)[2] <- c("peptide")
 S9Site54.dataML$peptide <- as.factor(S9Site54.dataML$peptide)
 S9Site54.dataML$idfile <- as.numeric(S9Site54.dataML$idfile)
 S9Site54.dataML <- within(S9Site54.dataML, rm(Annotations, missing))
 guide.set <- dplyr::filter(S9Site54.dataML, idfile <= 20)
-Test.set <- dplyr::filter(S9Site54.dataML, idfile > 20)
+guide.set <- as.data.frame(guide.set)
 Test.set <- S9Site54.dataML
-head(Test.set)
-# MSstatsQC.ML.sim.size.detectR(guide.set, sim.start=10, sim.end=100)
-# rf_model = MSstatsQC.ML.trainR(guide.set, sim.size=10)
-# MSstatsQC.ML.deployR(Test.set, guide.set, rf_model=rf_model)
+
+rf_model = MSstatsQC::MSstatsQC.ML.trainR(guide.set, sim.size = 10)
+
+results <- MSstatsQC.ML.deployR(Test.set, guide.set, rf_model)
+
+print(results$DecisionMap)
+
+for (p in results$InterpretationPlots) {
+    print(p)
+}
+
 ```
 
 ## Project website
