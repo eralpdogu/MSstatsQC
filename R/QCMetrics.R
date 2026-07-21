@@ -829,7 +829,7 @@ QcClassifier_data_var <- function(data, nmetric, factor.names, sim.size, peptide
 
 
     tag_neg <- 0
-    data <- data.frame(NULL)
+    result <- data.frame(NULL)
 
     for (i in 1:nrow(factorial)) {
         data.set <- data.frame(NULL)
@@ -859,15 +859,15 @@ QcClassifier_data_var <- function(data, nmetric, factor.names, sim.size, peptide
         } else {
             data.set$RESPONSE <- c("PASS")
         }
-        data <- data[, order(names(data))]
+        result <- result[, order(names(result))]
         data.set <- data.set[, order(names(data.set))]
-        data <- rbind(data, data.set)
+        result <- rbind(result, data.set)
     }
 
-    data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
-    data$RESPONSE <- as.factor(data$RESPONSE)
+    result <- result[sample(nrow(result), nrow(result)), ] # shuffle the data
+    result$RESPONSE <- as.factor(result$RESPONSE)
 
-    return(data)
+    return(result)
 }
 
 
@@ -882,7 +882,7 @@ QcClassifier_data_linear <- function(data, nmetric, factor.names, sim.size, pept
 
 
     tag_neg <- 0
-    data <- data.frame(NULL)
+    result <- data.frame(NULL)
 
     for (i in 1:nrow(factorial)) {
         data.set <- data.frame(NULL)
@@ -914,15 +914,15 @@ QcClassifier_data_linear <- function(data, nmetric, factor.names, sim.size, pept
         } else {
             data.set$RESPONSE <- c("PASS")
         }
-        data <- data[, order(names(data))]
+        result <- result[, order(names(result))]
         data.set <- data.set[, order(names(data.set))]
-        data <- rbind(data, data.set)
+        result <- rbind(result, data.set)
     }
 
-    data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
-    data$RESPONSE <- as.factor(data$RESPONSE)
+    result <- result[sample(nrow(result), nrow(result)), ] # shuffle the data
+    result$RESPONSE <- as.factor(result$RESPONSE)
 
-    return(data)
+    return(result)
 }
 
 ####################################################################################
