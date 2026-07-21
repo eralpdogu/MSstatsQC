@@ -835,10 +835,10 @@ QcClassifier_data_var <- function(data, nmetric, factor.names, sim.size, peptide
         data.set <- data.frame(NULL)
         if (all(factorial[i, ] == rep(-1, nmetric))) {
             ####### In cntrol observation ~ 5* sim size  the of the actual
-            sample_data_k <- sample_density(guide.set, sim.size * (2^(nmetric) - 1))
+            sample_data_k <- sample_density(data, sim.size * (2^(nmetric) - 1))
         } else {
             ###### Base Data set to begin with
-            sample_data_k <- sample_density(guide.set, sim.size)
+            sample_data_k <- sample_density(data, sim.size)
             # sample_data_k <- robust.scale(sample_data_k)
 
             for (j in 1:ncol(sample_data_k)) {
@@ -888,10 +888,10 @@ QcClassifier_data_linear <- function(data, nmetric, factor.names, sim.size, pept
         data.set <- data.frame(NULL)
         if (all(factorial[i, ] == rep(-1, nmetric))) {
             ####### In cntrol observation ~ 5* sim size  the of the actual
-            sample_data_k <- sample_density(guide.set, sim.size * (2^(nmetric) - 1))
+            sample_data_k <- sample_density(data, sim.size * (2^(nmetric) - 1))
         } else {
             ###### Base Data set to begin with
-            sample_data_k <- sample_density(guide.set, sim.size)
+            sample_data_k <- sample_density(data, sim.size)
             # sample_data_k <- robust.scale(sample_data_k)
 
             for (j in 1:ncol(sample_data_k)) {
