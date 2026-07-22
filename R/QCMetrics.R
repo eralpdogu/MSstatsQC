@@ -1038,17 +1038,17 @@ add_features <- function(temp.Data) {
         for (k in 2:length(temp.Data[, i])) {
             moving.range[k] <- abs(temp.Data[k, i] - temp.Data[(k - 1), i])
             v[k] <- (sqrt(abs(temp.Data[k, i])) - 0.822) / 0.349
-            if (mean.increase[k] > 5) {
+            if (mean.increase[k - 1] > 5) {
                 mean.increase[k] <- max(0, (temp.Data[k, i] - d + 0))
             } else {
                 mean.increase[k] <- max(0, (temp.Data[k, i] - d + mean.increase[k - 1]))
             }
-            if (mean.decrease[k] > 5) {
+            if (mean.decrease[k - 1] > 5) {
                 mean.decrease[k] <- max(0, (-d - temp.Data[k, i] + 0))
             } else {
                 mean.decrease[k] <- max(0, (-d - temp.Data[k, i] + mean.decrease[k - 1]))
             }
-            if (dispersion.increase[k] > 5) {
+            if (dispersion.increase[k - 1] > 5) {
                 dispersion.increase[k] <- max(0, (v[k] - d + 0))
             } else {
                 dispersion.increase[k] <- max(0, (v[k] - d + dispersion.increase[k - 1]))
