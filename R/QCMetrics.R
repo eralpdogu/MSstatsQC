@@ -829,16 +829,16 @@ QcClassifier_data_var <- function(data, nmetric, factor.names, sim.size, peptide
 
 
     tag_neg <- 0
-    data <- data.frame(NULL)
+    result <- data.frame(NULL)
 
     for (i in 1:nrow(factorial)) {
         data.set <- data.frame(NULL)
         if (all(factorial[i, ] == rep(-1, nmetric))) {
             ####### In cntrol observation ~ 5* sim size  the of the actual
-            sample_data_k <- sample_density(guide.set, sim.size * (2^(nmetric) - 1))
+            sample_data_k <- sample_density(data, sim.size * (2^(nmetric) - 1))
         } else {
             ###### Base Data set to begin with
-            sample_data_k <- sample_density(guide.set, sim.size)
+            sample_data_k <- sample_density(data, sim.size)
             # sample_data_k <- robust.scale(sample_data_k)
 
             for (j in 1:ncol(sample_data_k)) {
@@ -859,15 +859,15 @@ QcClassifier_data_var <- function(data, nmetric, factor.names, sim.size, peptide
         } else {
             data.set$RESPONSE <- c("PASS")
         }
-        data <- data[, order(names(data))]
+        result <- result[, order(names(result))]
         data.set <- data.set[, order(names(data.set))]
-        data <- rbind(data, data.set)
+        result <- rbind(result, data.set)
     }
 
-    data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
-    data$RESPONSE <- as.factor(data$RESPONSE)
+    result <- result[sample(nrow(result), nrow(result)), ] # shuffle the data
+    result$RESPONSE <- as.factor(result$RESPONSE)
 
-    return(data)
+    return(result)
 }
 
 
@@ -882,16 +882,16 @@ QcClassifier_data_linear <- function(data, nmetric, factor.names, sim.size, pept
 
 
     tag_neg <- 0
-    data <- data.frame(NULL)
+    result <- data.frame(NULL)
 
     for (i in 1:nrow(factorial)) {
         data.set <- data.frame(NULL)
         if (all(factorial[i, ] == rep(-1, nmetric))) {
             ####### In cntrol observation ~ 5* sim size  the of the actual
-            sample_data_k <- sample_density(guide.set, sim.size * (2^(nmetric) - 1))
+            sample_data_k <- sample_density(data, sim.size * (2^(nmetric) - 1))
         } else {
             ###### Base Data set to begin with
-            sample_data_k <- sample_density(guide.set, sim.size)
+            sample_data_k <- sample_density(data, sim.size)
             # sample_data_k <- robust.scale(sample_data_k)
 
             for (j in 1:ncol(sample_data_k)) {
@@ -914,15 +914,15 @@ QcClassifier_data_linear <- function(data, nmetric, factor.names, sim.size, pept
         } else {
             data.set$RESPONSE <- c("PASS")
         }
-        data <- data[, order(names(data))]
+        result <- result[, order(names(result))]
         data.set <- data.set[, order(names(data.set))]
-        data <- rbind(data, data.set)
+        result <- rbind(result, data.set)
     }
 
-    data <- data[sample(nrow(data), nrow(data)), ] # shuffle the data
-    data$RESPONSE <- as.factor(data$RESPONSE)
+    result <- result[sample(nrow(result), nrow(result)), ] # shuffle the data
+    result$RESPONSE <- as.factor(result$RESPONSE)
 
-    return(data)
+    return(result)
 }
 
 ####################################################################################
@@ -1038,17 +1038,17 @@ add_features <- function(temp.Data) {
         for (k in 2:length(temp.Data[, i])) {
             moving.range[k] <- abs(temp.Data[k, i] - temp.Data[(k - 1), i])
             v[k] <- (sqrt(abs(temp.Data[k, i])) - 0.822) / 0.349
-            if (mean.increase[k] > 5) {
+            if (mean.increase[k - 1] > 5) {
                 mean.increase[k] <- max(0, (temp.Data[k, i] - d + 0))
             } else {
                 mean.increase[k] <- max(0, (temp.Data[k, i] - d + mean.increase[k - 1]))
             }
-            if (mean.decrease[k] > 5) {
+            if (mean.decrease[k - 1] > 5) {
                 mean.decrease[k] <- max(0, (-d - temp.Data[k, i] + 0))
             } else {
                 mean.decrease[k] <- max(0, (-d - temp.Data[k, i] + mean.decrease[k - 1]))
             }
-            if (dispersion.increase[k] > 5) {
+            if (dispersion.increase[k - 1] > 5) {
                 dispersion.increase[k] <- max(0, (v[k] - d + 0))
             } else {
                 dispersion.increase[k] <- max(0, (v[k] - d + dispersion.increase[k - 1]))
